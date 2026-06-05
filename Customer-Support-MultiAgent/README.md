@@ -210,13 +210,13 @@ A ticket is escalated to HITL when any of the following apply:
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `PRIMARY_MODEL` | `gpt-4o-mini` | Supervisor classification + specialist agents |
+| `PRIMARY_MODEL` | `gpt-5-mini` | Supervisor classification + specialist agents |
 | `SECONDARY_MODEL` | `gpt-4o-mini` | Response formatting (temperature=0.3) |
 
 Override in `.env`:
 
 ```
-PRIMARY_MODEL=gpt-4o
+PRIMARY_MODEL=gpt-5-mini
 SECONDARY_MODEL=gpt-4o-mini
 ```
 
