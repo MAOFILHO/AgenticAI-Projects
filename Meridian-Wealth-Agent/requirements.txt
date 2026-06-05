@@ -1,0 +1,29 @@
+# Meridian Wealth Partners — Financial Analyst Agentic RAG
+# Python >= 3.11 required
+
+# Core LangChain / LangGraph
+langchain>=0.3.0
+langchain-openai>=0.3.0
+langchain-community>=0.3.0
+langchain-core>=0.3.0
+langchain-text-splitters>=0.3.0
+langgraph>=0.3.0
+
+# Tavily web search
+langchain-tavily>=0.1.0
+tavily-python>=0.5.0
+
+# OpenAI SDK
+openai>=1.30.0
+
+# Vector store
+faiss-cpu>=1.8.0
+
+# PDF loading
+pypdf>=4.0.0
+
+# Graphviz for architecture diagrams
+graphviz>=0.20.0
+
+# Environment variable management
+python-dotenv>=1.0.0
