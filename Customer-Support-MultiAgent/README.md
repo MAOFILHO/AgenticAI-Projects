@@ -251,3 +251,4 @@ SECONDARY_MODEL=gpt-4o-mini
 
 <img width="964" height="710" alt="Screenshot 2026-06-04 at 9 28 40 PM" src="https://github.com/user-attachments/assets/c9bb2c8d-90b4-4c95-bb5f-9bf4e4bf43f9" />
 
+<img width="1425" height="461" alt="Screenshot 2026-06-05 at 7 11 25 AM" src="https://github.com/user-attachments/assets/d49960d5-a720-4440-a8e7-7e40db5aacf3" />
