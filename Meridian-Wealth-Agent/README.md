@@ -7,7 +7,7 @@ orchestrates five tools to prepare client briefings, check policy compliance, an
 live market intelligence, using SQL Databases, PDF Policy Documents & Live Web Search.
 
 ### The Problem
-Meridian Wealth Partners manages $300M in assets for 800 high-net-worth clients across the USA. Financial analysts spend 3-5 hours preparing for each quarterly client meeting — pulling portfolio data from internal databases, checking live market conditions, running performance calculations, searching investment policy PDFs, and browsing the web for sector news. In this lab, we build a ReAct agent that autonomously orchestrates 5 tools to prepare client briefings in minutes.
+Meridian Wealth Partners manages $300M in assets for 800 high-net-worth clients across the USA. Financial analysts spend 3-5 hours preparing for each quarterly client meeting — pulling portfolio data from internal databases, checking live market conditions, running performance calculations, searching investment policy PDFs, and browsing the web for sector news. In this project, we build a ReAct agent that autonomously orchestrates 5 tools to prepare client briefings in minutes.
 
 ### What makes this production-grade:
 
