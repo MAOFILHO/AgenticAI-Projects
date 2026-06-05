@@ -21,6 +21,9 @@ HITL Escalation routes platinum customers and critical tickets to human managers
 PII Redaction protects customer data before it reaches any LLM
 Memory maintains conversation context across multi-turn interactions
 
+<img width="899" height="369" alt="Screenshot 2026-06-04 at 10 17 55 PM" src="https://github.com/user-attachments/assets/970aa548-3da6-420a-a340-74ddedb50317" />
+
+
 ### Why This Architecture?
 Not every path needs AI: Simple order status queries use deterministic lookups (fast, cheap, reliable)
 Specialists outperform generalists: Each sub-agent has focused tools and prompts
