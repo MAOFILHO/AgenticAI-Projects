@@ -1,11 +1,39 @@
 # ShopSmart Customer Support — Multi-Agent System
 
-> **Lab 9 · Project 2 · Spine A Full Build**  
+### The Problem
+ShopSmart is a mid-size e-commerce platform processing 50,000 customer support tickets per day. Their current system is a simple router (what we built in Lab 5) that classifies tickets and sends them to human agents. This approach has several limitations:
+
+### Current Pain Point	            Impact
+Human agents handle ALL tickets	High cost, slow response times
+No automated order lookups	      Agents spend 40% of time just looking up order status
+No policy consistency	            Different agents give different answers about return policies
+Platinum customers wait in queue	VIP customers get the same treatment as everyone else
+No conversation memory	            Customers repeat themselves when they call back
+
+### The Solution: Multi-Agent System
+We are building a Supervisor Multi-Agent System that:
+
+Supervisor Router classifies incoming tickets using LLM-based structured output
+Quick Answer Node handles simple order status lookups without an LLM (deterministic path)
+4 Specialist Sub-Agents handle complex tickets with domain-specific tools
+RAG Knowledge Base ensures consistent policy answers across all specialists
+HITL Escalation routes platinum customers and critical tickets to human managers
+PII Redaction protects customer data before it reaches any LLM
+Memory maintains conversation context across multi-turn interactions
+
+### Why This Architecture?
+Not every path needs AI: Simple order status queries use deterministic lookups (fast, cheap, reliable)
+Specialists outperform generalists: Each sub-agent has focused tools and prompts
+Humans stay in the loop: Critical decisions still go to human managers
+RAG ensures consistency: All agents reference the same policy knowledge base
+
+
+> **Project · Spine A Full Build**  
 > LangChain v0.3 · LangGraph · FAISS RAG · HITL · MemorySaver
 
 ## Overview
 
-A production-grade multi-agent customer support system for the fictitious e-commerce platform **ShopSmart**. Built as the capstone of the Spine A track, it combines every pattern from Labs 5, 7, and 8 into a single cohesive workflow.
+A production-grade multi-agent customer support system for the fictitious e-commerce platform **ShopSmart**. Built as the capstone of the Spine A track, it combines every pattern into a single cohesive workflow.
 
 ### Architecture
 
