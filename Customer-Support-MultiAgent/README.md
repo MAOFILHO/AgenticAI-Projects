@@ -226,3 +226,25 @@ SECONDARY_MODEL=gpt-4o-mini
 3. **PII redaction is non-negotiable.** LLMs only ever see `[NAME_REDACTED]`, `[EMAIL_REDACTED]`, `[PHONE_REDACTED]`.
 4. **RAG ensures policy consistency.** All agents read from the same FAISS index — no more conflicting policy answers across agents.
 5. **HITL keeps humans in the loop.** `interrupt()` pauses the graph cleanly; `Command(resume=…)` resumes it after the human decision.
+
+
+## Screenshots
+
+<img width="1300" height="770" alt="Screenshot 2026-06-04 at 8 59 09 PM" src="https://github.com/user-attachments/assets/67e2e189-0dae-4803-b9c7-6846bc0845ed" />
+
+<img width="1059" height="736" alt="Screenshot 2026-06-04 at 9 26 27 PM" src="https://github.com/user-attachments/assets/798248f2-1def-46f8-b4f7-954f451e7c0c" />
+
+<img width="1077" height="711" alt="Screenshot 2026-06-04 at 9 26 48 PM" src="https://github.com/user-attachments/assets/42c90560-0b0f-400f-8616-34d6792c1c33" />
+
+<img width="1073" height="672" alt="Screenshot 2026-06-04 at 9 27 08 PM" src="https://github.com/user-attachments/assets/3723ecc0-6252-4b7e-bc17-da3b58028788" />
+
+<img width="1068" height="556" alt="Screenshot 2026-06-04 at 9 27 29 PM" src="https://github.com/user-attachments/assets/c0125ea4-83d0-495f-945b-2d1a91c6d797" />
+
+<img width="1074" height="546" alt="Screenshot 2026-06-04 at 9 27 40 PM" src="https://github.com/user-attachments/assets/5954744f-dad8-46c3-9175-bf778a777cf6" />
+
+<img width="1068" height="709" alt="Screenshot 2026-06-04 at 9 28 03 PM" src="https://github.com/user-attachments/assets/247d53cd-c023-46cf-b91b-a7f75cf2272c" />
+
+<img width="938" height="707" alt="Screenshot 2026-06-04 at 9 28 15 PM" src="https://github.com/user-attachments/assets/71819221-8ef2-4cc7-8727-75cea345d9c9" />
+
+<img width="964" height="710" alt="Screenshot 2026-06-04 at 9 28 40 PM" src="https://github.com/user-attachments/assets/c9bb2c8d-90b4-4c95-bb5f-9bf4e4bf43f9" />
+
