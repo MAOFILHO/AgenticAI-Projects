@@ -118,8 +118,7 @@ class AgentState(TypedDict):
 Clone the workspace repository and navigate to the project root directory:
 
 ```bash
-git clone [https://github.com/MAOFILHO/SecureLife-MCP-Project.git](https://github.com/MAOFILHO/SecureLife-MCP-Project.git)
-cd SecureLife-MCP-Project
+git clone https://github.com/MAOFILHO/AgenticAI-Projects/blob/main/SecureLife-MCP-Project
 
 ```
 
@@ -151,7 +150,7 @@ Create a local configuration file inside the root repository framework:
 ```bash
 cat << EOF > .env
 OPENAI_API_KEY=sk-proj-YOUR_ACTUAL_API_SECRET_KEY_HERE
-MCP_SERVER_URL=[http://127.0.0.1:8765](http://127.0.0.1:8765)
+MCP_SERVER_URL=http://127.0.0.1:8765
 EOF
 
 ```
@@ -176,6 +175,8 @@ python securelife_mcp_server/server.py
 
 ```
 
+<img width="843" height="86" alt="Screenshot 2026-06-05 at 5 35 05 PM" src="https://github.com/user-attachments/assets/ed622293-450f-42a0-8ced-c9bc19578ea6" />
+
 ### Step B: Launch the Chainlit UI Client Interface
 
 Open a separate terminal workspace, spin up the front-facing user application:
@@ -186,8 +187,12 @@ Go to the project root: cd /SecureLife-MCP-Project
 python -m chainlit run securelife_client_app/app.py -w
 
 ```
+<img width="954" height="119" alt="Screenshot 2026-06-05 at 5 51 22 PM" src="https://github.com/user-attachments/assets/9a795867-dba9-4523-85af-dff8042a8173" />
+
 
 The interface will automatically deploy in your default web browser at `http://localhost:8000`.
+
+<img width="1197" height="745" alt="Screenshot 2026-06-05 at 5 35 45 PM" src="https://github.com/user-attachments/assets/764cdcfa-c349-4851-af08-b5084899597a" />
 
 
 ### Step C: Execute a Test Evaluation Pipeline
@@ -198,10 +203,10 @@ Type a query containing an active claim code pattern match inside the client cha
 
 The system regex compiler will automatically isolate `CLM-2025-0001`, invoke the underlying LangGraph loop, append the secure database metrics audit trail, and render an interactive, collapsible JSON viewer natively in the UI window.
 
-```
-***
 
-```
+<img width="1151" height="739" alt="Screenshot 2026-06-05 at 5 50 27 PM" src="https://github.com/user-attachments/assets/21471a76-c00e-4db7-978f-69a92628c2c4" />
+
+
 ---
 
 ## Results & Impact
