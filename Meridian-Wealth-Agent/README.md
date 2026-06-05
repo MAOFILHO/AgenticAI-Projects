@@ -7,7 +7,7 @@ orchestrates five tools to prepare client briefings, check policy compliance, an
 live market intelligence, using SQL Databases, PDF Policy Documents & Live Web Search.
 
 ### The Problem
-Meridian Wealth Partners manages USD $300,000 in assets for 800 high-net-worth clients across USA. Financial analysts spend 3-5 hours preparing for each quarterly client meeting — pulling portfolio data from internal databases, checking live market conditions, running performance calculations, searching investment policy PDFs, and browsing the web for sector news. In this lab, we build a ReAct agent that autonomously orchestrates 5 tools to prepare client briefings in minutes.
+Meridian Wealth Partners manages $300M in assets for 800 high-net-worth clients across the USA. Financial analysts spend 3-5 hours preparing for each quarterly client meeting — pulling portfolio data from internal databases, checking live market conditions, running performance calculations, searching investment policy PDFs, and browsing the web for sector news. In this lab, we build a ReAct agent that autonomously orchestrates 5 tools to prepare client briefings in minutes.
 
 ### What makes this production-grade:
 
@@ -192,13 +192,36 @@ RAG as a tool — the agent decides when to search policies, not the developer
 The ReAct trace is your debugging superpower — always inspect tool call sequences in development
 
 ### Resuts & Impact
-Reduced quarterly client briefing prep from 3–5 hours to under 5 minutes per client (~95% time reduction), aligned with Morgan Stanley's AI deployment benchmark of ~30 minutes saved per meeting and Deloitte's forecast of 30–100% adviser productivity uplift from agentic AI MoxoDeloitte Insights
-Eliminated manual cross-system lookups across 3 data sources (SQL DB, 5 policy PDFs, live web) with zero developer-hardwired retrieval logic — agent autonomously decides which tools to invoke
-Policy compliance checks reduced from manual PDF search to sub-second RAG retrieval, consistent with RAG-grounded compliance patterns now being adopted by major RIAs to ensure traceability and audit-readiness Stackai
-Architecture mirrors real enterprise patterns: SQL (not Python dicts) for portfolio data, multi-agent RAG delivering real-time strategic insights with maintained compliance and accuracy 
+- Reduced quarterly client briefing prep from 3–5 hours to under 5 minutes per client (~95% time reduction), aligned with Morgan Stanley's AI deployment benchmark of ~30 minutes saved per meeting and Deloitte's forecast of 30–100% adviser productivity uplift from agentic AI
+- Eliminated manual cross-system lookups across 3 data sources (SQL DB, 5 policy PDFs, live web) with zero developer-hardwired retrieval logic — agent autonomously decides which tools to invoke
+- Policy compliance checks reduced from manual PDF search to sub-second RAG retrieval, consistent with RAG-grounded compliance patterns now being adopted by major RIAs to ensure traceability and audit-readiness Stackai
+- Architecture mirrors real enterprise patterns: SQL (not Python dicts) for portfolio data, multi-agent RAG delivering real-time strategic insights with maintained compliance and accuracy 
 
 
 
 ### Screenshots
+
+<img width="1284" height="768" alt="Screenshot 2026-06-05 at 12 08 24 PM" src="https://github.com/user-attachments/assets/878edd5e-1e12-462e-9410-f193c125cf33" />
+
+<img width="1304" height="778" alt="Screenshot 2026-06-05 at 10 05 39 AM" src="https://github.com/user-attachments/assets/4da2bedd-e3ca-457f-a19c-759047e7e927" />
+
+<img width="1042" height="710" alt="Screenshot 2026-06-05 at 10 04 24 AM" src="https://github.com/user-attachments/assets/0dd0064e-7be8-4cd4-8438-30e2ad3b8d62" />
+
+<img width="1068" height="711" alt="Screenshot 2026-06-05 at 10 06 29 AM" src="https://github.com/user-attachments/assets/543db022-6180-4e29-9efd-b0b20469a8b7" />
+
+<img width="1071" height="710" alt="Screenshot 2026-06-05 at 10 07 32 AM" src="https://github.com/user-attachments/assets/5ba862ed-10d4-4133-ab7f-2f060fa4c94b" />
+
+<img width="1341" height="426" alt="Screenshot 2026-06-05 at 10 09 39 AM" src="https://github.com/user-attachments/assets/c6c7feee-8422-48c8-ac86-1fad5a23d3fe" />
+
+<img width="1306" height="535" alt="Screenshot 2026-06-05 at 12 11 37 PM" src="https://github.com/user-attachments/assets/509f9f80-d3f1-455d-82ee-ec535303478e" />
+
+<img width="1068" height="685" alt="Screenshot 2026-06-05 at 10 10 20 AM" src="https://github.com/user-attachments/assets/8c0ebe86-fc45-4288-8b68-229a45079950" />
+
+<img width="1076" height="714" alt="Screenshot 2026-06-05 at 10 10 49 AM" src="https://github.com/user-attachments/assets/d82a3dac-047a-42f6-b1e2-ae54b98a0bfc" />
+
+<img width="1063" height="699" alt="Screenshot 2026-06-05 at 10 12 13 AM" src="https://github.com/user-attachments/assets/6ff5a3fc-37cd-4b60-b5d1-31ca75d5f86b" />
+
+<img width="1070" height="711" alt="Screenshot 2026-06-05 at 10 12 41 AM" src="https://github.com/user-attachments/assets/fe273295-a1a5-4ef7-aa36-2e56efc9094e" />
+
 
 
