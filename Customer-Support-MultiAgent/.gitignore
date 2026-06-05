@@ -42,3 +42,6 @@ htmlcov/
 # LangChain / LangSmith
 .langchain.db
 langchain.db
+
+!output/
+!output/*.png
