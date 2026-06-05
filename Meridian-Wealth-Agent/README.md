@@ -194,24 +194,24 @@ The ReAct trace is your debugging superpower — always inspect tool call sequen
 ### Resuts & Impact
 These estimates are grounded in benchmarks from similar AI copilots in finance (e.g., Morgan Stanley GPT assistant, Bloomberg AI tools, internal RAG copilots):
 
-- Reduced analyst preparation time from 3–5 hours to under 10 minutes
+→ Reduced analyst preparation time from 3–5 hours to under 10 minutes
 → ~90–95% time savings per client briefing and forecast of 30–100% adviser productivity uplift from agentic AI
 
-- Increased research throughput by ~8–12x
+→ Increased research throughput by ~8–12x
 → analysts can support significantly more clients without added headcount
 
-- Improved information retrieval accuracy by ~25–40% vs manual search
+→ Improved information retrieval accuracy by ~25–40% vs manual search
 → due to semantic RAG over policy documents instead of keyword lookup
 
-- Reduced compliance risk by ensuring consistent policy checks
+→ Reduced compliance risk by ensuring consistent policy checks
 → near 100% coverage of relevant policy clauses vs inconsistent manual review
 
-- Enabled real-time market awareness
+→ Enabled real-time market awareness
 → eliminated delays from static reports, improving decision freshness
 
-- Estimated cost savings of ~$150–$300 per briefing (based on analyst hourly rates)
+→ Estimated cost savings of ~$150–$300 per briefing (based on analyst hourly rates)
 
-- Scalable architecture capable of handling thousands of clients and millions of records via SQL backend
+→ Scalable architecture capable of handling thousands of clients and millions of records via SQL backend
 
 
 
