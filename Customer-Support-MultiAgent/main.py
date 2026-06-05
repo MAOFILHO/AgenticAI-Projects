@@ -22,6 +22,7 @@ from rag import build_policy_retriever
 from tools import build_tools
 from nodes import build_all_nodes
 from graph import build_graph
+from visualize import visualize_graph
 
 
 # ─────────────────────────────────────────────────────────────
@@ -61,6 +62,8 @@ def bootstrap():
 
     print("\nCompiling graph...")
     graph, memory, store = build_graph(nodes)
+
+    visualize_graph(graph)
 
     return graph, data
 

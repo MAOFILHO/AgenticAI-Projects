@@ -1,11 +1,42 @@
 # ShopSmart Customer Support — Multi-Agent System
 
-> **Lab 9 · Project 2 · Spine A Full Build**  
+### The Problem
+ShopSmart is a mid-size e-commerce platform processing 50,000 customer support tickets per day. Their current system is a simple router (what we built in Lab 5) that classifies tickets and sends them to human agents. This approach has several limitations:
+
+### Current Pain Point	            Impact
+Human agents handle ALL tickets	High cost, slow response times
+No automated order lookups	      Agents spend 40% of time just looking up order status
+No policy consistency	            Different agents give different answers about return policies
+Platinum customers wait in queue	VIP customers get the same treatment as everyone else
+No conversation memory	            Customers repeat themselves when they call back
+
+### The Solution: Multi-Agent System
+We are building a Supervisor Multi-Agent System that:
+
+Supervisor Router classifies incoming tickets using LLM-based structured output
+Quick Answer Node handles simple order status lookups without an LLM (deterministic path)
+4 Specialist Sub-Agents handle complex tickets with domain-specific tools
+RAG Knowledge Base ensures consistent policy answers across all specialists
+HITL Escalation routes platinum customers and critical tickets to human managers
+PII Redaction protects customer data before it reaches any LLM
+Memory maintains conversation context across multi-turn interactions
+
+<img width="899" height="369" alt="Screenshot 2026-06-04 at 10 17 55 PM" src="https://github.com/user-attachments/assets/970aa548-3da6-420a-a340-74ddedb50317" />
+
+
+### Why This Architecture?
+Not every path needs AI: Simple order status queries use deterministic lookups (fast, cheap, reliable)
+Specialists outperform generalists: Each sub-agent has focused tools and prompts
+Humans stay in the loop: Critical decisions still go to human managers
+RAG ensures consistency: All agents reference the same policy knowledge base
+
+
+> **Project · Spine A Full Build**  
 > LangChain v0.3 · LangGraph · FAISS RAG · HITL · MemorySaver
 
 ## Overview
 
-A production-grade multi-agent customer support system for the fictitious e-commerce platform **ShopSmart**. Built as the capstone of the Spine A track, it combines every pattern from Labs 5, 7, and 8 into a single cohesive workflow.
+A production-grade multi-agent customer support system for the fictitious e-commerce platform **ShopSmart**. Built as the capstone of the Spine A track, it combines every pattern into a single cohesive workflow.
 
 ### Architecture
 
@@ -179,13 +210,13 @@ A ticket is escalated to HITL when any of the following apply:
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `PRIMARY_MODEL` | `gpt-4o-mini` | Supervisor classification + specialist agents |
+| `PRIMARY_MODEL` | `gpt-5-mini` | Supervisor classification + specialist agents |
 | `SECONDARY_MODEL` | `gpt-4o-mini` | Response formatting (temperature=0.3) |
 
 Override in `.env`:
 
 ```
-PRIMARY_MODEL=gpt-4o
+PRIMARY_MODEL=gpt-5-mini
 SECONDARY_MODEL=gpt-4o-mini
 ```
 
@@ -198,3 +229,25 @@ SECONDARY_MODEL=gpt-4o-mini
 3. **PII redaction is non-negotiable.** LLMs only ever see `[NAME_REDACTED]`, `[EMAIL_REDACTED]`, `[PHONE_REDACTED]`.
 4. **RAG ensures policy consistency.** All agents read from the same FAISS index — no more conflicting policy answers across agents.
 5. **HITL keeps humans in the loop.** `interrupt()` pauses the graph cleanly; `Command(resume=…)` resumes it after the human decision.
+
+
+## Screenshots
+
+<img width="1300" height="770" alt="Screenshot 2026-06-04 at 8 59 09 PM" src="https://github.com/user-attachments/assets/67e2e189-0dae-4803-b9c7-6846bc0845ed" />
+
+<img width="1059" height="736" alt="Screenshot 2026-06-04 at 9 26 27 PM" src="https://github.com/user-attachments/assets/798248f2-1def-46f8-b4f7-954f451e7c0c" />
+
+<img width="1077" height="711" alt="Screenshot 2026-06-04 at 9 26 48 PM" src="https://github.com/user-attachments/assets/42c90560-0b0f-400f-8616-34d6792c1c33" />
+
+<img width="1073" height="672" alt="Screenshot 2026-06-04 at 9 27 08 PM" src="https://github.com/user-attachments/assets/3723ecc0-6252-4b7e-bc17-da3b58028788" />
+
+<img width="1068" height="556" alt="Screenshot 2026-06-04 at 9 27 29 PM" src="https://github.com/user-attachments/assets/c0125ea4-83d0-495f-945b-2d1a91c6d797" />
+
+<img width="1074" height="546" alt="Screenshot 2026-06-04 at 9 27 40 PM" src="https://github.com/user-attachments/assets/5954744f-dad8-46c3-9175-bf778a777cf6" />
+
+<img width="1068" height="709" alt="Screenshot 2026-06-04 at 9 28 03 PM" src="https://github.com/user-attachments/assets/247d53cd-c023-46cf-b91b-a7f75cf2272c" />
+
+<img width="938" height="707" alt="Screenshot 2026-06-04 at 9 28 15 PM" src="https://github.com/user-attachments/assets/71819221-8ef2-4cc7-8727-75cea345d9c9" />
+
+<img width="964" height="710" alt="Screenshot 2026-06-04 at 9 28 40 PM" src="https://github.com/user-attachments/assets/c9bb2c8d-90b4-4c95-bb5f-9bf4e4bf43f9" />
+
