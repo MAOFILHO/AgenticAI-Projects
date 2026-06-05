@@ -1,0 +1,1002 @@
+[
+  {
+    "ticket_id": "TKT-00001",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. What's the tracking number for order ORD-00050?",
+    "submitted_at": "2026-02-06T14:37:41.615982",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00002",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. Does the Self-Help Guide come with a warranty?",
+    "submitted_at": "2026-01-31T14:37:41.616010",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00003",
+    "customer_id": "CUST-0001",
+    "customer_name": "John Smith",
+    "customer_email": "john.smith@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm John Smith. My email is john.smith@email.com. I haven't received order ORD-00053 yet. Can you check the status?",
+    "submitted_at": "2026-01-25T14:37:41.616030",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00004",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. When will order ORD-00026 arrive?",
+    "submitted_at": "2026-01-30T14:37:41.616044",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00005",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "technical",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. I can't log into my account.",
+    "submitted_at": "2026-01-20T14:37:41.616051",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00006",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "returns",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. The product I received is damaged. Order ORD-00032.",
+    "submitted_at": "2026-01-20T14:37:41.616072",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00007",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. Where is my order ORD-00070?",
+    "submitted_at": "2026-01-17T14:37:41.616084",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00008",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. Where is my order ORD-00073?",
+    "submitted_at": "2026-01-27T14:37:41.616095",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00009",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. I've been waiting 2 weeks for a response on order ORD-00018. Unacceptable!",
+    "submitted_at": "2026-01-27T14:37:41.616109",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00010",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "technical",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. The website won't accept my payment.",
+    "submitted_at": "2026-01-26T14:37:41.616114",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00011",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. I haven't received order ORD-00062 yet. Can you check the status?",
+    "submitted_at": "2026-02-11T14:37:41.616129",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00012",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. How do I return an item from order ORD-00070?",
+    "submitted_at": "2026-02-08T14:37:41.616142",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00013",
+    "customer_id": "CUST-0006",
+    "customer_name": "Jennifer Garcia",
+    "customer_email": "jennifer.g@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Jennifer Garcia. My email is jennifer.g@email.com. What's the tracking number for order ORD-00004?",
+    "submitted_at": "2026-01-25T14:37:41.616156",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00014",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. Why is the charge for order ORD-00028 different from the order total?",
+    "submitted_at": "2026-01-30T14:37:41.616167",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00015",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. I demand to speak to a manager about order ORD-00061.",
+    "submitted_at": "2026-02-03T14:37:41.616194",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00016",
+    "customer_id": "CUST-0001",
+    "customer_name": "John Smith",
+    "customer_email": "john.smith@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm John Smith. My email is john.smith@email.com. Where is my order ORD-00092?",
+    "submitted_at": "2026-02-03T14:37:41.616207",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00017",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. What's the tracking number for order ORD-00034?",
+    "submitted_at": "2026-01-24T14:37:41.616217",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00018",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "technical",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. I can't reset my password.",
+    "submitted_at": "2026-02-09T14:37:41.616222",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00019",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. What's the tracking number for order ORD-00076?",
+    "submitted_at": "2026-01-16T14:37:41.616233",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00020",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "returns",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. The product I received is damaged. Order ORD-00086.",
+    "submitted_at": "2026-01-29T14:37:41.616244",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00021",
+    "customer_id": "CUST-0001",
+    "customer_name": "John Smith",
+    "customer_email": "john.smith@email.com",
+    "category": "technical",
+    "text": "Hi, I'm John Smith. My email is john.smith@email.com. I'm not receiving order confirmation emails.",
+    "submitted_at": "2026-01-24T14:37:41.616249",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00022",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "billing",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. Can I get an invoice for order ORD-00075?",
+    "submitted_at": "2026-01-25T14:37:41.616260",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00023",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. Where is my order ORD-00011?",
+    "submitted_at": "2026-01-23T14:37:41.616270",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00024",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. Is USB-C Hub compatible with other devices?",
+    "submitted_at": "2026-02-04T14:37:41.616277",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00025",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. I received the wrong item in order ORD-00099.",
+    "submitted_at": "2026-01-20T14:37:41.616290",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00026",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. Your service is terrible. Order ORD-00068 is a disaster.",
+    "submitted_at": "2026-01-25T14:37:41.616305",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00027",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. I haven't received order ORD-00036 yet. Can you check the status?",
+    "submitted_at": "2026-01-20T14:37:41.616316",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00028",
+    "customer_id": "CUST-0001",
+    "customer_name": "John Smith",
+    "customer_email": "john.smith@email.com",
+    "category": "billing",
+    "text": "Hi, I'm John Smith. My email is john.smith@email.com. Can I get an invoice for order ORD-00002?",
+    "submitted_at": "2026-02-10T14:37:41.616326",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00029",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. I haven't received order ORD-00059 yet. Can you check the status?",
+    "submitted_at": "2026-02-11T14:37:41.616337",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00030",
+    "customer_id": "CUST-0008",
+    "customer_name": "Lisa Anderson",
+    "customer_email": "lisa.a@email.com",
+    "category": "technical",
+    "text": "Hi, I'm Lisa Anderson. My email is lisa.a@email.com. I'm not receiving order confirmation emails.",
+    "submitted_at": "2026-02-09T14:37:41.616342",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00031",
+    "customer_id": "CUST-0008",
+    "customer_name": "Lisa Anderson",
+    "customer_email": "lisa.a@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Lisa Anderson. My email is lisa.a@email.com. I demand to speak to a manager about order ORD-00037.",
+    "submitted_at": "2026-01-28T14:37:41.616355",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00032",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. The product I received is damaged. Order ORD-00079.",
+    "submitted_at": "2026-01-20T14:37:41.616366",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00033",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. When will Storage Bins be back in stock?",
+    "submitted_at": "2026-01-30T14:37:41.616371",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00034",
+    "customer_id": "CUST-0008",
+    "customer_name": "Lisa Anderson",
+    "customer_email": "lisa.a@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Lisa Anderson. My email is lisa.a@email.com. I haven't received order ORD-00024 yet. Can you check the status?",
+    "submitted_at": "2026-02-03T14:37:41.616382",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00035",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. Why is the charge for order ORD-00003 different from the order total?",
+    "submitted_at": "2026-02-11T14:37:41.616393",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00036",
+    "customer_id": "CUST-0001",
+    "customer_name": "John Smith",
+    "customer_email": "john.smith@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm John Smith. My email is john.smith@email.com. Where is my order ORD-00092?",
+    "submitted_at": "2026-02-03T14:37:41.616404",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00037",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. When will order ORD-00026 arrive?",
+    "submitted_at": "2026-01-27T14:37:41.616414",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00038",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. Why is the charge for order ORD-00073 different from the order total?",
+    "submitted_at": "2026-01-19T14:37:41.616425",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00039",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. Where is my order ORD-00097?",
+    "submitted_at": "2026-01-31T14:37:41.616436",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00040",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "returns",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. I want to return item from order ORD-00097. It doesn't fit.",
+    "submitted_at": "2026-01-24T14:37:41.616446",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00041",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. What's the tracking number for order ORD-00038?",
+    "submitted_at": "2026-02-06T14:37:41.616457",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00042",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. Why is the charge for order ORD-00022 different from the order total?",
+    "submitted_at": "2026-02-08T14:37:41.616468",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00043",
+    "customer_id": "CUST-0008",
+    "customer_name": "Lisa Anderson",
+    "customer_email": "lisa.a@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Lisa Anderson. My email is lisa.a@email.com. Where is my order ORD-00051?",
+    "submitted_at": "2026-01-19T14:37:41.616478",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00044",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. Where is my order ORD-00018?",
+    "submitted_at": "2026-01-15T14:37:41.616489",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00045",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. How do I return an item from order ORD-00041?",
+    "submitted_at": "2026-01-17T14:37:41.616502",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00046",
+    "customer_id": "CUST-0001",
+    "customer_name": "John Smith",
+    "customer_email": "john.smith@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm John Smith. My email is john.smith@email.com. Where is my order ORD-00043?",
+    "submitted_at": "2026-02-05T14:37:41.616513",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00047",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. How do I return an item from order ORD-00034?",
+    "submitted_at": "2026-02-07T14:37:41.616524",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00048",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. This is the third time I'm contacting you about order ORD-00055! Still no resolution!",
+    "submitted_at": "2026-02-03T14:37:41.616535",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00049",
+    "customer_id": "CUST-0001",
+    "customer_name": "John Smith",
+    "customer_email": "john.smith@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm John Smith. My email is john.smith@email.com. When will order ORD-00053 arrive?",
+    "submitted_at": "2026-01-15T14:37:41.616545",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00050",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. Where is my order ORD-00028?",
+    "submitted_at": "2026-02-11T14:37:41.616558",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00051",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. What are the dimensions of Yoga Mat?",
+    "submitted_at": "2026-02-10T14:37:41.616563",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00052",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. I was charged twice for order ORD-00047.",
+    "submitted_at": "2026-02-11T14:37:41.616578",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00053",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. I need a refund for order ORD-00056.",
+    "submitted_at": "2026-02-07T14:37:41.616590",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00054",
+    "customer_id": "CUST-0006",
+    "customer_name": "Jennifer Garcia",
+    "customer_email": "jennifer.g@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Jennifer Garcia. My email is jennifer.g@email.com. When will order ORD-00039 arrive?",
+    "submitted_at": "2026-01-23T14:37:41.616603",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00055",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. I want to return item from order ORD-00025. It doesn't fit.",
+    "submitted_at": "2026-01-30T14:37:41.616614",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00056",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. This is the third time I'm contacting you about order ORD-00079! Still no resolution!",
+    "submitted_at": "2026-02-07T14:37:41.616625",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00057",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. What's the tracking number for order ORD-00011?",
+    "submitted_at": "2026-01-16T14:37:41.616636",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00058",
+    "customer_id": "CUST-0006",
+    "customer_name": "Jennifer Garcia",
+    "customer_email": "jennifer.g@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Jennifer Garcia. My email is jennifer.g@email.com. When will order ORD-00091 arrive?",
+    "submitted_at": "2026-01-22T14:37:41.616646",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00059",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. This is the third time I'm contacting you about order ORD-00098! Still no resolution!",
+    "submitted_at": "2026-01-18T14:37:41.616657",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00060",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. Where is my order ORD-00023?",
+    "submitted_at": "2026-02-05T14:37:41.616667",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00061",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. What are the dimensions of Coffee Maker?",
+    "submitted_at": "2026-02-04T14:37:41.616675",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00062",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. What are the dimensions of Coffee Maker?",
+    "submitted_at": "2026-01-28T14:37:41.616681",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00063",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. This is the third time I'm contacting you about order ORD-00025! Still no resolution!",
+    "submitted_at": "2026-01-24T14:37:41.616691",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00064",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "technical",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. I can't log into my account.",
+    "submitted_at": "2026-02-13T14:37:41.616695",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00065",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. I need a refund for order ORD-00028.",
+    "submitted_at": "2026-01-21T14:37:41.616708",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00066",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. Does the USB-C Hub come with a warranty?",
+    "submitted_at": "2026-02-11T14:37:41.616714",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00067",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. I need a refund for order ORD-00099.",
+    "submitted_at": "2026-02-09T14:37:41.616724",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00068",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. What's the tracking number for order ORD-00012?",
+    "submitted_at": "2026-01-16T14:37:41.616734",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00069",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. Does the Storage Bins come with a warranty?",
+    "submitted_at": "2026-01-20T14:37:41.616740",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00070",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. I demand to speak to a manager about order ORD-00032.",
+    "submitted_at": "2026-01-17T14:37:41.616751",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00071",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. I demand to speak to a manager about order ORD-00076.",
+    "submitted_at": "2026-02-13T14:37:41.616761",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00072",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. Is Dumbbells Set compatible with other devices?",
+    "submitted_at": "2026-01-19T14:37:41.616766",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00073",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. Where is my order ORD-00022?",
+    "submitted_at": "2026-01-17T14:37:41.616779",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00074",
+    "customer_id": "CUST-0008",
+    "customer_name": "Lisa Anderson",
+    "customer_email": "lisa.a@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Lisa Anderson. My email is lisa.a@email.com. When will order ORD-00037 arrive?",
+    "submitted_at": "2026-02-04T14:37:41.616789",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00075",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. I haven't received order ORD-00022 yet. Can you check the status?",
+    "submitted_at": "2026-02-03T14:37:41.616800",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00076",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. Your service is terrible. Order ORD-00070 is a disaster.",
+    "submitted_at": "2026-01-24T14:37:41.616811",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00077",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "returns",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. I received the wrong item in order ORD-00007.",
+    "submitted_at": "2026-02-10T14:37:41.616821",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00078",
+    "customer_id": "CUST-0003",
+    "customer_name": "Michael Brown",
+    "customer_email": "m.brown@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Michael Brown. My email is m.brown@email.com. I need a refund for order ORD-00012.",
+    "submitted_at": "2026-02-10T14:37:41.616832",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00079",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "returns",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. I received the wrong item in order ORD-00075.",
+    "submitted_at": "2026-01-25T14:37:41.616848",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00080",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. The product I received is damaged. Order ORD-00054.",
+    "submitted_at": "2026-02-12T14:37:41.616859",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00081",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. I haven't received order ORD-00072 yet. Can you check the status?",
+    "submitted_at": "2026-01-31T14:37:41.616870",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00082",
+    "customer_id": "CUST-0006",
+    "customer_name": "Jennifer Garcia",
+    "customer_email": "jennifer.g@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Jennifer Garcia. My email is jennifer.g@email.com. I was charged twice for order ORD-00048.",
+    "submitted_at": "2026-01-28T14:37:41.616885",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00083",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "returns",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. I received the wrong item in order ORD-00086.",
+    "submitted_at": "2026-02-09T14:37:41.616897",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00084",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. When will Denim Jeans be back in stock?",
+    "submitted_at": "2026-01-25T14:37:41.616910",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00085",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. I want to return item from order ORD-00044. It doesn't fit.",
+    "submitted_at": "2026-02-04T14:37:41.616921",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00086",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. Is Resistance Bands compatible with other devices?",
+    "submitted_at": "2026-01-30T14:37:41.616927",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00087",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "billing",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. Why is the charge for order ORD-00052 different from the order total?",
+    "submitted_at": "2026-02-11T14:37:41.616937",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00088",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "product_inquiry",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. Is Bluetooth Speaker compatible with other devices?",
+    "submitted_at": "2026-01-18T14:37:41.616942",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00089",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. I haven't received order ORD-00034 yet. Can you check the status?",
+    "submitted_at": "2026-02-13T14:37:41.616953",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00090",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. This is the third time I'm contacting you about order ORD-00033! Still no resolution!",
+    "submitted_at": "2026-01-31T14:37:41.616964",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00091",
+    "customer_id": "CUST-0010",
+    "customer_name": "Mary Thomas",
+    "customer_email": "mary.thomas@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Mary Thomas. My email is mary.thomas@email.com. When will order ORD-00073 arrive?",
+    "submitted_at": "2026-02-01T14:37:41.616974",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00092",
+    "customer_id": "CUST-0004",
+    "customer_name": "Emily Davis",
+    "customer_email": "emily.d@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Emily Davis. My email is emily.d@email.com. Where is my order ORD-00071?",
+    "submitted_at": "2026-01-17T14:37:41.616984",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00093",
+    "customer_id": "CUST-0007",
+    "customer_name": "David Martinez",
+    "customer_email": "david.m@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm David Martinez. My email is david.m@email.com. When will order ORD-00006 arrive?",
+    "submitted_at": "2026-01-27T14:37:41.616995",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00094",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "returns",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. How do I return an item from order ORD-00095?",
+    "submitted_at": "2026-01-27T14:37:41.617006",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00095",
+    "customer_id": "CUST-0006",
+    "customer_name": "Jennifer Garcia",
+    "customer_email": "jennifer.g@email.com",
+    "category": "escalation",
+    "text": "Hi, I'm Jennifer Garcia. My email is jennifer.g@email.com. I've been waiting 2 weeks for a response on order ORD-00091. Unacceptable!",
+    "submitted_at": "2026-01-18T14:37:41.617017",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00096",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "returns",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. How do I return an item from order ORD-00023?",
+    "submitted_at": "2026-01-21T14:37:41.617027",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00097",
+    "customer_id": "CUST-0008",
+    "customer_name": "Lisa Anderson",
+    "customer_email": "lisa.a@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Lisa Anderson. My email is lisa.a@email.com. I haven't received order ORD-00089 yet. Can you check the status?",
+    "submitted_at": "2026-01-24T14:37:41.617038",
+    "priority": "medium"
+  },
+  {
+    "ticket_id": "TKT-00098",
+    "customer_id": "CUST-0009",
+    "customer_name": "James Taylor",
+    "customer_email": "james.t@email.com",
+    "category": "returns",
+    "text": "Hi, I'm James Taylor. My email is james.t@email.com. The product I received is damaged. Order ORD-00030.",
+    "submitted_at": "2026-01-30T14:37:41.617049",
+    "priority": "low"
+  },
+  {
+    "ticket_id": "TKT-00099",
+    "customer_id": "CUST-0005",
+    "customer_name": "Robert Wilson",
+    "customer_email": "r.wilson@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Robert Wilson. My email is r.wilson@email.com. What's the tracking number for order ORD-00044?",
+    "submitted_at": "2026-01-16T14:37:41.617059",
+    "priority": "high"
+  },
+  {
+    "ticket_id": "TKT-00100",
+    "customer_id": "CUST-0002",
+    "customer_name": "Sarah Johnson",
+    "customer_email": "sarah.j@email.com",
+    "category": "order_status",
+    "text": "Hi, I'm Sarah Johnson. My email is sarah.j@email.com. I haven't received order ORD-00080 yet. Can you check the status?",
+    "submitted_at": "2026-01-22T14:37:41.617070",
+    "priority": "low"
+  }
+]
