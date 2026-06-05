@@ -146,7 +146,7 @@ Clone your project into the `ubuntu` home directory.
 
 ```bash
 cd ~
-git clone https://github.com/MAOFILHO/SecureLife-MCP-Project.git
+git clone https://github.com/MAOFILHO/AgenticAI-Projects/tree/main/SecureLife-MCP-Project
 cd SecureLife-MCP-Project
 
 # Confirm the structure
