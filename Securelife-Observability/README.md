@@ -133,6 +133,8 @@ Requires **Python 3.11+**. Tested on 3.11 and 3.12.
 
 ## Screenshots
 
+<img width="1306" height="368" alt="Screenshot 2026-06-07 at 7 35 49 PM" src="https://github.com/user-attachments/assets/1c730ee9-7e4a-4634-82ca-88e1b4e7339b" />
+
 <img width="1073" height="709" alt="Screenshot 2026-06-07 at 6 58 34 PM" src="https://github.com/user-attachments/assets/2f5061fe-d15d-4b9b-a5ca-96c3abb5f5e8" />
 
 <img width="1028" height="621" alt="Screenshot 2026-06-07 at 6 59 15 PM" src="https://github.com/user-attachments/assets/36d0ec36-c2b0-46bf-9ebd-eefc136d1aa8" />
