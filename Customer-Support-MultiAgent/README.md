@@ -4,8 +4,8 @@
 ShopSmart is a mid-size e-commerce platform processing 50,000 customer support tickets per day. Their current system is a simple router that classifies tickets and sends them to human agents. This approach has several limitations:
 
 ### Current Pain Point	            Impact
-Human agents handle ALL tickets	High cost, slow response times
-No automated order lookups	      Agents spend 40% of time just looking up order status
+Human agents handle ALL tickets	    High cost, slow response times
+No automated order lookups	        Agents spend 40% of time just looking up order status
 No policy consistency	            Different agents give different answers about return policies
 Platinum customers wait in queue	VIP customers get the same treatment as everyone else
 No conversation memory	            Customers repeat themselves when they call back
