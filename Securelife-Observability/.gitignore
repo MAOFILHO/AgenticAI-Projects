@@ -1,0 +1,30 @@
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Data (keep in .gitignore — add to repo manually if desired)
+#data/*.db
+
+# Output artefacts — generated at runtime
+#output/
+
+# Jupyter leftovers
+.ipynb_checkpoints/
+*.ipynb
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
