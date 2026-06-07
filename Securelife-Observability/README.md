@@ -1,7 +1,7 @@
-# SecureLife Full Claims Pipeline
-### PROJECT Agentic AI Observability
+# 🛡️ SecureLife Claims Processing Hub
 
-A production-grade, multi-agent claims processing pipeline built with **LangGraph**, **FastMCP**, and **OpenAI GPT-4o-mini**. Processes 5 representative insurance claims end-to-end with guardrails, observability hooks, and a full audit trail written back to SQLite.
+Designed and implemented a distributed, asynchronous AI agent pipeline for end-to-end insurance claims processing using a modern two-tier architecture: **LangGraph** and the **Model Context Protocol (MCP)** modern architecture. Built a **5-stage multi-agent workflow** (Triage, Document Verification, Fraud Analysis, Decisioning, Compliance Auditing) with guardrails for input sanitization and PII redaction. Enabled real-time conversational interaction via **Chainlit Client** and ensured full auditability through immutable database logging and transactional MCP operations.
+
 
 ---
 
