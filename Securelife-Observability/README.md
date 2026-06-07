@@ -1,5 +1,5 @@
 # SecureLife Full Claims Pipeline
-### PROJECT 5 · Agentic AI Track
+### PROJECT Agentic AI Observability
 
 A production-grade, multi-agent claims processing pipeline built with **LangGraph**, **FastMCP**, and **OpenAI GPT-4o-mini**. Processes 5 representative insurance claims end-to-end with guardrails, observability hooks, and a full audit trail written back to SQLite.
 
@@ -44,8 +44,8 @@ user_note ──▶ GuardrailPipeline.check_input
 # 1. Python 3.11 recommended
 python --version   # must be 3.11+
 
-# 2. Create and activate virtual environment
-python -m venv .venv
+# 2. Create and activate a virtual environment
+python3.11 -m venv .venv
 source .venv/bin/activate        # macOS / Linux
 # .venv\Scripts\activate         # Windows
 
@@ -128,3 +128,27 @@ Requires **Python 3.11+**. Tested on 3.11 and 3.12.
 - The `.env` file is git-ignored — never commit your API keys.
 - `data/SecureLife_claims.db` is git-ignored by default. Add it manually if your repo is private.
 - If the Mermaid PNG render fails (requires `playwright` or `pyppeteer` in some environments), the pipeline falls back to an ASCII diagram and still saves the matplotlib architecture PNG.
+
+---
+
+## Screenshots
+
+<img width="1073" height="709" alt="Screenshot 2026-06-07 at 6 58 34 PM" src="https://github.com/user-attachments/assets/2f5061fe-d15d-4b9b-a5ca-96c3abb5f5e8" />
+
+<img width="1028" height="621" alt="Screenshot 2026-06-07 at 6 59 15 PM" src="https://github.com/user-attachments/assets/36d0ec36-c2b0-46bf-9ebd-eefc136d1aa8" />
+
+<img width="1003" height="729" alt="Screenshot 2026-06-07 at 7 00 27 PM" src="https://github.com/user-attachments/assets/dbf01a6d-3ef5-4dcb-96ce-075a655a46d1" />
+
+<img width="1084" height="720" alt="Screenshot 2026-06-07 at 7 00 44 PM" src="https://github.com/user-attachments/assets/97f08b80-46c6-4343-80c3-20464ebe071f" />
+
+<img width="1429" height="596" alt="Screenshot 2026-06-07 at 7 02 30 PM" src="https://github.com/user-attachments/assets/9d296e4c-deaf-494c-b52a-9c092de3d417" />
+
+<img width="1425" height="629" alt="Screenshot 2026-06-07 at 7 03 24 PM" src="https://github.com/user-attachments/assets/ff6443ef-40d8-4224-a5e3-7bfe8660bd49" />
+
+<img width="1428" height="662" alt="Screenshot 2026-06-07 at 7 05 18 PM" src="https://github.com/user-attachments/assets/b01e3e1d-25e2-4b4e-958f-763d53bcb08f" />
+
+<img width="860" height="663" alt="Screenshot 2026-06-07 at 7 06 03 PM" src="https://github.com/user-attachments/assets/7d7e2e7b-94e5-44b9-9749-88ca7cc30964" />
+
+<img width="853" height="665" alt="Screenshot 2026-06-07 at 7 06 35 PM" src="https://github.com/user-attachments/assets/d03ae3be-6c8e-44be-b221-56ed4d77736c" />
+
+
