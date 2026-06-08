@@ -129,3 +129,35 @@ python run_regsentinel.py --eval --cip
 | customers / accounts / transactions | SQLite `fft_bank.db` | SQL |
 | IT audit events | `audit_events.json` | JSON |
 | Regulatory corpus (15 docs) | `regulations/*.md` | RAG / Chroma |
+
+---
+
+## Screenshots
+
+<img width="1189" height="761" alt="Screenshot 2026-06-08 at 4 53 41 PM" src="https://github.com/user-attachments/assets/977fa980-7acb-43d8-8354-a65e622f8be0" />
+
+<img width="1305" height="759" alt="Screenshot 2026-06-08 at 4 41 50 PM" src="https://github.com/user-attachments/assets/08913c43-8906-480f-8b5f-915d849ef5da" />
+
+<img width="1009" height="709" alt="Screenshot 2026-06-08 at 4 42 08 PM" src="https://github.com/user-attachments/assets/0299c41c-3fba-4186-98cb-95731a204f89" />
+
+<img width="1006" height="707" alt="Screenshot 2026-06-08 at 4 42 23 PM" src="https://github.com/user-attachments/assets/5f908378-eb2e-49f3-825f-a8846f6d8d11" />
+
+<img width="1430" height="431" alt="Screenshot 2026-06-08 at 4 43 45 PM" src="https://github.com/user-attachments/assets/0e9e7f99-f1ab-4ffe-9490-b12952209300" />
+
+<img width="954" height="705" alt="Screenshot 2026-06-08 at 4 44 09 PM" src="https://github.com/user-attachments/assets/39c75bd3-349c-416f-a863-70e3c91d4704" />
+
+<img width="1013" height="710" alt="Screenshot 2026-06-08 at 4 46 44 PM" src="https://github.com/user-attachments/assets/dd1b2a32-54cc-4d14-a078-88516704d2ed" />
+
+<img width="1004" height="710" alt="Screenshot 2026-06-08 at 4 47 05 PM" src="https://github.com/user-attachments/assets/47aba0b0-b702-459f-b3d5-187cc3ea987a" />
+
+<img width="953" height="705" alt="Screenshot 2026-06-08 at 4 48 51 PM" src="https://github.com/user-attachments/assets/f0c1ffd5-c355-488d-b1f6-42b3ec5ebe0b" />
+
+<img width="951" height="701" alt="Screenshot 2026-06-08 at 4 49 25 PM" src="https://github.com/user-attachments/assets/aba9c1cb-60c9-4046-be69-ec3a453ae4bf" />
+
+<img width="1017" height="709" alt="Screenshot 2026-06-08 at 4 51 49 PM" src="https://github.com/user-attachments/assets/dd7d0984-31cf-47cc-a7ba-b2103e57998e" />
+
+<img width="1007" height="712" alt="Screenshot 2026-06-08 at 4 52 09 PM" src="https://github.com/user-attachments/assets/8fb963f3-5842-4111-8853-f81ae6086302" />
+
+
+
+
