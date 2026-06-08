@@ -1,0 +1,28 @@
+# Environment & secrets
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Chroma persisted DB (rebuilt on each run)
+chroma_db/
+
+# Jupyter artefacts
+.ipynb_checkpoints/
+*.ipynb
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# IDE
+.vscode/
+.idea/

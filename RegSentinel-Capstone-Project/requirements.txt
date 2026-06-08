@@ -1,0 +1,12 @@
+# RegSentinel — Python ≥ 3.11 required
+langchain>=0.3
+langchain-core>=0.3
+langchain-openai>=0.2
+langchain-chroma>=0.1
+langchain-community
+langgraph>=0.2
+langsmith
+chromadb>=0.5
+pydantic>=2
+python-dotenv>=1.0
+pillow>=10
