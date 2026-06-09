@@ -1,0 +1,41 @@
+finding_id,regulator,finding_date,category,severity,description,remediation_status,remediation_deadline
+FIND-0001,State Banking Dept,2025-07-13,AML/BSA,significant,AML policy not updated to reflect regulatory changes,in_progress,2025-10-08
+FIND-0002,FinCEN,2025-08-01,Customer Due Diligence,significant,CDD procedures not commensurate with customer risk,overdue,2025-09-08
+FIND-0003,FinCEN,2025-08-19,KYC,minor,KYC verification procedures not consistently applied,in_progress,2026-02-04
+FIND-0004,OCC,2024-12-02,Risk Assessment,significant,High-risk customer population not accurately identified,completed,2025-02-10
+FIND-0005,State Banking Dept,2023-10-15,SAR Filing,moderate,SAR narratives lack sufficient detail,in_progress,2024-02-08
+FIND-0006,FinCEN,2025-08-21,Risk Assessment,minor,High-risk customer population not accurately identified,pending,2025-11-26
+FIND-0007,FinCEN,2023-08-01,Internal Controls,minor,Management information system reports inaccurate,completed,2024-01-19
+FIND-0008,OCC,2024-02-17,Internal Controls,minor,Segregation of duties not maintained in compliance function,completed,2024-05-15
+FIND-0009,OCC,2025-09-16,KYC,minor,Enhanced due diligence not performed for high-risk customers,pending,2026-02-09
+FIND-0010,State Banking Dept,2024-02-10,KYC,moderate,Beneficial ownership information incomplete for business accounts,in_progress,2024-05-18
+FIND-0011,State Banking Dept,2025-10-03,Internal Controls,significant,Independent testing of compliance controls not performed,in_progress,2025-12-13
+FIND-0012,OCC,2024-01-11,SAR Filing,significant,SAR narratives lack sufficient detail,pending,2024-02-24
+FIND-0013,FinCEN,2025-12-23,SAR Filing,moderate,Inadequate SAR decision documentation,completed,2026-03-17
+FIND-0014,State Banking Dept,2024-05-23,KYC,significant,Enhanced due diligence not performed for high-risk customers,overdue,2024-10-17
+FIND-0015,FinCEN,2024-09-02,KYC,minor,Beneficial ownership information incomplete for business accounts,overdue,2025-02-28
+FIND-0016,OCC,2024-02-16,KYC,minor,Enhanced due diligence not performed for high-risk customers,completed,2024-03-29
+FIND-0017,FinCEN,2025-04-19,Customer Due Diligence,minor,Periodic customer reviews not conducted timely,completed,2025-08-25
+FIND-0018,OCC,2023-07-14,Internal Controls,moderate,Segregation of duties not maintained in compliance function,completed,2023-12-28
+FIND-0019,OCC,2024-04-01,AML/BSA,moderate,Staff training on AML procedures incomplete,in_progress,2024-08-25
+FIND-0020,FinCEN,2024-09-05,Internal Controls,minor,Segregation of duties not maintained in compliance function,pending,2025-02-11
+FIND-0021,State Banking Dept,2025-01-15,KYC,moderate,Customer identification documents not properly retained,completed,2025-05-07
+FIND-0022,OCC,2026-01-18,AML/BSA,moderate,AML policy not updated to reflect regulatory changes,in_progress,2026-03-03
+FIND-0023,FinCEN,2025-09-18,AML/BSA,significant,Staff training on AML procedures incomplete,completed,2026-03-03
+FIND-0024,FinCEN,2025-06-09,Customer Due Diligence,moderate,Source of wealth documentation inadequate for high-risk customers,pending,2025-11-21
+FIND-0025,State Banking Dept,2023-10-14,KYC,significant,Customer identification documents not properly retained,pending,2024-02-23
+FIND-0026,State Banking Dept,2024-01-24,Risk Assessment,significant,Geographic risk factors not incorporated into risk model,completed,2024-04-26
+FIND-0027,FinCEN,2025-10-18,SAR Filing,minor,SAR narratives lack sufficient detail,in_progress,2025-11-18
+FIND-0028,FinCEN,2025-10-29,KYC,minor,KYC verification procedures not consistently applied,pending,2025-12-16
+FIND-0029,State Banking Dept,2024-10-27,SAR Filing,significant,SAR review process lacks independence,in_progress,2025-04-13
+FIND-0030,FinCEN,2023-07-04,KYC,moderate,Enhanced due diligence not performed for high-risk customers,in_progress,2023-08-27
+FIND-0031,FinCEN,2023-09-28,SAR Filing,moderate,SAR review process lacks independence,overdue,2023-11-10
+FIND-0032,State Banking Dept,2025-08-09,AML/BSA,moderate,AML policy not updated to reflect regulatory changes,completed,2025-11-10
+FIND-0033,FinCEN,2025-02-02,Internal Controls,moderate,Independent testing of compliance controls not performed,overdue,2025-04-19
+FIND-0034,OCC,2023-07-25,KYC,minor,Enhanced due diligence not performed for high-risk customers,completed,2023-09-05
+FIND-0035,State Banking Dept,2026-01-27,AML/BSA,minor,Insufficient documentation for AML risk assessments,overdue,2026-06-30
+FIND-0036,OCC,2024-12-16,Risk Assessment,minor,Risk assessment methodology lacks documented rationale,overdue,2025-01-15
+FIND-0037,OCC,2024-09-01,Risk Assessment,moderate,Geographic risk factors not incorporated into risk model,overdue,2024-11-09
+FIND-0038,FinCEN,2024-06-29,KYC,minor,KYC verification procedures not consistently applied,pending,2024-08-12
+FIND-0039,FinCEN,2023-06-26,Internal Controls,significant,Independent testing of compliance controls not performed,completed,2023-12-03
+FIND-0040,FinCEN,2025-02-11,AML/BSA,significant,AML transaction monitoring system failed to flag high-risk transactions,in_progress,2025-06-24

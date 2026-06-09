@@ -1,0 +1,124 @@
+{
+  "ctr_threshold": {
+    "amount": 10000,
+    "currency": "USD",
+    "description": "Currency Transaction Report (CTR) filing threshold",
+    "filing_deadline_days": 15,
+    "regulation": "31 CFR 1010.310"
+  },
+  "sar_thresholds": {
+    "insider_abuse": {
+      "amount": 0,
+      "description": "Any amount for insider abuse"
+    },
+    "other_suspicious": {
+      "amount": 5000,
+      "description": "Minimum $5,000 for other suspicious activities"
+    },
+    "filing_deadlines": {
+      "initial_detection": 30,
+      "follow_up": 30,
+      "total_maximum": 60,
+      "description": "Days from initial detection to SAR filing"
+    },
+    "regulation": "31 CFR 1020.320"
+  },
+  "kyc_requirements": {
+    "verification_methods": [
+      "Government-issued ID",
+      "Passport",
+      "Driver's license",
+      "Documentary verification"
+    ],
+    "refresh_cycles": {
+      "low_risk": 36,
+      "medium_risk": 24,
+      "high_risk": 12,
+      "description": "Months between KYC refresh"
+    },
+    "beneficial_ownership": {
+      "threshold_percentage": 25,
+      "description": "Ownership threshold for beneficial owner identification",
+      "regulation": "31 CFR 1010.230"
+    }
+  },
+  "risk_rating_criteria": {
+    "low_risk": {
+      "description": "Domestic customers, established relationships, standard products",
+      "monitoring_frequency": "quarterly",
+      "transaction_limits": null
+    },
+    "medium_risk": {
+      "description": "Foreign nationals, cash-intensive businesses, high-value transactions",
+      "monitoring_frequency": "monthly",
+      "transaction_limits": 50000
+    },
+    "high_risk": {
+      "description": "PEPs, high-risk jurisdictions, MSBs, shell companies",
+      "monitoring_frequency": "weekly",
+      "transaction_limits": 25000
+    }
+  },
+  "aml_program_requirements": {
+    "policies_review_cycle_months": 12,
+    "independent_testing_frequency": "annual",
+    "staff_training_frequency": "annual",
+    "compliance_officer_required": true,
+    "board_reporting_frequency": "quarterly",
+    "regulation": "31 CFR 1020.210"
+  },
+  "transaction_monitoring": {
+    "alert_review_deadline_hours": 48,
+    "escalation_threshold_days": 5,
+    "false_positive_target_rate": 0.15,
+    "description": "Maximum 15% false positive rate for alerts"
+  },
+  "recordkeeping": {
+    "transaction_records_years": 5,
+    "sar_records_years": 5,
+    "ctr_records_years": 5,
+    "account_records_years": 5,
+    "regulation": "31 CFR 1010.430"
+  },
+  "customer_due_diligence": {
+    "standard_cdd": {
+      "required_for": "all accounts",
+      "information_required": [
+        "Name",
+        "Date of birth",
+        "Address",
+        "Identification number"
+      ]
+    },
+    "enhanced_cdd": {
+      "required_for": [
+        "High-risk customers",
+        "PEPs",
+        "Foreign correspondent accounts"
+      ],
+      "additional_requirements": [
+        "Source of funds",
+        "Source of wealth",
+        "Purpose of account",
+        "Expected activity"
+      ]
+    }
+  },
+  "reporting_requirements": {
+    "quarterly_reports": [
+      "AML transaction monitoring statistics",
+      "SAR filing activity",
+      "KYC verification status",
+      "Risk assessment updates",
+      "Remediation progress"
+    ],
+    "annual_reports": [
+      "Independent AML audit",
+      "Risk assessment comprehensive review",
+      "Training completion rates",
+      "Program effectiveness assessment"
+    ]
+  },
+  "last_updated": "2024-01-01",
+  "next_review_date": "2025-01-01"
+}
