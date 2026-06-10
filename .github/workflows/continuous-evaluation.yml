@@ -44,4 +44,6 @@ jobs:
               if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
           - name: Run RAGAS Evaluation
-            run: python your_evaluation_script.py # Replace with your actual execution command
+              env:
+                OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+              run: python main.py --quick

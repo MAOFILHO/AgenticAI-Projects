@@ -27,4 +27,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Smoke Tests
-        run: python your_smoke_test_script.py # Replace with your actual test script command
+        run: python -m pytest tests/test_smoke.py -q
