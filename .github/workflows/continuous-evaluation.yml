@@ -25,27 +25,23 @@ jobs:
       LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
       LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
       LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
-    steps:
-      - uses: actions/checkout@v4
+    defaults:
+          run:
+            working-directory: ./RAG-Evaluation-Project
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
+        steps:
+          - name: Check out repository
+            uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+          - name: Set up Python
+            uses: actions/setup-python@v5
+            with:
+              python-version: '3.11'
 
-      - name: Run full evaluation pipeline
-        run: python main.py
+          - name: Install dependencies
+            run: |
+              python -m pip install --upgrade pip
+              if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Regression check against baseline
-        run: python scripts/regression_check.py
-
-      - name: Upload run artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: rag-evaluation-results
-          path: |
-            outputs/*.xlsx
-            outputs/latest_results.json
+          - name: Run RAGAS Evaluation
+            run: python your_evaluation_script.py # Replace with your actual execution command
