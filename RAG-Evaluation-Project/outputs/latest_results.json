@@ -1,0 +1,145 @@
+{
+  "timestamp": "2026-06-10T16:52:53.221424",
+  "dataset_size": 40,
+  "sample_size": 2,
+  "patterns": {
+    "FAISS Similarity Search": {
+      "retrieval_metrics": {
+        "Hit Rate@5": 0.9,
+        "MRR@5": 0.7570833333333333,
+        "Precision@5": 0.42000000000000004,
+        "Recall@5": 0.9,
+        "nDCG@5": 0.7767280160689408
+      },
+      "generation_metrics": {
+        "Answer Relevance (1-5)": 5.0,
+        "Groundedness (1-5)": 5.0,
+        "Hallucination Rate (0-1)": 0.0,
+        "Coherence (1-5)": 5.0
+      },
+      "ragas_metrics": {
+        "Faithfulness": 1.0,
+        "Answer Relevancy": 0.9463890086778659,
+        "Context Precision": 0.794444444417963,
+        "Context Recall": 1.0
+      },
+      "build_time_sec": 1.522974967956543,
+      "total_time_sec": 52.10554099082947
+    },
+    "FAISS MMR (Diversity)": {
+      "retrieval_metrics": {
+        "Hit Rate@5": 0.95,
+        "MRR@5": 0.7379166666666667,
+        "Precision@5": 0.305,
+        "Recall@5": 0.95,
+        "nDCG@5": 0.7694215551868853
+      },
+      "generation_metrics": {
+        "Answer Relevance (1-5)": 5.0,
+        "Groundedness (1-5)": 5.0,
+        "Hallucination Rate (0-1)": 0.0,
+        "Coherence (1-5)": 5.0
+      },
+      "ragas_metrics": {
+        "Faithfulness": 0.8846153846153846,
+        "Answer Relevancy": 0.9554021315659627,
+        "Context Precision": 0.7916666666270833,
+        "Context Recall": 1.0
+      },
+      "build_time_sec": 1.2856969833374023,
+      "total_time_sec": 68.43419313430786
+    },
+    "ChromaDB Similarity Search": {
+      "retrieval_metrics": {
+        "Hit Rate@5": 0.925,
+        "MRR@5": 0.7620833333333333,
+        "Precision@5": 0.425,
+        "Recall@5": 0.925,
+        "nDCG@5": 0.7863993362498043
+      },
+      "generation_metrics": {
+        "Answer Relevance (1-5)": 5.0,
+        "Groundedness (1-5)": 5.0,
+        "Hallucination Rate (0-1)": 0.0,
+        "Coherence (1-5)": 5.0
+      },
+      "ragas_metrics": {
+        "Faithfulness": 1.0,
+        "Answer Relevancy": 0.9463694223539729,
+        "Context Precision": 0.794444444417963,
+        "Context Recall": 1.0
+      },
+      "build_time_sec": 2.592710018157959,
+      "total_time_sec": 54.23262619972229
+    },
+    "ChromaDB MMR (Diversity)": {
+      "retrieval_metrics": {
+        "Hit Rate@5": 0.95,
+        "MRR@5": 0.7683333333333333,
+        "Precision@5": 0.305,
+        "Recall@5": 0.95,
+        "nDCG@5": 0.800779457918926
+      },
+      "generation_metrics": {
+        "Answer Relevance (1-5)": 5.0,
+        "Groundedness (1-5)": 5.0,
+        "Hallucination Rate (0-1)": 0.0,
+        "Coherence (1-5)": 5.0
+      },
+      "ragas_metrics": {
+        "Faithfulness": 1.0,
+        "Answer Relevancy": 0.9463591697584682,
+        "Context Precision": 0.87499999995625,
+        "Context Recall": 1.0
+      },
+      "build_time_sec": 1.3580799102783203,
+      "total_time_sec": 55.79950928688049
+    },
+    "Agentic RAG (ReAct + Iterative Retrieval)": {
+      "retrieval_metrics": {
+        "Hit Rate@5": 0.9,
+        "MRR@5": 0.7083333333333333,
+        "Precision@5": 0.4,
+        "Recall@5": 0.9,
+        "nDCG@5": 0.7525270781226979
+      },
+      "generation_metrics": {
+        "Answer Relevance (1-5)": 5.0,
+        "Groundedness (1-5)": 5.0,
+        "Hallucination Rate (0-1)": 0.0,
+        "Coherence (1-5)": 5.0
+      },
+      "ragas_metrics": {
+        "Faithfulness": 1.0,
+        "Answer Relevancy": 0.9554021315659627,
+        "Context Precision": 0.9999999999733333,
+        "Context Recall": 1.0
+      },
+      "build_time_sec": 1.3495099544525146,
+      "total_time_sec": 216.91347002983093
+    },
+    "OpenAI File Search (Hosted Vector Store)": {
+      "retrieval_metrics": {
+        "Hit Rate@5": 0.9,
+        "MRR@5": 0.9,
+        "Precision@5": 0.825,
+        "Recall@5": 0.9,
+        "nDCG@5": 0.8950073976220778
+      },
+      "generation_metrics": {
+        "Answer Relevance (1-5)": 5.0,
+        "Groundedness (1-5)": 5.0,
+        "Hallucination Rate (0-1)": 0.08335,
+        "Coherence (1-5)": 5.0
+      },
+      "ragas_metrics": {
+        "Faithfulness": 0.9444444444444444,
+        "Answer Relevancy": 0.955391878970458,
+        "Context Precision": 0.9749999999756249,
+        "Context Recall": 1.0
+      },
+      "build_time_sec": 134.03385305404663,
+      "total_time_sec": 593.0203909873962
+    }
+  }
+}

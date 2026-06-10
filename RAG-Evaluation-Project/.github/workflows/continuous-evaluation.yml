@@ -1,0 +1,51 @@
+name: Continuous RAG Evaluation
+
+# Continuous evaluation + regression testing: runs the full pattern comparison
+# pipeline on a schedule (and on demand), then fails the job if any metric
+# regressed beyond the thresholds in src/config.py compared to the committed
+# outputs/baseline.json.
+#
+# Requires repo secrets:
+#   OPENAI_API_KEY        (required)
+#   LANGSMITH_API_KEY     (optional, for LangSmith tracing)
+#   LANGFUSE_PUBLIC_KEY   (optional, for Langfuse tracing)
+#   LANGFUSE_SECRET_KEY   (optional, for Langfuse tracing)
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # weekly, Monday 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    if: ${{ secrets.OPENAI_API_KEY != '' }}
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run full evaluation pipeline
+        run: python main.py
+
+      - name: Regression check against baseline
+        run: python scripts/regression_check.py
+
+      - name: Upload run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rag-evaluation-results
+          path: |
+            outputs/*.xlsx
+            outputs/latest_results.json

@@ -1,0 +1,362 @@
+[
+  {
+    "question_id": "att_01",
+    "question": "What is the Transformer architecture based on, and what does it dispense with?",
+    "ground_truth": "The Transformer is a model architecture based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. It relies entirely on an attention mechanism to draw global dependencies between input and output.",
+    "gold_context": "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output. The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours on eight P100 GPUs.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "transformer_architecture"
+  },
+  {
+    "question_id": "att_02",
+    "question": "How does scaled dot-product attention compute its output?",
+    "ground_truth": "Scaled dot-product attention computes the dot products of the query with all keys, divides each by the square root of dk (the dimension of keys), and applies a softmax function to obtain the weights on the values. The matrix of outputs is computed as Attention(Q, K, V) = softmax(QK^T / sqrt(dk)) * V.",
+    "gold_context": "We call our particular attention \"Scaled Dot-Product Attention\" (Figure 2). The input consists of queries and keys of dimension dk, and values of dimension dv. We compute the dot products of the query with all keys, divide each by the square root of dk, and apply a softmax function to obtain the weights on the values. In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q. The keys and values are also packed together into matrices K and V. We compute the matrix of outputs as: Attention(Q, K, V) = softmax(QK^T / sqrt(dk))V",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "attention_mechanism"
+  },
+  {
+    "question_id": "att_03",
+    "question": "How many identical layers does the Transformer encoder consist of, and what are the two sub-layers in each encoder layer?",
+    "ground_truth": "The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers: the first is a multi-head self-attention mechanism, and the second is a simple position-wise fully connected feed-forward network. A residual connection is employed around each sub-layer, followed by layer normalization.",
+    "gold_context": "Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position-wise fully connected feed-forward network. We employ a residual connection around each of the two sub-layers, followed by layer normalization. That is, the output of each sub-layer is LayerNorm(x + Sublayer(x)), where Sublayer(x) is the function implemented by the sub-layer itself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding layers, produce outputs of dimension dmodel = 512.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "encoder_architecture"
+  },
+  {
+    "question_id": "att_04",
+    "question": "What is multi-head attention and how many parallel heads does the Transformer use?",
+    "ground_truth": "Instead of performing a single attention function, multi-head attention linearly projects the queries, keys and values h times with different learned linear projections, performs attention in parallel on each projection, concatenates the outputs, and projects again. The Transformer employs h = 8 parallel attention layers or heads, with dk = dv = dmodel/h = 64 for each head.",
+    "gold_context": "Instead of performing a single attention function with dmodel-dimensional keys, values and queries, we found it beneficial to linearly project the queries, keys and values h times with different, learned linear projections to dk, dk and dv dimensions, respectively. On each of these projected versions of queries, keys and values we then perform the attention function in parallel, yielding dv-dimensional output values. These are concatenated and once again projected, resulting in the final values, as depicted in Figure 2. Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With a single attention head, averaging inhibits this. In this work we employ h = 8 parallel attention layers, or heads. For each of these we use dk = dv = dmodel/h = 64. Due to the reduced dimension of each head, the total computational cost is similar to that of single-head attention with full dimensionality.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "multi_head_attention"
+  },
+  {
+    "question_id": "att_05",
+    "question": "What type of positional encoding does the Transformer use and why?",
+    "ground_truth": "The Transformer uses sine and cosine functions of different frequencies for positional encoding: PE(pos,2i) = sin(pos/10000^(2i/dmodel)) and PE(pos,2i+1) = cos(pos/10000^(2i/dmodel)). This was chosen because it was hypothesized to allow the model to easily learn to attend by relative positions, since for any fixed offset k, PE(pos+k) can be represented as a linear function of PE(pos).",
+    "gold_context": "Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the tokens in the sequence. To this end, we add \"positional encodings\" to the input embeddings at the bottoms of the encoder and decoder stacks. The positional encodings have the same dimension dmodel as the embeddings, so that the two can be summed. In this work, we use sine and cosine functions of different frequencies: PE(pos,2i) = sin(pos/10000^(2i/dmodel)), PE(pos,2i+1) = cos(pos/10000^(2i/dmodel)) where pos is the position and i is the dimension. We chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset k, PE(pos+k) can be represented as a linear function of PE(pos).",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "positional_encoding"
+  },
+  {
+    "question_id": "att_06",
+    "question": "How does the Transformer decoder differ from the encoder?",
+    "ground_truth": "The decoder is also composed of N = 6 identical layers. In addition to the two sub-layers in each encoder layer, the decoder inserts a third sub-layer which performs multi-head attention over the output of the encoder stack. The self-attention sub-layer in the decoder is modified to prevent positions from attending to subsequent positions through masking, ensuring predictions for position i depend only on known outputs at positions less than i.",
+    "gold_context": "Decoder: The decoder is also composed of a stack of N = 6 identical layers. In addition to the two sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs multi-head attention over the output of the encoder stack. Similar to the encoder, we employ residual connections around each of the sub-layers, followed by layer normalization. We also modify the self-attention sub-layer in the decoder stack to prevent positions from attending to subsequent positions. This masking, combined with fact that the output embeddings are offset by one position, ensures that the predictions for position i can depend only on the known outputs at positions less than i.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "decoder_architecture"
+  },
+  {
+    "question_id": "att_07",
+    "question": "What BLEU scores did the Transformer achieve on machine translation tasks?",
+    "ground_truth": "On the WMT 2014 English-to-German translation task, the big Transformer model achieved a BLEU score of 28.4, improving over the existing best results including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, it established a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs.",
+    "gold_context": "Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. On the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "translation_results"
+  },
+  {
+    "question_id": "att_08",
+    "question": "What is the position-wise feed-forward network in the Transformer?",
+    "ground_truth": "Each layer in the encoder and decoder contains a fully connected feed-forward network applied to each position separately and identically. It consists of two linear transformations with a ReLU activation in between: FFN(x) = max(0, xW1 + b1)W2 + b2. The dimensionality of input and output is dmodel = 512, and the inner-layer has dimensionality dff = 2048.",
+    "gold_context": "In addition to attention sub-layers, each of the layers in our encoder and decoder contains a fully connected feed-forward network, which is applied to each position separately and identically. This consists of two linear transformations with a ReLU activation in between. FFN(x) = max(0, xW1 + b1)W2 + b2. While the linear transformations are the same across different positions, they use different parameters from layer to layer. Another way of describing this is as two convolutions with kernel size 1. The dimensionality of input and output is dmodel = 512, and the inner-layer has dimensionality dff = 2048.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "feed_forward_network"
+  },
+  {
+    "question_id": "att_09",
+    "question": "What optimizer and learning rate schedule was used to train the Transformer?",
+    "ground_truth": "The Adam optimizer was used with beta1 = 0.9, beta2 = 0.98 and epsilon = 10^-9. The learning rate was varied over training according to: lrate = dmodel^(-0.5) * min(step_num^(-0.5), step_num * warmup_steps^(-1.5)). This increases the learning rate linearly for the first warmup_steps (4000) training steps, then decreases it proportionally to the inverse square root of the step number.",
+    "gold_context": "We used the Adam optimizer with beta1 = 0.9, beta2 = 0.98 and epsilon = 10^-9. We varied the learning rate over the course of training, according to the formula: lrate = d_model^(-0.5) * min(step_num^(-0.5), step_num * warmup_steps^(-1.5)). This corresponds to increasing the learning rate linearly for the first warmup_steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup_steps = 4000.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "training_details"
+  },
+  {
+    "question_id": "att_10",
+    "question": "What advantage does self-attention have over recurrent layers in terms of computational path length?",
+    "ground_truth": "A self-attention layer connects all positions with a constant number of sequentially executed operations O(1) maximum path length, whereas a recurrent layer requires O(n) sequential operations and O(n) maximum path length. Self-attention layers are faster than recurrent layers when the sequence length n is smaller than the representation dimensionality d, which is most often the case with sentence representations.",
+    "gold_context": "As noted in Table 1, a self-attention layer connects all positions with a constant number of sequentially executed operations, whereas a recurrent layer requires O(n) sequential operations. In terms of computational complexity, self-attention layers are faster than recurrent layers when the sequence length n is smaller than the representation dimensionality d, which is most often the case with sentence representations used by state-of-the-art models in machine translations, such as word-piece and byte-pair representations. One is the total computational complexity per layer. Another is the amount of computation that can be parallelized, as measured by the minimum number of sequential operations required. The third is the path length between long-range dependencies in the network. Learning long-range dependencies is a key challenge in many sequence transduction tasks.",
+    "source_document": "attention_paper.pdf",
+    "source_paper": "Attention Is All You Need (Vaswani et al., 2017)",
+    "topic": "self_attention_advantages"
+  },
+  {
+    "question_id": "res_01",
+    "question": "What is the degradation problem in deep neural networks that ResNet addresses?",
+    "ground_truth": "The degradation problem is that with network depth increasing, accuracy gets saturated and then degrades rapidly. This degradation is not caused by overfitting — adding more layers to a suitably deep model leads to higher training error. The deep plain nets may have exponentially low convergence rates which impact reducing the training error.",
+    "gold_context": "When deeper networks are able to start converging, a degradation problem has been exposed: with the network depth increasing, accuracy gets saturated (which might be unsurprising) and then degrades rapidly. Unexpectedly, such degradation is not caused by overfitting, and adding more layers to a suitably deep model leads to higher training error, as reported in [11, 42] and thoroughly verified by our experiments. The degradation (of training accuracy) indicates that not all systems are similarly easy to optimize. We conjecture that the deep plain nets may have exponentially low convergence rates, which impact the reducing of the training error.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "degradation_problem"
+  },
+  {
+    "question_id": "res_02",
+    "question": "What is the core idea behind residual learning in ResNet?",
+    "ground_truth": "Instead of hoping each few stacked layers directly fit a desired underlying mapping H(x), residual learning explicitly lets these layers fit a residual mapping F(x) := H(x) - x. The original mapping is recast into F(x) + x. The hypothesis is that it is easier to optimize the residual mapping than the original unreferenced mapping. If an identity mapping were optimal, it would be easier to push the residual to zero than to fit an identity mapping by a stack of nonlinear layers.",
+    "gold_context": "In this paper, we address the degradation problem by introducing a deep residual learning framework. Instead of hoping each few stacked layers directly fit a desired underlying mapping, we explicitly let these layers fit a residual mapping. Formally, denoting the desired underlying mapping as H(x), we let the stacked nonlinear layers fit another mapping of F(x) := H(x) - x. The original mapping is recast into F(x)+x. We hypothesize that it is easier to optimize the residual mapping than to optimize the original, unreferenced mapping. To the extreme, if an identity mapping were optimal, it would be easier to push the residual to zero than to fit an identity mapping by a stack of nonlinear layers.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "residual_learning"
+  },
+  {
+    "question_id": "res_03",
+    "question": "What are shortcut connections in ResNet and do they add extra parameters?",
+    "ground_truth": "Shortcut connections skip one or more layers and simply perform identity mapping, with their outputs added to the outputs of the stacked layers. Identity shortcut connections add neither extra parameter nor computational complexity. The entire network can still be trained end-to-end by SGD with backpropagation. When input and output dimensions differ, a linear projection Ws can be used by the shortcut to match dimensions.",
+    "gold_context": "The formulation of F(x)+x can be realized by feedforward neural networks with \"shortcut connections\". Shortcut connections are those skipping one or more layers. In our case, the shortcut connections simply perform identity mapping, and their outputs are added to the outputs of the stacked layers. Identity shortcut connections add neither extra parameter nor computational complexity. The entire network can still be trained end-to-end by SGD with backpropagation, and can be easily implemented using common libraries (e.g., Caffe) without modifying the solvers. The dimensions of x and F must be equal in Eqn.(1). If this is not the case (e.g., when changing the input/output channels), we can perform a linear projection Ws by the shortcut connections to match the dimensions: y = F(x, {Wi}) + Ws*x.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "shortcut_connections"
+  },
+  {
+    "question_id": "res_04",
+    "question": "How deep was the deepest ResNet evaluated on ImageNet and what error rate did the ensemble achieve?",
+    "ground_truth": "The deepest ResNet evaluated on ImageNet was 152 layers, which is 8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieved 3.57% top-5 error on the ImageNet test set, winning 1st place in the ILSVRC 2015 classification task. The 152-layer ResNet has 11.3 billion FLOPs, which is still lower than VGG-16/19 nets (15.3/19.6 billion FLOPs).",
+    "gold_context": "We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. On the ImageNet dataset we evaluate residual nets with a depth of up to 152 layers - 8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieves 3.57% error on the ImageNet test set. This result won the 1st place on the ILSVRC 2015 classification task. We construct 101-layer and 152-layer ResNets by using more 3-layer blocks. Remarkably, although the depth is significantly increased, the 152-layer ResNet (11.3 billion FLOPs) still has lower complexity than VGG-16/19 nets (15.3/19.6 billion FLOPs).",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "imagenet_results"
+  },
+  {
+    "question_id": "res_05",
+    "question": "What is a bottleneck building block in ResNet and why is it used?",
+    "ground_truth": "A bottleneck building block uses a stack of 3 layers instead of 2: 1x1, 3x3, and 1x1 convolutions. The 1x1 layers are responsible for reducing and then increasing (restoring) dimensions, leaving the 3x3 layer a bottleneck with smaller input/output dimensions. This design is used due to concerns about training time. The parameter-free identity shortcuts are particularly important for bottleneck architectures because replacing them with projections would double time complexity and model size.",
+    "gold_context": "Because of concerns on the training time that we can afford, we modify the building block as a bottleneck design. For each residual function F, we use a stack of 3 layers instead of 2. The three layers are 1x1, 3x3, and 1x1 convolutions, where the 1x1 layers are responsible for reducing and then increasing (restoring) dimensions, leaving the 3x3 layer a bottleneck with smaller input/output dimensions. The parameter-free identity shortcuts are particularly important for the bottleneck architectures. If the identity shortcut in Fig. 5 (right) is replaced with projection, one can show that the time complexity and model size are doubled, as the shortcut is connected to the two high-dimensional ends. So identity shortcuts lead to more efficient models for the bottleneck designs.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "bottleneck_architecture"
+  },
+  {
+    "question_id": "res_06",
+    "question": "What design rules do the plain baseline networks in ResNet follow?",
+    "ground_truth": "The plain baselines are inspired by VGG nets and follow two simple design rules: (i) for the same output feature map size, the layers have the same number of filters; and (ii) if the feature map size is halved, the number of filters is doubled so as to preserve the time complexity per layer. Downsampling is performed directly by convolutional layers with a stride of 2. The 34-layer baseline has 3.6 billion FLOPs, which is only 18% of VGG-19.",
+    "gold_context": "Our plain baselines (Fig. 3, middle) are mainly inspired by the philosophy of VGG nets. The convolutional layers mostly have 3x3 filters and follow two simple design rules: (i) for the same output feature map size, the layers have the same number of filters; and (ii) if the feature map size is halved, the number of filters is doubled so as to preserve the time complexity per layer. We perform downsampling directly by convolutional layers that have a stride of 2. The network ends with a global average pooling layer and a 1000-way fully-connected layer with softmax. The total number of weighted layers is 34 in Fig. 3 (middle). It is worth noticing that our model has fewer filters and lower complexity than VGG nets. Our 34-layer baseline has 3.6 billion FLOPs (multiply-adds), which is only 18% of VGG-19 (19.6 billion FLOPs).",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "plain_network_design"
+  },
+  {
+    "question_id": "res_07",
+    "question": "What did ResNet experiments on CIFAR-10 with over 1000 layers reveal?",
+    "ground_truth": "A 1202-layer network was trained on CIFAR-10 and showed no optimization difficulty, achieving training error below 0.1%. However, its test error (7.93%) was worse than the 110-layer network (6.43%), despite both having similar training error. This is attributed to overfitting — the 1202-layer network with 19.4M parameters may be unnecessarily large for this small dataset.",
+    "gold_context": "We explore an aggressively deep model of over 1000 layers. We set n = 200 that leads to a 1202-layer network, which is trained as described above. Our method shows no optimization difficulty, and this 10^3-layer network is able to achieve training error <0.1% (Fig. 6, right). Its test error is still fairly good (7.93%, Table 6). But there are still open problems on such aggressively deep models. The testing result of this 1202-layer network is worse than that of our 110-layer network, although both have similar training error. We argue that this is because of overfitting. The 1202-layer network may be unnecessarily large (19.4M) for this small dataset.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "cifar10_experiments"
+  },
+  {
+    "question_id": "res_08",
+    "question": "How did ResNet improve object detection results on the COCO dataset?",
+    "ground_truth": "Using Faster R-CNN as the detection method, replacing VGG-16 with ResNet-101 resulted in a 6.0% increase in COCO's standard metric (mAP@[.5, .95]), which is a 28% relative improvement. This gain is solely due to the learned representations from the deeper residual network. The mAP@.5 increased from 41.5% to 48.4%.",
+    "gold_context": "Our method has good generalization performance on other recognition tasks. We adopt Faster R-CNN as the detection method. Here we are interested in the improvements of replacing VGG-16 with ResNet-101. The detection implementation of using both models is the same, so the gains can only be attributed to better networks. Most remarkably, on the challenging COCO dataset we obtain a 6.0% increase in COCO's standard metric (mAP@[.5, .95]), which is a 28% relative improvement. This gain is solely due to the learned representations.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "object_detection"
+  },
+  {
+    "question_id": "res_09",
+    "question": "What three options for shortcut connections were compared in the ResNet paper?",
+    "ground_truth": "Three options were compared: (A) zero-padding shortcuts for increasing dimensions with all shortcuts parameter-free; (B) projection shortcuts for increasing dimensions with other shortcuts being identity; and (C) all shortcuts are projections. All three options are considerably better than the plain counterpart. B is slightly better than A because zero-padded dimensions have no residual learning. C is marginally better than B due to extra parameters. The small differences indicate projection shortcuts are not essential for addressing the degradation problem.",
+    "gold_context": "Next we investigate projection shortcuts (Eqn.(2)). In Table 3 we compare three options: (A) zero-padding shortcuts are used for increasing dimensions, and all shortcuts are parameter-free; (B) projection shortcuts are used for increasing dimensions, and other shortcuts are identity; and (C) all shortcuts are projections. Table 3 shows that all three options are considerably better than the plain counterpart. B is slightly better than A. We argue that this is because the zero-padded dimensions in A indeed have no residual learning. C is marginally better than B, and we attribute this to the extra parameters introduced by many (thirteen) projection shortcuts. But the small differences among A/B/C indicate that projection shortcuts are not essential for addressing the degradation problem.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "shortcut_options"
+  },
+  {
+    "question_id": "res_10",
+    "question": "What does analysis of layer responses in ResNet reveal about residual functions?",
+    "ground_truth": "Analysis of standard deviations of layer responses on CIFAR-10 shows that ResNets have generally smaller responses than their plain counterparts. This supports the basic motivation that residual functions might be generally closer to zero than non-residual functions. The deeper ResNet has smaller magnitudes of responses — when there are more layers, an individual layer tends to modify the signal less.",
+    "gold_context": "Fig. 7 shows the standard deviations (std) of the layer responses. The responses are the outputs of each 3x3 layer, after BN and before other nonlinearity (ReLU/addition). For ResNets, this analysis reveals the response strength of the residual functions. Fig. 7 shows that ResNets have generally smaller responses than their plain counterparts. These results support our basic motivation (Sec.3.1) that the residual functions might be generally closer to zero than the non-residual functions. We also notice that the deeper ResNet has smaller magnitudes of responses, as evidenced by the comparisons among ResNet-20, 56, and 110 in Fig. 7. When there are more layers, an individual layer of ResNets tends to modify the signal less.",
+    "source_document": "resnet_paper.pdf",
+    "source_paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+    "topic": "layer_response_analysis"
+  },
+  {
+    "question_id": "cnn_01",
+    "question": "What are the three types of layers that comprise a CNN architecture?",
+    "ground_truth": "CNNs are comprised of three types of layers: convolutional layers, pooling layers, and fully-connected layers. When these layers are stacked, a CNN architecture is formed. The convolutional layer determines output of neurons connected to local regions of input. The pooling layer performs downsampling. The fully-connected layers produce class scores for classification.",
+    "gold_context": "CNNs are comprised of three types of layers. These are convolutional layers, pooling layers and fully-connected layers. When these layers are stacked, a CNN architecture has been formed. The convolutional layer will determine the output of neurons of which are connected to local regions of the input through the calculation of the scalar product between their weights and the region connected to the input volume. The pooling layer will then simply perform downsampling along the spatial dimensionality of the given input, further reducing the number of parameters within that activation. The fully-connected layers will then perform the same duties found in standard ANNs and attempt to produce class scores from the activations, to be used for classification.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "cnn_layers"
+  },
+  {
+    "question_id": "cnn_02",
+    "question": "What is the receptive field in a convolutional neural network?",
+    "ground_truth": "The receptive field size is the dimensionality of the small region of the input volume to which every neuron in a convolutional layer is connected. The magnitude of connectivity through the depth is nearly always equal to the depth of the input. For example, if the input is 64x64x3 and the receptive field size is 6x6, each neuron would have 108 weights (6x6x3), compared to 12,288 weights for a fully-connected neuron.",
+    "gold_context": "Every neuron in a convolutional layer is only connected to small region of the input volume. The dimensionality of this region is commonly referred to as the receptive field size of the neuron. The magnitude of the connectivity through the depth is nearly always equal to the depth of the input. For example, if the input to the network is an image of size 64 x 64 x 3 (a RGB-coloured image with a dimensionality of 64 x 64) and we set the receptive field size as 6 x 6, we would have a total of 108 weights on each neuron within the convolutional layer. (6 x 6 x 3 where 3 is the magnitude of connectivity across the depth of the volume) To put this into perspective, a standard neuron seen in other forms of ANN would contain 12,288 weights each.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "receptive_field"
+  },
+  {
+    "question_id": "cnn_03",
+    "question": "How does the pooling layer work in a CNN and what is its purpose?",
+    "ground_truth": "The pooling layer operates over each activation map in the input and scales its dimensionality using the MAX function. Usually, max-pooling layers have kernels of 2x2 applied with a stride of 2 along the spatial dimensions, which scales the activation map down to 25% of the original size while maintaining the depth volume. Its purpose is to gradually reduce the dimensionality of the representation, further reducing parameters and computational complexity.",
+    "gold_context": "Pooling layers aim to gradually reduce the dimensionality of the representation, and thus further reduce the number of parameters and the computational complexity of the model. The pooling layer operates over each activation map in the input, and scales its dimensionality using the \"MAX\" function. In most CNNs, these come in the form of max-pooling layers with kernels of a dimensionality of 2 x 2 applied with a stride of 2 along the spatial dimensions of the input. This scales the activation map down to 25% of the original size - whilst maintaining the depth volume to its standard size.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "pooling_layer"
+  },
+  {
+    "question_id": "cnn_04",
+    "question": "How does parameter sharing work in CNNs and why is it important?",
+    "ground_truth": "Parameter sharing works on the assumption that if one region feature is useful to compute at a set spatial region, then it is likely useful in another region. By constraining each individual activation map within the output volume to the same weights and bias, there is a massive reduction in parameters. During backpropagation, each neuron in the output represents the overall gradient which can be totalled across the depth, only updating a single set of weights instead of every single one.",
+    "gold_context": "Parameter sharing works on the assumption that if one region feature is useful to compute at a set spatial region, then it is likely to be useful in another region. If we constrain each individual activation map within the output volume to the same weights and bias, then we will see a massive reduction in the number of parameters being produced by the convolutional layer. As a result of this as the backpropagation stage occurs, each neuron in the output will represent the overall gradient of which can be totalled across the depth - thus only updating a single set of weights, as opposed to every single one.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "parameter_sharing"
+  },
+  {
+    "question_id": "cnn_05",
+    "question": "What is the formula for calculating the output dimensionality of a convolutional layer?",
+    "ground_truth": "The formula is (V - R + 2Z) / S + 1, where V represents the input volume size (height x width x depth), R represents the receptive field size, Z is the amount of zero padding, and S is the stride. If the result is not a whole integer, the stride has been incorrectly set, as neurons will be unable to fit neatly across the input.",
+    "gold_context": "It is important to understand that through using these techniques, we will alter the spatial dimensionality of the convolutional layers output. To calculate this, you can make use of the following formula: (V - R) + 2Z / S + 1. Where V represents the input volume size (height x width x depth), R represents the receptive field size, Z is the amount of zero padding set and S referring to the stride. If the calculated result from this equation is not equal to a whole integer then the stride has been incorrectly set, as the neurons will be unable to fit neatly across the given input.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "output_dimensionality"
+  },
+  {
+    "question_id": "cnn_06",
+    "question": "What is overfitting in the context of neural networks and why does it matter for CNNs?",
+    "ground_truth": "Overfitting is when a network is unable to learn effectively, resulting in reduced ability to pinpoint generalised features for training, test, and prediction sets. It is a key reason for reducing the complexity of ANNs — the less parameters required to train, the less likely the network will overfit and the better the predictive performance. CNNs address this by encoding image-specific features into the architecture, requiring fewer parameters than traditional ANNs.",
+    "gold_context": "Overfitting is basically when a network is unable to learn effectively due to a number of reasons. It is an important concept of most, if not all machine learning algorithms and it is important that every precaution is taken as to reduce its effects. If our models were to exhibit signs of overfitting then we may see a reduced ability to pinpoint generalised features for not only our training dataset, but also our test and prediction sets. This is the main reason behind reducing the complexity of our ANNs. The less parameters required to train, the less likely the network will overfit - and of course, improve the predictive performance of the model.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "overfitting"
+  },
+  {
+    "question_id": "cnn_07",
+    "question": "What is the key difference between CNNs and traditional artificial neural networks?",
+    "ground_truth": "The only notable difference is that CNNs are primarily used in the field of pattern recognition within images. This allows encoding image-specific features into the architecture, making the network more suited for image-focused tasks while further reducing the parameters required to set up the model. Unlike traditional ANNs where neurons are fully connected, CNN neurons in any given layer only connect to a small region of the preceding layer.",
+    "gold_context": "The only notable difference between CNNs and traditional ANNs is that CNNs are primarily used in the field of pattern recognition within images. This allows us to encode image-specific features into the architecture, making the network more suited for image-focused tasks - whilst further reducing the parameters required to set up the model. One of the largest limitations of traditional forms of ANN is that they tend to struggle with the computational complexity required to compute image data.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "cnn_vs_ann"
+  },
+  {
+    "question_id": "cnn_08",
+    "question": "What are the two key learning paradigms in image processing tasks?",
+    "ground_truth": "The two key learning paradigms are supervised learning and unsupervised learning. Supervised learning uses pre-labelled inputs that act as targets, with the goal of reducing the model's overall classification error. Unsupervised learning differs in that the training set does not include labels, and success is determined by whether the network can reduce or increase an associated cost function. Most image-focused pattern recognition tasks depend on classification using supervised learning.",
+    "gold_context": "The two key learning paradigms in image processing tasks are supervised and unsupervised learning. Supervised learning is learning through pre-labelled inputs, which act as targets. For each training example there will be a set of input values (vectors) and one or more associated designated output values. The goal of this form of training is to reduce the models overall classification error, through correct calculation of the output value of training example by training. Unsupervised learning differs in that the training set does not include any labels. Success is usually determined by whether the network is able to reduce or increase an associated cost function. However, it is important to note that most image-focused pattern-recognition tasks usually depend on classification using supervised learning.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "learning_paradigms"
+  },
+  {
+    "question_id": "cnn_09",
+    "question": "Why is stacking multiple convolutional layers recommended before pooling?",
+    "ground_truth": "Stacking multiple convolutional layers allows for more complex features of the input vector to be selected. For example, with three stacked convolutional layers with 3x3 receptive fields, the first layer sees 3x3, the second sees 5x5, and the third sees 7x7 of the input. These stacks feature non-linearities which allow expressing stronger features of the input with fewer parameters, though this comes with a distinct memory allocation problem especially during backpropagation.",
+    "gold_context": "Another common CNN architecture is to stack two convolutional layers before each pooling layer. This is strongly recommended as stacking multiple convolutional layers allows for more complex features of the input vector to be selected. It is also advised to split large convolutional layers up into many smaller sized convolutional layers. This is to reduce the amount of computational complexity within a given convolutional layer. For example, if you were to stack three convolutional layers on top of each other with a receptive field of 3x3. Each neuron of the first convolutional layer will have a 3x3 view of the input vector. A neuron on the second convolutional layer will then have a 5 x 5 view of the input vector. A neuron on the third convolutional layer will then have a 7 x 7 view of the input vector. As these stacks feature non-linearities which in turn allows us to express stronger features of the input with fewer parameters. However, it is important to understand that this does come with a distinct memory allocation problem - especially when making use of the backpropagation algorithm.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "stacking_conv_layers"
+  },
+  {
+    "question_id": "cnn_10",
+    "question": "What three hyperparameters can be used to optimize the output of convolutional layers?",
+    "ground_truth": "The three hyperparameters are: depth (the number of neurons within the layer connected to the same region of input, which controls pattern recognition capabilities), stride (the step size for moving the receptive field across the spatial dimensionality of the input), and zero-padding (padding the border of the input to give further control over output volume dimensionality). Reducing depth minimises total neurons but reduces pattern recognition, while larger strides reduce overlap and produce lower spatial dimension outputs.",
+    "gold_context": "Convolutional layers are also able to significantly reduce the complexity of the model through the optimisation of its output. These are optimised through three hyperparameters, the depth, the stride and setting zero-padding. The depth of the output volume produced by the convolutional layers can be manually set through the number of neurons within the layer to a the same region of the input. Reducing this hyperparameter can significantly minimise the total number of neurons of the network, but it can also significantly reduce the pattern recognition capabilities of the model. We are also able to define the stride in which we set the depth around the spatial dimensionality of the input in order to place the receptive field. Alternatively, setting the stride to a greater number will reduce the amount of overlapping and produce an output of lower spatial dimensions. Zero-padding is the simple process of padding the border of the input, and is an effective method to give further control as to the dimensionality of the output volumes.",
+    "source_document": "cnn_paper.pdf",
+    "source_paper": "An Introduction to Convolutional Neural Networks (O'Shea & Nash, 2015)",
+    "topic": "conv_hyperparameters"
+  },
+  {
+    "question_id": "vit_01",
+    "question": "How does the Vision Transformer (ViT) process images as input?",
+    "ground_truth": "ViT splits an image into fixed-size patches, linearly embeds each of them, adds position embeddings, and feeds the resulting sequence of vectors to a standard Transformer encoder. The image x is reshaped into a sequence of flattened 2D patches, where N = HW/P^2 is the number of patches (P is patch size). Image patches are treated the same way as tokens (words) in an NLP application.",
+    "gold_context": "We split an image into patches and provide the sequence of linear embeddings of these patches as an input to a Transformer. Image patches are treated the same way as tokens (words) in an NLP application. We train the model on image classification in supervised fashion. The standard Transformer receives as input a 1D sequence of token embeddings. To handle 2D images, we reshape the image x into a sequence of flattened 2D patches xp, where (H, W) is the resolution of the original image, C is the number of channels, (P, P) is the resolution of each image patch, and N = HW/P^2 is the resulting number of patches, which also serves as the effective input sequence length for the Transformer. The Transformer uses constant latent vector size D through all of its layers, so we flatten the patches and map to D dimensions with a trainable linear projection. We refer to the output of this projection as the patch embeddings.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "vit_image_processing"
+  },
+  {
+    "question_id": "vit_02",
+    "question": "What inductive biases does Vision Transformer have compared to CNNs?",
+    "ground_truth": "Vision Transformer has much less image-specific inductive bias than CNNs. In CNNs, locality, two-dimensional neighborhood structure, and translation equivariance are baked into each layer throughout the whole model. In ViT, only MLP layers are local and translationally equivariant, while self-attention layers are global. The two-dimensional neighborhood structure is used very sparingly — only at the beginning when cutting the image into patches and at fine-tuning time for adjusting position embeddings.",
+    "gold_context": "We note that Vision Transformer has much less image-specific inductive bias than CNNs. In CNNs, locality, two-dimensional neighborhood structure, and translation equivariance are baked into each layer throughout the whole model. In ViT, only MLP layers are local and translationally equivariant, while the self-attention layers are global. The two-dimensional neighborhood structure is used very sparingly: in the beginning of the model by cutting the image into patches and at fine-tuning time for adjusting the position embeddings for images of different resolution. Other than that, the position embeddings at initialization time carry no information about the 2D positions of the patches and all spatial relations between the patches have to be learned from scratch.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "inductive_bias"
+  },
+  {
+    "question_id": "vit_03",
+    "question": "What role does the classification token play in the Vision Transformer?",
+    "ground_truth": "Similar to BERT's [class] token, a learnable embedding is prepended to the sequence of embedded patches. Its state at the output of the Transformer encoder serves as the image representation. Both during pre-training and fine-tuning, a classification head is attached to this token's output. The classification head is implemented by an MLP with one hidden layer at pre-training time and by a single linear layer at fine-tuning time.",
+    "gold_context": "Similar to BERT's [class] token, we prepend a learnable embedding to the sequence of embedded patches, whose state at the output of the Transformer encoder serves as the image representation y. Both during pre-training and fine-tuning, a classification head is attached to z0L. The classification head is implemented by a MLP with one hidden layer at pre-training time and by a single linear layer at fine-tuning time.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "classification_token"
+  },
+  {
+    "question_id": "vit_04",
+    "question": "How does ViT perform when pre-trained on small versus large datasets?",
+    "ground_truth": "When trained on mid-sized datasets such as ImageNet without strong regularization, ViT yields modest accuracies of a few percentage points below ResNets of comparable size because Transformers lack inductive biases inherent to CNNs and do not generalize well with insufficient data. However, when pre-trained on larger datasets (14M-300M images), large scale training trumps inductive bias and ViT attains excellent results, approaching or beating state of the art on multiple benchmarks.",
+    "gold_context": "When trained on mid-sized datasets such as ImageNet without strong regularization, these models yield modest accuracies of a few percentage points below ResNets of comparable size. This seemingly discouraging outcome may be expected: Transformers lack some of the inductive biases inherent to CNNs, such as translation equivariance and locality, and therefore do not generalize well when trained on insufficient amounts of data. However, the picture changes if the models are trained on larger datasets (14M-300M images). We find that large scale training trumps inductive bias. Our Vision Transformer (ViT) attains excellent results when pre-trained at sufficient scale and transferred to tasks with fewer datapoints.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "data_requirements"
+  },
+  {
+    "question_id": "vit_05",
+    "question": "What accuracy did Vision Transformer achieve on major image recognition benchmarks?",
+    "ground_truth": "The best ViT model (ViT-H/14 pre-trained on JFT-300M) reached 88.55% accuracy on ImageNet, 90.72% on ImageNet-ReaL, 94.55% on CIFAR-100, and 77.63% on the VTAB suite of 19 tasks. ViT outperformed ResNet-based baselines on all datasets while taking substantially less computational resources to pre-train (2.5k TPUv3-core-days vs 9.9k for BiT-L).",
+    "gold_context": "When pre-trained on the public ImageNet-21k dataset or the in-house JFT-300M dataset, ViT approaches or beats state of the art on multiple image recognition benchmarks. In particular, the best model reaches the accuracy of 88.55% on ImageNet, 90.72% on ImageNet-ReaL, 94.55% on CIFAR-100, and 77.63% on the VTAB suite of 19 tasks. Vision Transformer models pre-trained on the JFT-300M dataset outperform ResNet-based baselines on all datasets, while taking substantially less computational resources to pre-train.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "benchmark_results"
+  },
+  {
+    "question_id": "vit_06",
+    "question": "What is the hybrid architecture in Vision Transformer?",
+    "ground_truth": "As an alternative to raw image patches, the input sequence can be formed from feature maps of a CNN. In this hybrid model, the patch embedding projection is applied to patches extracted from a CNN feature map. As a special case, patches can have spatial size 1x1, meaning the input sequence is obtained by simply flattening the spatial dimensions of the feature map and projecting to the Transformer dimension. Hybrids slightly outperform ViT at small computational budgets, but the difference vanishes for larger models.",
+    "gold_context": "As an alternative to raw image patches, the input sequence can be formed from feature maps of a CNN. In this hybrid model, the patch embedding projection E (Eq. 1) is applied to patches extracted from a CNN feature map. As a special case, the patches can have spatial size 1x1, which means that the input sequence is obtained by simply flattening the spatial dimensions of the feature map and projecting to the Transformer dimension. The classification input embedding and position embeddings are added as described above. Second, hybrids slightly outperform ViT at small computational budgets, but the difference vanishes for larger models. This result is somewhat surprising, since one might expect convolutional local feature processing to assist ViT at any size.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "hybrid_architecture"
+  },
+  {
+    "question_id": "vit_07",
+    "question": "How does ViT handle fine-tuning at higher resolution than pre-training?",
+    "ground_truth": "When feeding images of higher resolution during fine-tuning, the patch size is kept the same, resulting in a larger effective sequence length. The Vision Transformer can handle arbitrary sequence lengths up to memory constraints, but pre-trained position embeddings may no longer be meaningful. Therefore, 2D interpolation of the pre-trained position embeddings is performed according to their location in the original image. This resolution adjustment and patch extraction are the only points where inductive bias about 2D structure is manually injected.",
+    "gold_context": "Typically, we pre-train ViT on large datasets, and fine-tune to (smaller) downstream tasks. It is often beneficial to fine-tune at higher resolution than pre-training. When feeding images of higher resolution, we keep the patch size the same, which results in a larger effective sequence length. The Vision Transformer can handle arbitrary sequence lengths (up to memory constraints), however, the pre-trained position embeddings may no longer be meaningful. We therefore perform 2D interpolation of the pre-trained position embeddings, according to their location in the original image. Note that this resolution adjustment and patch extraction are the only points at which an inductive bias about the 2D structure of the images is manually injected into the Vision Transformer.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "fine_tuning_resolution"
+  },
+  {
+    "question_id": "vit_08",
+    "question": "What do the attention distance measurements reveal about how ViT processes images?",
+    "ground_truth": "Self-attention allows ViT to integrate information across the entire image even in the lowest layers. Some attention heads attend to most of the image already in the lowest layers, showing the ability to integrate information globally is indeed used. Other heads have consistently small attention distances in low layers, suggesting they serve a similar function as early convolutional layers in CNNs. The attention distance increases with network depth, and globally the model attends to image regions that are semantically relevant for classification.",
+    "gold_context": "Self-attention allows ViT to integrate information across the entire image even in the lowest layers. We investigate to what degree the network makes use of this capability. Specifically, we compute the average distance in image space across which information is integrated, based on the attention weights. This \"attention distance\" is analogous to receptive field size in CNNs. We find that some heads attend to most of the image already in the lowest layers, showing that the ability to integrate information globally is indeed used by the model. Other attention heads have consistently small attention distances in the low layers. This highly localized attention is less pronounced in hybrid models that apply a ResNet before the Transformer, suggesting that it may serve a similar function as early convolutional layers in CNNs. Further, the attention distance increases with network depth. Globally, we find that the model attends to image regions that are semantically relevant for classification.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "attention_distance"
+  },
+  {
+    "question_id": "vit_09",
+    "question": "What did the ViT paper find about position embeddings and encoding spatial information?",
+    "ground_truth": "The model learns to encode distance within the image in the similarity of position embeddings — closer patches tend to have more similar position embeddings, and row-column structure appears. While there is a large gap between no positional embedding and using positional embedding, there is little to no difference between different ways of encoding positional information (1D, 2D, or relative). This is likely because the Transformer operates on patch-level inputs where spatial dimensions are much smaller (e.g. 14x14 vs 224x224).",
+    "gold_context": "The model learns to encode distance within the image in the similarity of position embeddings, i.e. closer patches tend to have more similar position embeddings. Further, the row-column structure appears; patches in the same row/column have similar embeddings. As we can see, while there is a large gap between the performances of the model with no positional embedding and models with positional embedding, there is little to no difference between different ways of encoding positional information. We speculate that since our Transformer encoder operates on patch-level inputs, as opposed to pixel-level, the differences in how to encode spatial information is less important. More precisely, in patch-level inputs, the spatial dimensions are much smaller than the original pixel-level inputs, e.g., 14 x 14 as opposed to 224 x 224, and learning to represent the spatial relations in this resolution is equally easy for these different positional encoding strategies.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "position_embeddings"
+  },
+  {
+    "question_id": "vit_10",
+    "question": "What did the self-supervised pre-training experiments with ViT reveal?",
+    "ground_truth": "A preliminary exploration of masked patch prediction for self-supervision was performed, mimicking the masked language modeling task used in BERT. With self-supervised pre-training, the smaller ViT-B/16 model achieved 79.9% accuracy on ImageNet, a significant improvement of 2% compared to training from scratch, but still 4% behind supervised pre-training. This suggests self-supervised ViT holds promise for the future but has not yet closed the gap with supervised approaches.",
+    "gold_context": "We also perform a preliminary exploration on masked patch prediction for self-supervision, mimicking the masked language modeling task used in BERT. With self-supervised pre-training, our smaller ViT-B/16 model achieves 79.9% accuracy on ImageNet, a significant improvement of 2% to training from scratch, but still 4% behind supervised pre-training. We leave exploration of contrastive pre-training to future work.",
+    "source_document": "vision_transformer.pdf",
+    "source_paper": "An Image is Worth 16x16 Words (Dosovitskiy et al., 2021)",
+    "topic": "self_supervised_pretraining"
+  }
+]
