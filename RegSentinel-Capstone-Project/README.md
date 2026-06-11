@@ -1,6 +1,6 @@
 # RegSentinel — Multi-Source Compliance Intelligence
 
-> **Author:** Marcos Oliveira · K21 Agentic AI Mastery (Batch 4) · June 2026
+> **Author:** Marcos Oliveira · Agentic AI Mastery · June 2026
 
 An eval-driven compliance intelligence pipeline that automates regulatory synthesis, PII redaction, and multimodal identity verification — reducing manual audit cycles from ~80 hrs/quarter to minutes.
 
