@@ -326,3 +326,23 @@ Both thresholds are configurable via `.env` (`REGRESSION_RELATIVE_DROP_THRESHOLD
 <img width="1683" height="528" alt="Screenshot 2026-06-10 at 9 00 51 PM" src="https://github.com/user-attachments/assets/22b9d345-df88-4bc3-96a9-cbca5457b784" />
 
 <img width="1683" height="825" alt="Screenshot 2026-06-10 at 9 03 07 PM" src="https://github.com/user-attachments/assets/99831778-9ab1-4030-9b42-190727b87924" />
+
+## Outputs / Results
+
+Multi-sheet Excel report and JSON file
+
+<img width="500" height="287" alt="Screenshot 2026-06-10 at 10 46 01 PM" src="https://github.com/user-attachments/assets/4e4e9131-2154-45dd-bc4d-6c3702655cd5" />
+
+<img width="1024" height="271" alt="Screenshot 2026-06-10 at 10 46 12 PM" src="https://github.com/user-attachments/assets/defb57c6-bba6-4fd3-8aec-f1f775b1c74d" />
+
+<img width="895" height="251" alt="Screenshot 2026-06-10 at 10 46 22 PM" src="https://github.com/user-attachments/assets/7a92d44b-eba7-47d1-a73c-1d1f99853a77" />
+
+<img width="870" height="264" alt="Screenshot 2026-06-10 at 10 46 35 PM" src="https://github.com/user-attachments/assets/b3d4aa4e-1614-4bba-bbf3-8abe0b4321ef" />
+
+<img width="636" height="253" alt="Screenshot 2026-06-10 at 10 46 47 PM" src="https://github.com/user-attachments/assets/c5811ce7-a7cf-413c-8bf1-599171c87300" />
+
+<img width="1061" height="312" alt="Screenshot 2026-06-10 at 10 47 01 PM" src="https://github.com/user-attachments/assets/c3f34e32-a707-43b7-9975-878c4a4dd534" />
+
+<img width="1300" height="770" alt="Screenshot 2026-06-10 at 10 47 46 PM" src="https://github.com/user-attachments/assets/341cf892-987c-4f83-9436-433a64f19a4f" />
+
+
