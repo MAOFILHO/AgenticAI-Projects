@@ -7,7 +7,7 @@ on:
 jobs:
   smoke:
     runs-on: ubuntu-latest
-# 💡 ADD THIS SECTION TO POINT TO YOUR SUB-FOLDER
+
     defaults:
       run:
         working-directory: ./RAG-Evaluation-Project
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-with-version: '3.11' # Or whichever version you use
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
