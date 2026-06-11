@@ -27,4 +27,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Smoke Tests
+        env:
+          # 💡 Injecting dummy/mock strings prevents python-dotenv crashes
+          OPENAI_API_KEY: "mock-key-for-testing"
+          ENV: "testing"
+        # 💡 Running through 'python -m pytest' automatically adds the current directory to sys.path
         run: python -m pytest tests/test_smoke.py -v -l

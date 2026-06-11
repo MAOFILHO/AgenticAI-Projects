@@ -1,13 +1,8 @@
 name: Continuous RAG Evaluation
 
-# Continuous evaluation + regression testing: runs the full pattern comparison
-# pipeline on a schedule (and on demand), then fails the job if any metric
-# regressed beyond the thresholds in src/config.py compared to the committed
-# outputs/baseline.json.
-
 on:
   schedule:
-    - cron: "0 6 * * 1" # weekly, Monday 06:00 UTC
+    - cron: "0 6 * * 1"
   workflow_dispatch:
   push:
 
