@@ -210,17 +210,27 @@ def delete_knowledge_bases() -> None:
         else:
             print("  WARNING: KB did not finish deleting within 120s — S3 Vectors cleanup may fail.")
 
-    # Step 3: Now safe to delete S3 Vectors index and bucket
+    # Step 3: Now safe to delete S3 Vectors index(es) and bucket(s).
+    # Use list_vector_buckets so versioned names (_v2, _v3 …) are caught automatically.
+    base_bucket_prefix = f"{account_id}-{REGION}-kb-vector-bucket"
     try:
-        indexes = s3vectors.list_indexes(vectorBucketName=vector_bucket).get("indexes", [])
-        for idx in indexes:
-            s3vectors.delete_index(vectorBucketName=vector_bucket, indexName=idx["indexName"])
-            print(f"  Deleted S3 Vectors index: {idx['indexName']}")
-        s3vectors.delete_vector_bucket(vectorBucketName=vector_bucket)
-        print(f"  Deleted S3 Vectors bucket: {vector_bucket}")
-    except Exception as e:
-        if "NoSuchBucket" not in str(e) and "does not exist" not in str(e).lower():
-            print(f"  WARNING S3 Vectors: {e}")
+        all_buckets = s3vectors.list_vector_buckets().get("vectorBuckets", [])
+        project_buckets = [b["vectorBucketName"] for b in all_buckets
+                           if b.get("vectorBucketName", "").startswith(base_bucket_prefix)]
+    except Exception:
+        project_buckets = [base_bucket_prefix]  # fallback to base name
+
+    for vb in project_buckets:
+        try:
+            indexes = s3vectors.list_indexes(vectorBucketName=vb).get("indexes", [])
+            for idx in indexes:
+                s3vectors.delete_index(vectorBucketName=vb, indexName=idx["indexName"])
+                print(f"  Deleted S3 Vectors index: {idx['indexName']} (bucket: {vb})")
+            s3vectors.delete_vector_bucket(vectorBucketName=vb)
+            print(f"  Deleted S3 Vectors bucket: {vb}")
+        except Exception as e:
+            if "NoSuchBucket" not in str(e) and "does not exist" not in str(e).lower():
+                print(f"  WARNING S3 Vectors ({vb}): {e}")
 
 
 def delete_cloudwatch_log_groups() -> None:
@@ -258,72 +268,89 @@ SSM_PARAMS = [
 
 
 def run(dry_run: bool = False) -> None:
-    """Run Step 7: delete all project resources. Pass dry_run=True to preview only."""
+    """Run Step 7: delete all project resources. Pass dry_run=True to preview only.
+
+    Deletion order matters:
+      1. Empty S3 buckets   — CloudFormation cannot delete non-empty buckets
+      2. Delete CF stack     — Lambda Delete handler does KB → wait → S3 Vectors → SSM (KB)
+      3. KB fallback         — catch any KB the CF handler missed
+      4. AgentCore resources — Memory, Runtime, Gateway (independent of CF stack)
+      5. Build / container   — CodeBuild, ECR
+      6. Observability       — CloudWatch log groups
+      7. Remaining glue      — IAM roles, SSM params, Cognito, Secrets Manager, local files
+    """
     print("\n=== Step 7: Complete Resource Cleanup ===")
     if dry_run:
         print("  DRY RUN mode — no resources will be deleted.\n")
 
-    print(f"\n[Step 1/10] Deleting Bedrock Knowledge Base (Bedrock auto-deletes data sources)...")
-    print("  NOTE: KB must be fully deleted before S3 Vectors can be removed.")
-    if not dry_run:
-        delete_knowledge_bases()
-    else:
-        print("  [DRY RUN] Would delete KB, wait for completion, then delete S3 Vectors.")
-
-    print("\n[Step 2/10] Emptying and deleting S3 buckets...")
+    # ── 1 ── Empty S3 first so CloudFormation can delete the bucket
+    print("\n[Step 1/7] Emptying S3 buckets (required before CloudFormation stack deletion)...")
     if not dry_run:
         empty_and_track_s3_buckets()
     else:
         print("  [DRY RUN] Would empty and delete project S3 buckets.")
 
-    print("\n[Step 3/10] Deleting AgentCore Memory resource...")
+    # ── 2 ── CloudFormation stack deletion: the Lambda Delete handler handles
+    #         KB deletion → poll until gone → S3 Vectors cleanup → SSM KB params
+    print("\n[Step 2/7] Deleting CloudFormation prerequisite stack...")
+    print("  (Lambda Delete handler: KB → waits for deletion → S3 Vectors → SSM KB params)")
+    if not dry_run:
+        delete_cloudformation_stacks()
+    else:
+        print("  [DRY RUN] Would delete CloudFormation stack and wait for completion.")
+
+    # ── 3 ── Fallback: delete any KB the CF handler missed (e.g. already-stuck KBs)
+    print("\n[Step 3/7] Knowledge Base fallback cleanup (catches any CF-missed KBs)...")
+    if not dry_run:
+        delete_knowledge_bases()
+    else:
+        print("  [DRY RUN] Would check for and delete any remaining KBs and S3 Vectors.")
+
+    # ── 4 ── AgentCore resources (not in CF stack — created by steps 2–4)
+    print("\n[Step 4/7] Deleting AgentCore resources (Memory, Runtime, Gateway)...")
     if not dry_run:
         try:
             memory_id = get_ssm_parameter("/app/customersupport/agentcore/memory_id")
             agentcore_memory_cleanup(memory_id)
             print("  Memory deleted.")
         except Exception as e:
-            print(f"  Skipping: {e}")
+            print(f"  Memory: {e}")
 
-    print("\n[Step 4/10] Deleting AgentCore Runtime endpoint...")
-    if not dry_run:
         try:
             runtime_arn = get_ssm_parameter("/app/customersupport/agentcore/runtime_arn")
             runtime_resource_cleanup(runtime_arn)
             print("  Runtime endpoint deleted.")
         except Exception as e:
-            print(f"  Skipping: {e}")
+            print(f"  Runtime: {e}")
 
-    print("\n[Step 5/10] Deleting CodeBuild projects and IAM role...")
-    if not dry_run:
-        delete_codebuild_projects()
-
-    print("\n[Step 6/10] Deleting ECR repositories...")
-    if not dry_run:
-        delete_ecr_repositories()
-
-    print("\n[Step 7/10] Deleting CloudFormation stacks (Lambda, DynamoDB, IAM)...")
-    if not dry_run:
-        delete_cloudformation_stacks()
-
-    print("\n[Step 8/10] Deleting AgentCore Gateway and targets...")
-    if not dry_run:
         try:
             gateway_id = get_ssm_parameter("/app/customersupport/agentcore/gateway_id")
             gateway_target_cleanup(gateway_id)
             print("  Gateway deleted.")
         except Exception as e:
-            print(f"  Skipping: {e}")
+            print(f"  Gateway: {e}")
 
-    print("\n[Step 9/10] Deleting CloudWatch log groups and observability resources...")
+    # ── 5 ── Build / container artifacts
+    print("\n[Step 5/7] Deleting CodeBuild projects and ECR repositories...")
+    if not dry_run:
+        delete_codebuild_projects()
+        delete_ecr_repositories()
+    else:
+        print("  [DRY RUN] Would delete CodeBuild projects and ECR repositories.")
+
+    # ── 6 ── Observability
+    print("\n[Step 6/7] Deleting CloudWatch log groups and observability resources...")
     if not dry_run:
         delete_cloudwatch_log_groups()
         try:
             delete_observability_resources()
         except Exception as e:
             print(f"  WARNING: {e}")
+    else:
+        print("  [DRY RUN] Would delete CloudWatch log groups.")
 
-    print("\n[Step 10/10] Deleting IAM roles, SSM parameters, Cognito, and Secrets Manager...")
+    # ── 7 ── IAM, SSM, Cognito, Secrets Manager, local files
+    print("\n[Step 7/7] Deleting IAM roles, SSM parameters, Cognito, and Secrets Manager...")
     if not dry_run:
         try:
             delete_agentcore_runtime_execution_role()

@@ -57,9 +57,36 @@ def create_or_get_gateway(cognito_config: dict) -> dict:
         print(f"  Gateway created: {gateway_id}")
         return {"id": gateway_id, "name": GATEWAY_NAME, "gateway_url": resp["gatewayUrl"], "gateway_arn": resp["gatewayArn"]}
     except Exception:
-        existing_id = get_ssm_parameter("/app/customersupport/agentcore/gateway_id")
+        # Try SSM first; if missing, fall back to listing gateways by name
+        try:
+            existing_id = get_ssm_parameter("/app/customersupport/agentcore/gateway_id")
+        except Exception:
+            gateways = gateway_client.list_gateways().get("items", [])
+            match = next((g for g in gateways if g["name"] == GATEWAY_NAME), None)
+            if not match:
+                raise RuntimeError(f"Gateway '{GATEWAY_NAME}' not found and could not be created.")
+            existing_id = match["gatewayId"]
+            put_ssm_parameter("/app/customersupport/agentcore/gateway_id", existing_id)
         print(f"  Found existing gateway: {existing_id}")
         gw = gateway_client.get_gateway(gatewayIdentifier=existing_id)
+        # Update role + authorizer: the stored roleArn may be stale (CF stack replaced the role)
+        current_role_arn = get_ssm_parameter("/app/customersupport/agentcore/gateway_iam_role")
+        try:
+            gateway_client.update_gateway(
+                gatewayIdentifier=existing_id,
+                name=gw["name"],
+                roleArn=current_role_arn,
+                protocolType=gw["protocolType"],
+                authorizerType="CUSTOM_JWT",
+                authorizerConfiguration=auth_config,
+            )
+            print(f"  Gateway role and authorizer updated.")
+        except Exception as ue:
+            print(f"  Gateway update skipped: {ue}")
+        put_ssm_parameter("/app/customersupport/agentcore/gateway_id", existing_id)
+        put_ssm_parameter("/app/customersupport/agentcore/gateway_name", gw["name"])
+        put_ssm_parameter("/app/customersupport/agentcore/gateway_arn", gw["gatewayArn"])
+        put_ssm_parameter("/app/customersupport/agentcore/gateway_url", gw["gatewayUrl"])
         return {"id": existing_id, "name": gw["name"], "gateway_url": gw["gatewayUrl"], "gateway_arn": gw["gatewayArn"]}
 
 

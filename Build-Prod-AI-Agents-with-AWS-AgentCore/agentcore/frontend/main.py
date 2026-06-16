@@ -34,6 +34,13 @@ st.markdown(
         background: linear-gradient(180deg, #004e8c 0%, #0078d4 100%);
     }
     [data-testid="stSidebar"] * { color: #ffffff !important; }
+    /* Force option_menu container to be transparent so sidebar gradient shows */
+    [data-testid="stSidebar"] .nav { background-color: transparent !important; }
+    [data-testid="stSidebar"] .nav-pills { background-color: transparent !important; }
+    [data-testid="stSidebar"] .nav-link { color: #ffffff !important; }
+    [data-testid="stSidebar"] .nav-link:hover { background-color: rgba(255,255,255,0.2) !important; }
+    [data-testid="stSidebar"] .nav-link.active { background-color: rgba(255,255,255,0.3) !important; color: #ffffff !important; }
+    [data-testid="stSidebar"] .nav-link i { color: #ffffff !important; }
     [data-testid="stSidebar"] .stButton button {
         background: rgba(255,255,255,0.15);
         color: #fff !important;
@@ -103,16 +110,17 @@ with st.sidebar:
         icons=["chat-dots-fill", "person-circle", "gear-fill"],
         default_index=0,
         styles={
-            "container": {"padding": "0", "background-color": "transparent"},
-            "icon": {"color": "rgba(255,255,255,0.85)", "font-size": "14px"},
+            "container": {"padding": "4px", "background-color": "#004e8c"},
+            "icon": {"color": "#ffffff", "font-size": "14px"},
             "nav-link": {
-                "color": "rgba(255,255,255,0.85)",
+                "color": "#ffffff",
                 "font-size": "14px",
                 "padding": "8px 12px",
                 "border-radius": "6px",
+                "--hover-color": "rgba(255,255,255,0.2)",
             },
             "nav-link-selected": {
-                "background-color": "rgba(255,255,255,0.2)",
+                "background-color": "rgba(255,255,255,0.25)",
                 "color": "#ffffff",
                 "font-weight": "600",
             },

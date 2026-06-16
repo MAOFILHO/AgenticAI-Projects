@@ -1,4 +1,8 @@
-.PHONY: prereq run test smoke clean verify
+.PHONY: install prereq run test smoke clean verify
+
+install:
+	pip install -r requirements.txt
+	pip install -r agentcore/frontend/requirements.txt
 
 prereq:
 	python main.py --prereq

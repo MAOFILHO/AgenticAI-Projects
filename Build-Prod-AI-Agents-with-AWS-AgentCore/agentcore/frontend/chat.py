@@ -186,20 +186,31 @@ class ChatManager:
                 timeout=100,
                 stream=True,
             )
-            last_data = False
-            for line in response.iter_lines(chunk_size=1):
-                if line:
-                    line = line.decode("utf-8")
-                    if line.startswith("data: "):
-                        last_data = True
-                        line = line[6:]
-                        line = line.replace('"', "")
-                        yield line
-                    elif line:
-                        line = line.replace('"', "")
-                        if last_data:
-                            yield "\n" + line
-                        last_data = False
+            content_type = response.headers.get("content-type", "")
+            if "text/event-stream" in content_type:
+                last_data = False
+                for line in response.iter_lines(chunk_size=1):
+                    if line:
+                        line = line.decode("utf-8")
+                        if line.startswith("data: "):
+                            last_data = True
+                            line = line[6:]
+                            line = line.replace('"', "")
+                            yield line
+                        elif line:
+                            line = line.replace('"', "")
+                            if last_data:
+                                yield "\n" + line
+                            last_data = False
+            else:
+                # Non-streaming JSON response — yield the whole body
+                text = response.text.strip()
+                if text:
+                    # Strip outer JSON string quotes if present
+                    if text.startswith('"') and text.endswith('"'):
+                        text = text[1:-1]
+                    text = text.replace("\\n", "\n").replace('\\"', '"').replace("\\\\", "\\")
+                    yield text
 
         except requests.exceptions.RequestException as e:
             print("Failed to invoke agent endpoint: %s", str(e))

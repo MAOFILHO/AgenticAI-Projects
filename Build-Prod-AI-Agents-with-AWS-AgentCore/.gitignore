@@ -29,10 +29,15 @@ cdk.out/
 # Knowledge base data (downloaded from S3)
 knowledge_base_data/
 
-# Starter toolkit generated files
+# Starter toolkit generated files (account-specific, not portable)
 .bedrock_agentcore/
+.bedrock_agentcore.yaml
 agentcore.yaml
 Dockerfile
+
+# Build artifacts (binary — use S3/CI instead)
+lambda.zip
+*.zip
 
 # macOS
 .DS_Store

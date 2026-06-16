@@ -862,16 +862,90 @@ Resources:
                   'S3Bucket': 'unknown',
                   'KnowledgeBaseId': 'not-created',
                   'DataSourceId': 'not-created',
+                  'VectorBucketName': 'not-created',
+                  'KnowledgeBaseName': 'not-created',
+                  'DataSourceName': 'not-created',
                   'ParameterStoreCreated': 'NO',
                   'Error': 'No error'
               }
               
               try:
                   if event['RequestType'] == 'Delete':
-                      response_data.update({
-                          'Status': 'DELETED',
-                          'Error': 'Stack deleted successfully'
-                      })
+                      import time
+                      account_id_del = context.invoked_function_arn.split(':')[4]
+                      region_del = context.invoked_function_arn.split(':')[3]
+                      stable_id = f"{account_id_del}-{region_del}-kb-setup"
+                      physical_id_received = event.get('PhysicalResourceId', '')
+
+                      # Guard: only run cleanup when the stable ID is being deleted (real stack
+                      # deletion). If PhysicalResourceId is the old log-stream path from a prior
+                      # run, this is a one-time transition no-op — skip ALL cleanup so the newly
+                      # created KB is not wiped.
+                      if physical_id_received != stable_id:
+                          print(f"Delete called for non-stable PhysicalResourceId ({physical_id_received!r}) — one-time transition, skipping cleanup.")
+                          response_data.update({'Status': 'SKIPPED', 'Error': 'Transition no-op'})
+                          cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data)
+                          return
+
+                      try:
+                          bedrock_del = boto3.client('bedrock-agent')
+                          s3v_del = boto3.client('s3vectors')
+                          ssm_del = boto3.client('ssm')
+                          base_kb_name = f"{account_id_del}-{region_del}-kb"
+                          base_vector_bucket = f"{account_id_del}-{region_del}-kb-vector-bucket"
+
+                          # Step 1: Delete all versioned KBs (base + _v2, _v3 …)
+                          kb_ids = []
+                          try:
+                              for kb in bedrock_del.list_knowledge_bases().get('knowledgeBaseSummaries', []):
+                                  name = kb.get('name', '')
+                                  if name == base_kb_name or name.startswith(f"{base_kb_name}-v"):
+                                      bedrock_del.delete_knowledge_base(knowledgeBaseId=kb['knowledgeBaseId'])
+                                      kb_ids.append(kb['knowledgeBaseId'])
+                                      print(f"KB deletion triggered: {name} ({kb['knowledgeBaseId']})")
+                          except Exception as e:
+                              print(f"KB deletion warning: {e}")
+
+                          # Step 2: Poll until all gone (max 180s)
+                          if kb_ids:
+                              for _ in range(36):
+                                  time.sleep(5)
+                                  remaining = bedrock_del.list_knowledge_bases().get('knowledgeBaseSummaries', [])
+                                  if not any(k['knowledgeBaseId'] in kb_ids for k in remaining):
+                                      print("All KBs deleted.")
+                                      break
+                              else:
+                                  print("WARNING: KBs did not finish deleting within 180s.")
+
+                          # Step 3: Delete all versioned S3 Vectors buckets
+                          try:
+                              all_vb = s3v_del.list_vector_buckets().get('vectorBuckets', [])
+                              for b in all_vb:
+                                  vb = b.get('vectorBucketName', '')
+                                  if vb == base_vector_bucket or vb.startswith(f"{base_vector_bucket}-v"):
+                                      try:
+                                          for idx in s3v_del.list_indexes(vectorBucketName=vb).get('indexes', []):
+                                              s3v_del.delete_index(vectorBucketName=vb, indexName=idx['indexName'])
+                                          s3v_del.delete_vector_bucket(vectorBucketName=vb)
+                                          print(f"Deleted S3 Vectors bucket: {vb}")
+                                      except Exception as e:
+                                          print(f"S3 Vectors cleanup warning ({vb}): {e}")
+                          except Exception as e:
+                              print(f"S3 Vectors list warning: {e}")
+
+                          # Step 4: Remove SSM parameters
+                          for param in [f"/{account_id_del}-{region_del}/kb/knowledge-base-id",
+                                        f"/{account_id_del}-{region_del}/kb/data-source-id"]:
+                              try:
+                                  ssm_del.delete_parameter(Name=param)
+                                  print(f"Deleted SSM: {param}")
+                              except Exception:
+                                  pass
+
+                      except Exception as e:
+                          print(f"Delete handler warning (non-fatal): {e}")
+
+                      response_data.update({'Status': 'DELETED', 'Error': 'Cleanup completed'})
                       cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data)
                       return
 
@@ -1139,84 +1213,120 @@ Resources:
                   
                   account_id = context.invoked_function_arn.split(':')[4]
                   region = context.invoked_function_arn.split(':')[3]
-                  
-                  vector_bucket_name = f"{account_id}-{region}-kb-vector-bucket"
-                  index_name = f"{account_id}-{region}-kb-vector-index"
-                  kb_name = f"{account_id}-{region}-kb"
-                  datasource_name = f"{account_id}-{region}-kb-datasource"
+
+                  # Stable physical resource ID — prevents CloudFormation from doing
+                  # CREATE+DELETE on every Version bump (which would nuke the live KB).
+                  # With a fixed ID, CF calls UPDATE instead of replace after first deploy.
+                  physical_id = f"{account_id}-{region}-kb-setup"
+
+                  # Auto-version KB name: skip names that are stuck (DELETE_UNSUCCESSFUL/DELETING).
+                  # Also reuse an existing ACTIVE versioned KB (e.g. _v2) instead of re-creating.
+                  base_name = f"{account_id}-{region}-kb"
+                  blocked_statuses = {'DELETE_UNSUCCESSFUL', 'DELETING'}
+                  existing_kbs = bedrock.list_knowledge_bases().get('knowledgeBaseSummaries', [])
+                  blocked_names = {kb['name'] for kb in existing_kbs if kb.get('status') in blocked_statuses}
+                  active_kbs = {kb['name']: kb['knowledgeBaseId'] for kb in existing_kbs
+                                if kb.get('status') == 'ACTIVE'}
+
+                  # Find the lowest version number whose name is not blocked
+                  version = 1
+                  kb_name = base_name
+                  while kb_name in blocked_names:
+                      version += 1
+                      kb_name = f"{base_name}-v{version}"
+
+                  suffix = "" if version == 1 else f"-v{version}"
+                  vector_bucket_name = f"{account_id}-{region}-kb-vector-bucket{suffix}"
+                  index_name = f"{account_id}-{region}-kb-vector-index{suffix}"
+                  datasource_name = f"{account_id}-{region}-kb-datasource{suffix}"
+
+                  # Check if the computed versioned name already has an ACTIVE KB → reuse it
+                  reuse_kb_id = active_kbs.get(kb_name)
+                  if reuse_kb_id:
+                      print(f"Reusing existing ACTIVE KB: {kb_name} ({reuse_kb_id})")
+                  else:
+                      print(f"Using KB name: {kb_name} (version={version})")
 
                   response_data.update({
                     'VectorBucketName': vector_bucket_name,
                     'KnowledgeBaseName': kb_name,
                     'DataSourceName': datasource_name
                   })
-                  
+
                   try:
-                      print(f"Creating S3 vector bucket: {vector_bucket_name}")
-                      s3vectors.create_vector_bucket(
-                          vectorBucketName=vector_bucket_name,
-                          encryptionConfiguration={'sseType': 'AES256'}
-                      )
-                      
-                      print(f"Creating vector index: {index_name}")
-                      s3vectors.create_index(
-                          vectorBucketName=vector_bucket_name,
-                          indexName=index_name,
-                          dimension=1024,
-                          distanceMetric='cosine',
-                          dataType='float32'
-                      )
-                      
+                      if reuse_kb_id:
+                          # ACTIVE KB already exists — find its data source and update SSM
+                          kb_id = reuse_kb_id
+                          ds_list = bedrock.list_data_sources(knowledgeBaseId=kb_id).get('dataSourceSummaries', [])
+                          ds_id = ds_list[0]['dataSourceId'] if ds_list else 'not-found'
+                          print(f"Found existing data source: {ds_id}")
+                      else:
+                          print(f"Creating S3 vector bucket: {vector_bucket_name}")
+                          s3vectors.create_vector_bucket(
+                              vectorBucketName=vector_bucket_name,
+                              encryptionConfiguration={'sseType': 'AES256'}
+                          )
+
+                          print(f"Creating vector index: {index_name}")
+                          s3vectors.create_index(
+                              vectorBucketName=vector_bucket_name,
+                              indexName=index_name,
+                              dimension=1024,
+                              distanceMetric='cosine',
+                              dataType='float32'
+                          )
+
                       index_arn = f"arn:aws:s3vectors:{region}:{account_id}:bucket/{vector_bucket_name}/index/{index_name}"
-                      
-                      print(f"Creating knowledge base: {kb_name}")
-                      kb_response = bedrock.create_knowledge_base(
-                          name=kb_name,
-                          roleArn=execution_role_arn,
-                          knowledgeBaseConfiguration={
-                              'type': 'VECTOR',
-                              'vectorKnowledgeBaseConfiguration': {
-                                  'embeddingModelArn': f'arn:aws:bedrock:{region}::foundation-model/amazon.titan-embed-text-v2:0',
-                                  'embeddingModelConfiguration': {
-                                      'bedrockEmbeddingModelConfiguration': {
-                                          'dimensions': 1024,
-                                          'embeddingDataType': 'FLOAT32'
+
+                      if not reuse_kb_id:
+                          print(f"Creating knowledge base: {kb_name}")
+                          kb_response = bedrock.create_knowledge_base(
+                              name=kb_name,
+                              roleArn=execution_role_arn,
+                              knowledgeBaseConfiguration={
+                                  'type': 'VECTOR',
+                                  'vectorKnowledgeBaseConfiguration': {
+                                      'embeddingModelArn': f'arn:aws:bedrock:{region}::foundation-model/amazon.titan-embed-text-v2:0',
+                                      'embeddingModelConfiguration': {
+                                          'bedrockEmbeddingModelConfiguration': {
+                                              'dimensions': 1024,
+                                              'embeddingDataType': 'FLOAT32'
+                                          }
+                                      }
+                                  }
+                              },
+                              storageConfiguration={
+                                  'type': 'S3_VECTORS',
+                                  's3VectorsConfiguration': {
+                                      'indexArn': index_arn
+                                  }
+                              }
+                          )
+
+                          kb_id = kb_response['knowledgeBase']['knowledgeBaseId']
+
+                          print(f"Creating data source: {datasource_name}")
+                          ds_response = bedrock.create_data_source(
+                              knowledgeBaseId=kb_id,
+                              name=datasource_name,
+                              dataSourceConfiguration={
+                                  'type': 'S3',
+                                  's3Configuration': {
+                                      'bucketArn': f"arn:aws:s3:::{data_bucket_name}"
+                                  }
+                              },
+                              vectorIngestionConfiguration={
+                                  'chunkingConfiguration': {
+                                      'chunkingStrategy': 'FIXED_SIZE',
+                                      'fixedSizeChunkingConfiguration': {
+                                          'maxTokens': 200,
+                                          'overlapPercentage': 10
                                       }
                                   }
                               }
-                          },
-                          storageConfiguration={
-                              'type': 'S3_VECTORS',
-                              's3VectorsConfiguration': {
-                                  'indexArn': index_arn
-                              }
-                          }
-                      )
-                      
-                      kb_id = kb_response['knowledgeBase']['knowledgeBaseId']
-                      
-                      print(f"Creating data source: {datasource_name}")
-                      ds_response = bedrock.create_data_source(
-                          knowledgeBaseId=kb_id,
-                          name=datasource_name,
-                          dataSourceConfiguration={
-                              'type': 'S3',
-                              's3Configuration': {
-                                  'bucketArn': f"arn:aws:s3:::{data_bucket_name}"
-                              }
-                          },
-                          vectorIngestionConfiguration={
-                              'chunkingConfiguration': {
-                                  'chunkingStrategy': 'FIXED_SIZE',
-                                  'fixedSizeChunkingConfiguration': {
-                                      'maxTokens': 200,
-                                      'overlapPercentage': 10
-                                  }
-                              }
-                          }
-                      )
-                      
-                      ds_id = ds_response['dataSource']['dataSourceId']
+                          )
+
+                          ds_id = ds_response['dataSource']['dataSourceId']
                       
                       response_data.update({
                           'KnowledgeBaseId': kb_id,
@@ -1261,7 +1371,7 @@ Resources:
                           })
                       
                       print("Electronics support knowledge base setup completed!")
-                      cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data)
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data, physical_id)
                       
                   except Exception as e:
                       print(f"Knowledge base creation failed: {str(e)}")
@@ -1311,11 +1421,19 @@ Resources:
                   - s3vectors:CreateIndex
                   - s3vectors:GetVectorBucket
                   - s3vectors:GetIndex
+                  - s3vectors:ListVectorBuckets
+                  - s3vectors:ListIndexes
+                  - s3vectors:DeleteIndex
+                  - s3vectors:DeleteVectorBucket
                 Resource: '*'
               - Effect: Allow
                 Action:
                   - bedrock:CreateKnowledgeBase
                   - bedrock:CreateDataSource
+                  - bedrock:ListKnowledgeBases
+                  - bedrock:ListDataSources
+                  - bedrock:GetKnowledgeBase
+                  - bedrock:DeleteKnowledgeBase
                 Resource: '*'
               - Effect: Allow
                 Action:
@@ -1325,6 +1443,7 @@ Resources:
                 Action:
                   - ssm:PutParameter
                   - ssm:GetParameter
+                  - ssm:DeleteParameter
                 Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/*'
 
   # Trigger the setup
@@ -1334,6 +1453,7 @@ Resources:
       ServiceToken: !GetAtt KnowledgeBaseSetupFunction.Arn
       BucketName: !Ref BedrockKnowledgeBaseDataBucket
       BedrockRoleArn: !GetAtt BedrockServiceRole.Arn
+      Version: "6"
 
 Outputs:
   S3DataBucketName:

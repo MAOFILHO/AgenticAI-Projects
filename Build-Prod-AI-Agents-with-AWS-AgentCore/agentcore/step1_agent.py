@@ -29,7 +29,7 @@ Your role is to:
 You have access to the following tools:
 1. get_return_policy() - For warranty and return policy questions
 2. get_product_info() - To get information about a specific product
-3. web_search() - To access current technical documentation, or for updated information.
+3. web_search() - To search the web for current prices, product reviews, availability, news, or any information that may have changed recently.
 4. get_technical_support() - For troubleshooting issues, setup guides, maintenance tips, and detailed technical assistance
 For any technical problems, setup questions, or maintenance concerns, always use the get_technical_support() tool as it contains our comprehensive technical documentation and step-by-step guides.
 
@@ -147,8 +147,8 @@ def get_product_info(product_type: str) -> str:
 
 
 @tool
-def web_search(keywords: str, region: str = "us-en", max_results: int = 5) -> str:
-    """Search the web for updated information.
+def web_search(keywords: str, region: str = "us-en", max_results: int = 3) -> str:
+    """Search the web for current prices, reviews, availability, or recent information.
 
     Args:
         keywords (str): The search query keywords.
@@ -162,7 +162,7 @@ def web_search(keywords: str, region: str = "us-en", max_results: int = 5) -> st
         if not results:
             return "No results found."
         return "\n\n".join(
-            f"{r.get('title', '')}\n{r.get('href', '')}\n{r.get('body', '')}"
+            f"{r.get('title', '')}\n{r.get('href', '')}\n{r.get('body', '')[:300]}"
             for r in results
         )
     except RatelimitException:
@@ -214,30 +214,54 @@ def _ensure_knowledge_base(account_id: str, region: str) -> tuple[str, str]:
     kb_param = f"/{account_id}-{region}/kb/knowledge-base-id"
     ds_param = f"/{account_id}-{region}/kb/data-source-id"
 
-    # Try to reuse existing KB from SSM
+    # Try to reuse existing KB from SSM — only if it is in a usable state
+    _unusable = {"DELETE_UNSUCCESSFUL", "DELETING", "FAILED"}
     try:
         kb_id = ssm.get_parameter(Name=kb_param)["Parameter"]["Value"]
         ds_id = ssm.get_parameter(Name=ds_param)["Parameter"]["Value"]
-        # Verify the KB actually exists
-        bedrock.get_knowledge_base(knowledgeBaseId=kb_id)
-        print(f"  Found existing Knowledge Base: {kb_id}")
-        return kb_id, ds_id
+        kb_info = bedrock.get_knowledge_base(knowledgeBaseId=kb_id)["knowledgeBase"]
+        status = kb_info.get("status", "")
+        if status in _unusable:
+            print(f"  KB {kb_id} is in unusable state ({status}) — creating a new versioned KB.")
+        else:
+            print(f"  Found existing Knowledge Base: {kb_id} (status: {status})")
+            return kb_id, ds_id
     except Exception:
         pass
 
-    # KB is missing — create it using resources from the CF stack
-    kb_name = f"{account_id}-{region}-kb"
-    ds_name = f"{account_id}-{region}-kb-datasource"
-    vector_bucket = f"{account_id}-{region}-kb-vector-bucket"
+    # KB is missing — create it using resources from the CF stack.
+    # Auto-version: if base name is stuck (DELETE_UNSUCCESSFUL/DELETING), use _v2, _v3, …
+    base_name = f"{account_id}-{region}-kb"
+    blocked_statuses = {"DELETE_UNSUCCESSFUL", "DELETING"}
+    existing_kbs = bedrock.list_knowledge_bases().get("knowledgeBaseSummaries", [])
+    blocked_names = {kb["name"] for kb in existing_kbs if kb.get("status") in blocked_statuses}
+
+    version = 1
+    kb_name = base_name
+    while kb_name in blocked_names:
+        version += 1
+        kb_name = f"{base_name}-v{version}"
+    if version > 1:
+        print(f"  Base KB name blocked — using versioned name: {kb_name}")
+
+    suffix = "" if version == 1 else f"-v{version}"
+    ds_name = f"{account_id}-{region}-kb-datasource{suffix}"
+    vector_bucket = f"{account_id}-{region}-kb-vector-bucket{suffix}"
     data_bucket = f"{account_id}-{region}-kb-data-bucket"
     bedrock_role_arn = f"arn:aws:iam::{account_id}:role/{account_id}-{region}-kb-bedrock-service-role"
     embed_model_arn = f"arn:aws:bedrock:{region}::foundation-model/amazon.titan-embed-text-v2:0"
 
-    index_name = f"{account_id}-{region}-kb-vector-index"
+    index_name = f"{account_id}-{region}-kb-vector-index{suffix}"
     index_arn = f"arn:aws:s3vectors:{region}:{account_id}:bucket/{vector_bucket}/index/{index_name}"
 
-    # Ensure the S3 Vectors index exists inside the vector bucket
+    # Ensure the S3 Vectors bucket and index exist
     s3vectors = boto3.client("s3vectors", region_name=region)
+    try:
+        s3vectors.create_vector_bucket(vectorBucketName=vector_bucket)
+        print(f"  Created S3 Vectors bucket '{vector_bucket}'.")
+    except s3vectors.exceptions.ConflictException:
+        print(f"  S3 Vectors bucket '{vector_bucket}' already exists.")
+
     existing = s3vectors.list_indexes(vectorBucketName=vector_bucket).get("indexes", [])
     if not any(i["indexName"] == index_name for i in existing):
         print(f"  Creating S3 Vectors index '{index_name}'...")

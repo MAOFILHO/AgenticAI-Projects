@@ -8,6 +8,7 @@ from agentcore.step1_agent import (
     get_product_info,
     get_return_policy,
     get_technical_support,
+    web_search,
 )
 from agentcore.step2_memory import (
     ACTOR_ID,
@@ -30,11 +31,8 @@ REGION = boto3.session.Session().region_name
 # Step 1: Create the Bedrock model
 model = BedrockModel(model_id=MODEL_ID)
 
-# Step 2: Initialize memory via hooks
+# Load memory ID once at startup
 memory_id = get_ssm_parameter("/app/customersupport/agentcore/memory_id")
-memory_hooks = CustomerSupportMemoryHooks(
-    memory_id, memory_client, ACTOR_ID, SESSION_ID
-)
 
 # Initialize the AgentCore Runtime App
 app = BedrockAgentCoreApp()  #### AGENTCORE RUNTIME - LINE 2 ####
@@ -47,6 +45,15 @@ async def invoke(payload, context=None):
 
     # Access request headers - handle None case
     request_headers = context.request_headers or {}
+
+    # Per-request actor_id and session_id — keeps each user's memory isolated
+    actor_id = payload.get("actor_id", ACTOR_ID)
+    session_id = request_headers.get(
+        "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", SESSION_ID
+    )
+    memory_hooks = CustomerSupportMemoryHooks(
+        memory_id, memory_client, actor_id, session_id
+    )
 
     # Get Client JWT token
     auth_header = request_headers.get("Authorization", "")
@@ -81,9 +88,10 @@ async def invoke(payload, context=None):
                     get_product_info,
                     get_return_policy,
                     get_technical_support,
+                    web_search,
                 ] + mcp_client.list_tools_sync()
 
-                # Create the agent with all customer support tools
+                # Create the agent with per-request memory hooks
                 agent = Agent(
                     model=model,
                     tools=tools,

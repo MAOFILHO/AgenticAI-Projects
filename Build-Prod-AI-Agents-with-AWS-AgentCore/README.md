@@ -225,6 +225,15 @@ Total cold-build time: ~15 minutes for the first deployment; subsequent redeploy
 
 Launches a Streamlit chat application that authenticates users via Cognito OAuth, obtains a bearer token, and routes all messages through the AgentCore Runtime endpoint. The Contoso-branded portal includes sidebar navigation (Chat / Profile / Settings), a Logout button, and a Settings page showing live SSM configuration values.
 
+**Login credentials** (provisioned automatically by Step 2 / `get_or_create_cognito_pool()`):
+
+| Field | Value |
+|---|---|
+| Username | `testuser` |
+| Password | `MyPassword123!` |
+
+> These credentials are created programmatically — no AWS Console setup required.
+
 ### Step 6 — Observability
 
 Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWatch log groups, and runs the agent under `opentelemetry-instrument` for automatic trace capture. Traces appear in **CloudWatch → Application Signals → GenAI Observability**.
@@ -295,8 +304,8 @@ Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWat
 - **Python 3.12** (required — must match the ARM64 container base image `python3.12-bookworm-slim`)
 - **Homebrew** (macOS) to install Python 3.12 without changing your system default
 - **AWS CLI** configured (`aws configure`) with credentials for `us-east-1`
-- **Docker** running locally (used by the starter toolkit for ARM64 builds)
 - **bash** (for the CloudFormation deployment script)
+- **Docker** — optional; Step 4 defaults to AWS CodeBuild (ARM64 build in the cloud). Install Docker only if you want a local build.
 
 AWS model access is auto-enabled on first invocation — no Console steps required.
 
@@ -338,8 +347,12 @@ You should see `(.venv)` in your terminal prompt before continuing.
 
 ```bash
 pip install --upgrade pip
-pip install -r requirements.txt
+make install
 ```
+
+This installs both requirement files in one command:
+- `requirements.txt` — core agent packages (also bundled into the Docker container)
+- `agentcore/frontend/requirements.txt` — Streamlit UI packages (local only, not in the container)
 
 > `pytest` is included in `requirements.txt` — no separate install needed.
 
@@ -355,13 +368,21 @@ aws sts get-caller-identity
 
 ### Option A — Makefile (recommended)
 
+Full sequence from a fresh clone:
+
 ```bash
-make prereq    # Deploy CloudFormation infrastructure
+make install   # Install all Python dependencies (core + frontend)
+make prereq    # Deploy CloudFormation infrastructure (KB, S3 Vectors, IAM, Lambda)
 make run       # Run all 6 pipeline steps (Steps 1–6)
-make test      # Run unit tests (no AWS required)
 make smoke     # Run end-to-end smoke tests (requires Step 4 deployed)
 make clean     # Delete all AWS resources
 make verify    # Audit all 15 resource types for cleanup
+```
+
+Other useful commands:
+
+```bash
+make test      # Unit tests — no AWS credentials required
 ```
 
 ### Option B — CLI directly
@@ -492,6 +513,18 @@ make smoke
 # or:
 pytest tests/smoke_test.py -v
 ```
+
+The smoke suite runs **24 tests across 7 layers** of the stack:
+
+| Test class | What it checks |
+|---|---|
+| `TestInfrastructure` | SSM parameters, S3 documents, DynamoDB tables (ACTIVE), Lambda (Active) |
+| `TestKnowledgeBase` | KB is ACTIVE, data source AVAILABLE, semantic retrieval returns results |
+| `TestCognitoAuth` | User pool exists, `testuser` CONFIRMED, bearer token obtained |
+| `TestGateway` | Gateway READY, Lambda target registered and READY |
+| `TestMemory` | Memory resource exists and is accessible |
+| `TestRuntime` | Endpoint READY, ARN in SSM, basic invocation succeeds |
+| `TestAgentFlows` | Return policy, product info, KB retrieval, web search, warranty check, multi-turn memory |
 
 ---
 
