@@ -1,11 +1,11 @@
 """
 Local agent script for AgentCore Observability demo.
 
-Runs the Lab 1 Strands agent under opentelemetry-instrument so traces
+Runs the Step 1 Strands agent under opentelemetry-instrument so traces
 are sent to CloudWatch GenAI Observability. Not the Runtime container
 entrypoint — this is a standalone local script.
 
-Usage (called by lab_observability.py):
+Usage (called by step6_observability.py):
   opentelemetry-instrument python runtime/observability_agent.py --session-id "session-1234"
 """
 import argparse
@@ -17,7 +17,7 @@ from opentelemetry import baggage, context
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from agentcore.lab1_agent import MODEL_ID, SYSTEM_PROMPT, build_agent
+from agentcore.step1_agent import MODEL_ID, SYSTEM_PROMPT, build_agent
 
 
 def parse_arguments():

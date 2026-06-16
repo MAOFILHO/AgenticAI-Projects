@@ -2,12 +2,12 @@
 AgentCore Customer Support — CLI Orchestrator
 
 Usage:
-  python main.py --lab all           # Run all labs in sequence (1 → 6)
-  python main.py --lab 1             # Run only Lab 1
-  python main.py --lab 1 2 3         # Run Labs 1, 2, and 3
-  python main.py --cleanup           # Run cleanup (delete all AWS resources)
-  python main.py --cleanup --dry-run # Preview cleanup without deleting
-  python main.py --prereq            # Run prerequisite infrastructure setup only
+  python main.py --step all           # Run all steps in sequence (1 → 6)
+  python main.py --step 1             # Run only Step 1
+  python main.py --step 1 2 3         # Run Steps 1, 2, and 3
+  python main.py --cleanup            # Run cleanup (delete all AWS resources)
+  python main.py --cleanup --dry-run  # Preview cleanup without deleting
+  python main.py --prereq             # Run prerequisite infrastructure setup only
 """
 import argparse
 import os
@@ -18,12 +18,12 @@ import time
 
 BANNER = """
 ╔══════════════════════════════════════════════════════════════╗
-║    AgentCore Customer Support — Automated Python Project     ║
-║    Prototype → Production on AWS Bedrock AgentCore           ║
+║    AWS Bedrock AgentCore — Customer Support Agent            ║
+║    7-Step Production Pipeline  |  us-east-1                  ║
 ╚══════════════════════════════════════════════════════════════╝
 """
 
-LAB_DESCRIPTIONS = {
+STEP_DESCRIPTIONS = {
     1: "Prototype Agent    — Sync Knowledge Base, run local agent with 4 tools",
     2: "AgentCore Memory   — Persistent customer memory across sessions",
     3: "Gateway & Identity — Shared MCP tools via JWT-secured gateway",
@@ -54,43 +54,43 @@ def run_prereq() -> None:
     print("\n  Prerequisites deployed successfully.")
 
 
-def run_lab(lab_num: int) -> None:
-    """Import and run the specified lab module."""
+def run_step(step_num: int) -> None:
+    """Import and run the specified step module."""
     start = time.time()
-    step(f"LAB {lab_num}: {LAB_DESCRIPTIONS[lab_num]}")
+    step(f"STEP {step_num}: {STEP_DESCRIPTIONS[step_num]}")
 
-    if lab_num == 1:
-        from agentcore.lab1_agent import run
-    elif lab_num == 2:
-        from agentcore.lab2_memory import run
-    elif lab_num == 3:
-        from agentcore.lab3_gateway import run
-    elif lab_num == 4:
-        from agentcore.lab4_runtime import run
-    elif lab_num == 5:
-        from agentcore.lab5_frontend import run
-    elif lab_num == 6:
-        from agentcore.lab_observability import run
+    if step_num == 1:
+        from agentcore.step1_agent import run
+    elif step_num == 2:
+        from agentcore.step2_memory import run
+    elif step_num == 3:
+        from agentcore.step3_gateway import run
+    elif step_num == 4:
+        from agentcore.step4_runtime import run
+    elif step_num == 5:
+        from agentcore.step5_frontend import run
+    elif step_num == 6:
+        from agentcore.step6_observability import run
     else:
-        raise ValueError(f"Unknown lab number: {lab_num}")
+        raise ValueError(f"Unknown step number: {step_num}")
 
     run()
     elapsed = time.time() - start
-    print(f"\n  Lab {lab_num} finished in {elapsed:.0f}s.")
+    print(f"\n  Step {step_num} finished in {elapsed:.0f}s.")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="AgentCore Customer Support — automated lab runner",
+        description="AgentCore Customer Support — production pipeline runner",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
-        "--lab",
+        "--step",
         nargs="+",
         metavar="N",
-        help="Lab number(s) to run (1-5), or 'all'",
+        help="Step number(s) to run (1-6), or 'all'",
     )
     group.add_argument(
         "--cleanup",
@@ -110,7 +110,7 @@ def main() -> None:
     parser.add_argument(
         "--skip-prereq",
         action="store_true",
-        help="Skip prerequisite infrastructure check before running labs",
+        help="Skip prerequisite infrastructure check before running steps",
     )
 
     args = parser.parse_args()
@@ -125,30 +125,30 @@ def main() -> None:
 
         elif args.cleanup:
             step("CLEANUP: Delete all project AWS resources")
-            from agentcore.lab6_cleanup import run
+            from agentcore.step7_cleanup import run
             run(dry_run=args.dry_run)
 
         else:
-            # --lab N [N ...]
-            lab_args = args.lab
-            if lab_args == ["all"]:
-                labs_to_run = [1, 2, 3, 4, 5, 6]
+            # --step N [N ...]
+            step_args = args.step
+            if step_args == ["all"]:
+                steps_to_run = [1, 2, 3, 4, 5, 6]
             else:
                 try:
-                    labs_to_run = sorted(set(int(n) for n in lab_args))
+                    steps_to_run = sorted(set(int(n) for n in step_args))
                 except ValueError:
-                    parser.error("--lab expects integers 1-6 or 'all'")
+                    parser.error("--step expects integers 1-6 or 'all'")
 
-            invalid = [n for n in labs_to_run if n not in range(1, 7)]
+            invalid = [n for n in steps_to_run if n not in range(1, 7)]
             if invalid:
-                parser.error(f"Invalid lab numbers: {invalid}. Valid range: 1-6.")
+                parser.error(f"Invalid step numbers: {invalid}. Valid range: 1-6.")
 
-            # Run prereq automatically before Lab 1 unless skipped
-            if 1 in labs_to_run and not args.skip_prereq:
+            # Run prereq automatically before Step 1 unless skipped
+            if 1 in steps_to_run and not args.skip_prereq:
                 run_prereq()
 
-            for lab_num in labs_to_run:
-                run_lab(lab_num)
+            for step_num in steps_to_run:
+                run_step(step_num)
 
         elapsed = time.time() - overall_start
         print(f"\n{'=' * 64}")

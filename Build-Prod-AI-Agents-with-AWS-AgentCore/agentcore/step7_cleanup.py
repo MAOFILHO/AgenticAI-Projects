@@ -1,7 +1,7 @@
 """
-Lab 6: Complete Resource Cleanup
+Step 7: Complete Resource Cleanup
 
-Deletes all AWS resources created across Labs 1-5 to avoid ongoing charges.
+Deletes all AWS resources created across Steps 1-6 to avoid ongoing charges.
 Runs non-interactively (no manual confirmation prompts).
 """
 import boto3
@@ -258,8 +258,8 @@ SSM_PARAMS = [
 
 
 def run(dry_run: bool = False) -> None:
-    """Run Lab 6: delete all project resources. Pass dry_run=True to preview only."""
-    print("\n=== Lab 6: Complete Resource Cleanup ===")
+    """Run Step 7: delete all project resources. Pass dry_run=True to preview only."""
+    print("\n=== Step 7: Complete Resource Cleanup ===")
     if dry_run:
         print("  DRY RUN mode — no resources will be deleted.\n")
 
@@ -361,4 +361,4 @@ def run(dry_run: bool = False) -> None:
         except Exception as e:
             print(f"  WARNING local cleanup: {e}")
 
-    print("\n=== Lab 6 complete — all resources cleaned up ===\n")
+    print("\n=== Step 7 complete — all resources cleaned up ===\n")

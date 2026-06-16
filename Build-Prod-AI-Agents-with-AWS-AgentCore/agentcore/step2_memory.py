@@ -1,5 +1,5 @@
 """
-Lab 2: AgentCore Memory
+Step 2: AgentCore Memory
 
 Creates a managed memory resource with USER_PREFERENCE and SEMANTIC strategies,
 seeds historical customer interactions, and attaches memory hooks to the agent.
@@ -18,7 +18,7 @@ from strands.models import BedrockModel
 
 from agentcore import AWS_REGION as REGION
 from agentcore.utils import get_ssm_parameter, put_ssm_parameter
-from agentcore.lab1_agent import (
+from agentcore.step1_agent import (
     SYSTEM_PROMPT, MODEL_ID,
     get_product_info, get_return_policy, web_search, get_technical_support,
 )
@@ -188,8 +188,8 @@ def build_memory_agent(memory_id: str, customer_id: str, session_id: str) -> Age
 
 
 def run() -> None:
-    """Run Lab 2: create memory, seed history, and demonstrate personalized recall."""
-    print("\n=== Lab 2: AgentCore Memory ===")
+    """Run Step 2: create memory, seed history, and demonstrate personalized recall."""
+    print("\n=== Step 2: AgentCore Memory ===")
 
     print("\n[Step 1/4] Creating or retrieving AgentCore Memory resource...")
     memory_id = create_or_get_memory_resource()
@@ -215,4 +215,4 @@ def run() -> None:
     print("-" * 60)
     agent("What is my preferred laptop brand and requirements?")
 
-    print("\n=== Lab 2 complete ===\n")
+    print("\n=== Step 2 complete ===\n")

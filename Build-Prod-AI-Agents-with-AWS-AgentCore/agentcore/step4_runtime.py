@@ -1,5 +1,5 @@
 """
-Lab 4: AgentCore Runtime Deployment
+Step 4: AgentCore Runtime Deployment
 
 Configures and launches the agent to AgentCore Runtime using the starter toolkit,
 polls until the endpoint is READY, then runs test invocations.
@@ -103,11 +103,11 @@ def run_test_invocations(runtime: Runtime, bearer_token: str) -> None:
 
 
 def run() -> None:
-    """Run Lab 4: deploy agent to AgentCore Runtime and invoke it."""
-    print("\n=== Lab 4: AgentCore Runtime Deployment ===")
+    """Run Step 4: deploy agent to AgentCore Runtime and invoke it."""
+    print("\n=== Step 4: AgentCore Runtime Deployment ===")
 
     print("\n[Step 1/5] Ensuring memory resource exists (required by runtime entrypoint)...")
-    from agentcore.lab2_memory import create_or_get_memory_resource
+    from agentcore.step2_memory import create_or_get_memory_resource
     memory_id = create_or_get_memory_resource()
     print(f"  Memory ID: {memory_id}")
 
@@ -127,6 +127,6 @@ def run() -> None:
     print("\n[Step 5/5] Running test invocations against the live endpoint...")
     run_test_invocations(runtime, cognito_config["bearer_token"])
 
-    print("\n=== Lab 4 complete ===\n")
+    print("\n=== Step 4 complete ===\n")
     print(f"  Agent ARN saved to SSM: /app/customersupport/agentcore/runtime_arn")
     print(f"  Agent ARN: {agent_arn}")

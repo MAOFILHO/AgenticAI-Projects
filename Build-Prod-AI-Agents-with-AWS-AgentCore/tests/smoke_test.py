@@ -1,7 +1,7 @@
 """
 End-to-end smoke test — requires a fully deployed AgentCore Runtime.
 
-Run after completing Lab 4:
+Run after completing Step 4:
   python -m pytest tests/smoke_test.py -v
 """
 import os
@@ -23,13 +23,13 @@ def runtime_and_token():
         get_ssm_parameter,
         create_agentcore_runtime_execution_role,
     )
-    from agentcore.lab4_runtime import configure_runtime
+    from agentcore.step4_runtime import configure_runtime
 
-    # Verify runtime ARN exists in SSM — skip if Lab 4 hasn't been run
+    # Verify runtime ARN exists in SSM — skip if Step 4 hasn't been run
     try:
         get_ssm_parameter("/app/customersupport/agentcore/runtime_arn")
     except Exception:
-        pytest.skip("Runtime ARN not found in SSM — run Lab 4 first.")
+        pytest.skip("Runtime ARN not found in SSM — run Step 4 first.")
 
     cognito_config = get_or_create_cognito_pool(refresh_token=True)
     execution_role_arn = create_agentcore_runtime_execution_role()

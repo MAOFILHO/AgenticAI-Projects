@@ -1,5 +1,5 @@
 """
-Optional Lab: AgentCore Observability (OpenTelemetry)
+Step 6: AgentCore Observability (OpenTelemetry)
 
 Sets up CloudWatch log groups/streams and writes an .env file with OTEL config,
 then runs the agent under opentelemetry-instrument for automatic tracing to
@@ -80,8 +80,8 @@ def _console_urls(region: str) -> dict:
 
 
 def run() -> None:
-    """Run Lab 6: configure OTEL and run the agent under opentelemetry-instrument."""
-    print("\n=== Lab 6: AgentCore Observability (OpenTelemetry + CloudWatch) ===")
+    """Run Step 6: configure OTEL and run the agent under opentelemetry-instrument."""
+    print("\n=== Step 6: AgentCore Observability (OpenTelemetry + CloudWatch) ===")
 
     session = boto3.Session()
     region = session.region_name or "us-east-1"
@@ -132,7 +132,7 @@ def run() -> None:
         raise RuntimeError(f"Instrumented agent run failed: {e}") from e
 
     urls = _console_urls(region)
-    print("\n=== Lab 6 complete — View your telemetry ===\n")
+    print("\n=== Step 6 complete — View your telemetry ===\n")
     print("  Open these URLs in your browser:\n")
     for label, url in urls.items():
         print(f"  [{label}]")

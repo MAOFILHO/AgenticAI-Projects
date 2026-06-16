@@ -1,5 +1,5 @@
 """
-Lab 1: Customer Support Agent Prototype
+Step 1: Customer Support Agent Prototype
 
 Creates 4 tools (return policy, product info, web search, technical support),
 syncs the Bedrock Knowledge Base, then runs the agent against sample queries.
@@ -345,8 +345,8 @@ def build_agent() -> Agent:
 
 
 def run() -> None:
-    """Run Lab 1: sync knowledge base and test the prototype agent."""
-    print("\n=== Lab 1: Customer Support Agent Prototype ===")
+    """Run Step 1: sync knowledge base and test the prototype agent."""
+    print("\n=== Step 1: Customer Support Agent Prototype ===")
     print("Syncing knowledge base...")
     sync_knowledge_base()
 
@@ -363,4 +363,4 @@ def run() -> None:
         print("-" * 60)
         agent(q)
 
-    print("\n=== Lab 1 complete ===\n")
+    print("\n=== Step 1 complete ===\n")

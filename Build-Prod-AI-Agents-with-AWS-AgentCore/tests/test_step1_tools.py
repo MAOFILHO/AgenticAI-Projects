@@ -1,4 +1,4 @@
-"""Unit tests for Lab 1 tool functions (no AWS calls required)."""
+"""Unit tests for Step 1 tool functions (no AWS calls required)."""
 import sys
 import os
 
@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
 # Import just the pure functions; skip AWS-dependent ones
-from agentcore.lab1_agent import get_return_policy, get_product_info, web_search
+from agentcore.step1_agent import get_return_policy, get_product_info, web_search
 
 
 class TestGetReturnPolicy:

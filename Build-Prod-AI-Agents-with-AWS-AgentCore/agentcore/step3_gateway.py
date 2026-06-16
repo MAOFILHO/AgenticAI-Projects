@@ -1,5 +1,5 @@
 """
-Lab 3: AgentCore Gateway & Identity
+Step 3: AgentCore Gateway & Identity
 
 Creates an AgentCore Gateway with JWT (Cognito) authorization, registers a Lambda
 tool target, then runs the agent using MCP tools served through the gateway.
@@ -20,11 +20,11 @@ from agentcore.utils import (
     get_ssm_parameter,
     load_api_spec,
 )
-from agentcore.lab1_agent import (
+from agentcore.step1_agent import (
     SYSTEM_PROMPT, MODEL_ID,
     get_product_info, get_return_policy, get_technical_support,
 )
-from agentcore.lab2_memory import CustomerSupportMemoryHooks, create_or_get_memory_resource, memory_client, ACTOR_ID
+from agentcore.step2_memory import CustomerSupportMemoryHooks, create_or_get_memory_resource, memory_client, ACTOR_ID
 
 GATEWAY_NAME = "customersupport-gw"
 API_SPEC_FILE = os.path.join(os.path.dirname(__file__), "..", "prerequisite", "lambda", "api_spec.json")
@@ -102,8 +102,8 @@ def build_gateway_agent(gateway_url: str, bearer_token: str, memory_id: str) -> 
 
 
 def run() -> None:
-    """Run Lab 3: create gateway, register Lambda target, test agent via MCP."""
-    print("\n=== Lab 3: AgentCore Gateway & Identity ===")
+    """Run Step 3: create gateway, register Lambda target, test agent via MCP."""
+    print("\n=== Step 3: AgentCore Gateway & Identity ===")
 
     print("\n[Step 1/4] Setting up Cognito OAuth pool and obtaining bearer token...")
     cognito_config = get_or_create_cognito_pool(refresh_token=True)
@@ -120,7 +120,6 @@ def run() -> None:
     print("\n[Step 4/4] Running agent via MCP gateway with sample queries...")
     memory_id = create_or_get_memory_resource()
 
-    gateway_client_sdk = boto3.client("bedrock-agentcore-control", region_name=REGION)
     mcp_client = MCPClient(
         lambda: streamablehttp_client(
             gateway["gateway_url"],
@@ -144,4 +143,4 @@ def run() -> None:
             print("  " + "-" * 58)
             agent(prompt)
 
-    print("\n=== Lab 3 complete ===\n")
+    print("\n=== Step 3 complete ===\n")

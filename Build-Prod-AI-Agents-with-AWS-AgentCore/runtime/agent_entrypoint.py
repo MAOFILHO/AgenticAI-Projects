@@ -2,14 +2,14 @@ import boto3
 from bedrock_agentcore.runtime import (
     BedrockAgentCoreApp,
 )  # ### AGENTCORE RUNTIME - LINE 1 ####
-from agentcore.lab1_agent import (
+from agentcore.step1_agent import (
     MODEL_ID,
     SYSTEM_PROMPT,
     get_product_info,
     get_return_policy,
     get_technical_support,
 )
-from agentcore.lab2_memory import (
+from agentcore.step2_memory import (
     ACTOR_ID,
     SESSION_ID,
     CustomerSupportMemoryHooks,
@@ -27,10 +27,10 @@ sts_client = boto3.client("sts")
 # Get AWS account details
 REGION = boto3.session.Session().region_name
 
-# Lab1 import: Create the Bedrock model
+# Step 1: Create the Bedrock model
 model = BedrockModel(model_id=MODEL_ID)
 
-# Lab2 import : Initialize memory via hooks
+# Step 2: Initialize memory via hooks
 memory_id = get_ssm_parameter("/app/customersupport/agentcore/memory_id")
 memory_hooks = CustomerSupportMemoryHooks(
     memory_id, memory_client, ACTOR_ID, SESSION_ID

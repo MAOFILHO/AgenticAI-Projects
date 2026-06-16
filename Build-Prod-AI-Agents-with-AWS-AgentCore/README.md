@@ -1,6 +1,91 @@
-# AgentCore Customer Support — Production AI Agent on AWS
+# AWS Bedrock AgentCore — Customer Support Agent
 
-Designed and deployed a production-grade AI customer support agent on **AWS Bedrock AgentCore**, progressing through 5 labs from prototype to fully deployed cloud application. Built a **multi-layer agent architecture** (Knowledge Base retrieval, persistent long-term memory, JWT-secured tool gateway, ARM64 container runtime, and a Streamlit chat frontend) — all automated through a single Python CLI with zero AWS Console interaction required.
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-Bedrock_AgentCore-FF9900?logo=amazon-aws&logoColor=white)
+![Strands](https://img.shields.io/badge/Strands-Agents-6C3FC5?logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+Designed and deployed a production-grade AI customer support agent on **AWS Bedrock AgentCore**, progressing through a 7-step pipeline from local prototype to fully deployed cloud application. Built a **multi-layer agent architecture** (Knowledge Base retrieval, persistent long-term memory, JWT-secured tool gateway, ARM64 container runtime, OpenTelemetry observability, and a Streamlit chat frontend) — all automated through a single Python CLI with zero AWS Console interaction required.
+
+---
+
+## Why This Is Production-Grade
+
+This is not a notebook or a demo — it is a deployable system built on enterprise architectural patterns:
+
+- **ARM64 container build via CodeBuild** — no local Docker required; the cloud builds the image
+- **JWT/OAuth authentication at the gateway layer** — auth enforced by the platform, not in application code
+- **Cross-session long-term memory** — LTM extraction surfaces customer preferences without the customer repeating themselves
+- **Infrastructure-as-code** — CloudFormation with idempotent re-runs; every resource is reproducible
+- **Zero hardcoded credentials** — AWS CLI credential chain only; `.env` for config, never for secrets
+- **Full teardown + 15-resource audit script** — `bash scripts/verify_cleanup.sh` confirms a clean account
+
+---
+
+## 🔍 RAG Architecture — How the Agent Stays Grounded
+
+The `get_technical_support()` tool is backed by a real **Retrieval-Augmented Generation (RAG)** pipeline using Amazon Bedrock Knowledge Base. Agent responses are grounded in retrieved documents — not in the LLM's parametric memory — which eliminates hallucinations for product and policy questions.
+
+### Retrieval Flow
+
+```
+Customer query
+      │
+      ▼
+get_technical_support(issue_description)
+      │
+      ▼  embed query with Titan Embed Text v2 (1024 dims)
+Amazon Bedrock Knowledge Base
+      │
+      ▼  cosine similarity search against S3 Vectors index
+Top-3 passages  (score threshold: 0.4 minimum relevance)
+      │
+      ▼
+Strands Agent  ←  passages injected as tool result
+      │
+      ▼
+Grounded response citing only retrieved content
+```
+
+If no passage meets the 0.4 threshold, the agent automatically falls back to `web_search()` for live documentation — ensuring the customer always gets an answer.
+
+### Knowledge Base Documents
+
+Six technical documents are automatically provisioned into S3 and indexed at deploy time (via `KnowledgeBaseSetupFunction` in `prerequisite/infrastructure.yaml`):
+
+| Document | Covers |
+|---|---|
+| `troubleshooting-guide.txt` | Power failures, connectivity drops, performance degradation |
+| `laptop-maintenance-guide.txt` | Daily/weekly/monthly maintenance, thermal management |
+| `smartphone-setup-guide.txt` | Initial setup, security configuration, battery optimization |
+| `monitor-calibration-guide.txt` | Physical setup, display settings, color calibration |
+| `wireless-connectivity-guide.txt` | Wi-Fi and Bluetooth setup, interference troubleshooting |
+| `warranty-service-guide.txt` | Coverage details, claims process, service options |
+
+### Embedding & Vector Store
+
+| Parameter | Value |
+|---|---|
+| Embedding model | Amazon Titan Embed Text v2 |
+| Dimensions | 1024 |
+| Data type | FLOAT32 |
+| Similarity metric | Cosine |
+| Vector backend | Amazon S3 Vectors (native — no external vector DB) |
+| Ingestion | Bedrock `StartIngestionJob` → polled until `COMPLETE` |
+
+### Using Your Own Documents
+
+To ground the agent in real company data, replace the synthetic documents with your own PDFs, Markdown files, or TXT files:
+
+```bash
+# Upload your documents to the S3 data bucket
+aws s3 cp your-policy.pdf s3://{account}-{region}-kb-data-bucket/
+
+# Re-sync the Knowledge Base (re-embeds and re-indexes everything)
+python main.py --step 1
+```
+
+The pipeline is document-format agnostic — Bedrock KB handles PDF, DOCX, HTML, MD, and TXT natively.
 
 ---
 
@@ -8,7 +93,7 @@ Designed and deployed a production-grade AI customer support agent on **AWS Bedr
 
 An electronics e-commerce company handles thousands of customer support requests daily. Their current system requires human agents to manually look up product specs, interpret warranty policies, run troubleshooting guides, and check real-time order data — creating high cost, slow response times, and inconsistent answers.
 
-### Current Pain Point | Impact
+| Current Pain Point | Impact |
 |---|---|
 | Human agents handle every ticket | High cost, slow resolution |
 | Product and policy knowledge is siloed | Inconsistent answers across agents |
@@ -68,19 +153,22 @@ Build: CodeBuild (ARM64 + Docker)
 
 ---
 
-## 🧪 Five Labs — What Each Builds
+## 🧪 Seven-Step Production Pipeline
 
-| Lab | What You Build | Key Service |
-|-----|---------------|-------------|
-| **Lab 1** | Prototype agent: 4 tools + Bedrock Knowledge Base | Bedrock KB, Strands, S3 Vectors |
-| **Lab 2** | Persistent customer memory across sessions | AgentCore Memory, LTM extraction |
-| **Lab 3** | Shared tools via JWT-secured MCP gateway | AgentCore Gateway, Cognito, Lambda |
-| **Lab 4** | Production deployment with managed runtime | AgentCore Runtime, ECR, CodeBuild |
-| **Lab 5** | Customer-facing browser chat interface | Streamlit, Cognito auth |
-| **Lab 6** | OpenTelemetry tracing to CloudWatch GenAI dashboard | AgentCore Observability, OTEL |
-| **Cleanup** | Full resource teardown | All of the above |
+| Step | What You Build | Key Service |
+|------|---------------|-------------|
+| **Step 1** | Prototype agent: 4 tools + Bedrock Knowledge Base | Bedrock KB, Strands, S3 Vectors |
+| **Step 2** | Persistent customer memory across sessions | AgentCore Memory, LTM extraction |
+| **Step 3** | Shared tools via JWT-secured MCP gateway | AgentCore Gateway, Cognito, Lambda |
+| **Step 4** | Production deployment with managed runtime | AgentCore Runtime, ECR, CodeBuild |
+| **Step 5** | Customer-facing browser chat interface | Streamlit, Cognito auth |
+| **Step 6** | OpenTelemetry tracing to CloudWatch GenAI dashboard | AgentCore Observability, OTEL |
+| **Step 7** | Full resource teardown | All of the above |
 
-### Lab 1 — Prototype Agent & Knowledge Base
+### Step 1 — Prototype Agent & Knowledge Base
+
+![Step 1 Architecture — Local agent with 4 tools and Amazon Bedrock](images/architecture_lab1_strands.png)
+
 Creates 4 `@tool` functions using the Strands framework:
 - `get_return_policy(product_category)` — returns policy details by category
 - `get_product_info(product_type)` — retrieves specs for electronics products
@@ -89,17 +177,40 @@ Creates 4 `@tool` functions using the Strands framework:
 
 Automates the full Knowledge Base lifecycle: S3 Vectors index creation → Bedrock KB provisioning → S3 data source attachment → document ingestion job polling until COMPLETE.
 
-### Lab 2 — AgentCore Memory
+### Step 2 — AgentCore Memory
+
+![Step 2 Architecture — Agent with AgentCore Memory](images/architecture_lab2_memory.png)
+
 Creates a `CustomerSupportMemory` resource with two strategies:
 - `USER_PREFERENCE` — captures device and OS preferences from natural conversation
 - `SEMANTIC` — stores arbitrary support interactions for semantic retrieval
 
 Implements `CustomerSupportMemoryHooks(HookProvider)` that fires on every agent turn to retrieve context (MessageAddedEvent) and save interactions (AfterInvocationEvent). Seeded with fictional history, then polls until long-term memory extraction completes — demonstrating recall of "prefers Linux, uses ThinkPad" without the customer mentioning it again.
 
-### Lab 3 — AgentCore Gateway & MCP
+### Step 3 — AgentCore Gateway & MCP
+
+![Step 3 Architecture — Agent with Gateway, Cognito auth, and Lambda tools](images/architecture_lab3_gateway.png)
+
 Deploys a `customersupport-gw` endpoint with a `customJWTAuthorizer` backed by Cognito. Registers a Lambda-based warranty checker (reads DynamoDB) as an MCP tool schema. Demonstrates calling the warranty tool via MCPClient with the gateway URL — zero direct Lambda invocations from the agent code.
 
-### Lab 4 — AgentCore Runtime Deployment
+### Step 4 — AgentCore Runtime Deployment
+
+The starter toolkit automates the full build-and-deploy pipeline in two commands:
+
+**`configure`** — reads your agent code, framework decorators, and Identity/Observability config and generates a production-ready `Dockerfile`:
+
+![Starter toolkit configure step — agent code to Dockerfile](images/configure.png)
+
+**`launch`** — pushes the Dockerfile to CodeBuild, builds an ARM64 container image, pushes it to ECR, and deploys it to a managed AgentCore Runtime endpoint:
+
+![Starter toolkit launch step — Dockerfile through CodeBuild and ECR to Runtime](images/launch.png)
+
+**`invoke`** — sends requests through the Runtime endpoint with a bearer token, routing through the full container stack:
+
+![Invoke flow — agent code through Docker container to ECR repository](images/invoke.png)
+
+![Step 4 Architecture — Full runtime with observability, Gateway, and Memory](images/architecture_lab4_runtime.png)
+
 Uses the `bedrock-agentcore-starter-toolkit` `Runtime` class to:
 1. Generate a `Dockerfile` + `buildspec.yml` automatically
 2. Trigger a CodeBuild ARM64 build → push to ECR
@@ -108,8 +219,27 @@ Uses the `bedrock-agentcore-starter-toolkit` `Runtime` class to:
 
 Total cold-build time: ~15 minutes for the first deployment; subsequent redeploys reuse the ECR layer cache.
 
-### Lab 5 — Streamlit Frontend
-Launches a Streamlit chat application that authenticates users via Cognito OAuth, obtains a bearer token, and routes all messages through the AgentCore Runtime endpoint. Customers see a familiar chat interface while the agent silently applies memory, gateway tools, and KB retrieval on every turn.
+### Step 5 — Streamlit Frontend
+
+![Step 5 Architecture — Streamlit app connecting to the full AgentCore cloud stack](images/architecture_lab5_streamlit.png)
+
+Launches a Streamlit chat application that authenticates users via Cognito OAuth, obtains a bearer token, and routes all messages through the AgentCore Runtime endpoint. The Contoso-branded portal includes sidebar navigation (Chat / Profile / Settings), a Logout button, and a Settings page showing live SSM configuration values.
+
+### Step 6 — Observability
+
+Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWatch log groups, and runs the agent under `opentelemetry-instrument` for automatic trace capture. Traces appear in **CloudWatch → Application Signals → GenAI Observability**.
+
+**Agents view** — real-time metrics for sessions, traces, error rate, and P95 latency:
+
+![CloudWatch GenAI Observability — Agents view showing sessions, traces, and latency](images/observability_agents.png)
+
+**Sessions view** — per-session breakdown with trace count and latency per conversation:
+
+![CloudWatch GenAI Observability — Sessions view](images/sessions_lab5_observability.png)
+
+**Traces view** — end-to-end span detail for every agent invocation, tool call, and LLM round-trip:
+
+![CloudWatch GenAI Observability — Trace detail](images/traces_lab4_observability.png)
 
 ---
 
@@ -126,7 +256,7 @@ Launches a Streamlit chat application that authenticates users via Cognito OAuth
 | **Tool gateway** | Amazon Bedrock AgentCore Gateway (MCP protocol) |
 | **Production runtime** | Amazon Bedrock AgentCore Runtime |
 | **Container build** | AWS CodeBuild (ARM64) + Amazon ECR |
-| **Frontend** | Streamlit + `streamlit-cognito-auth` |
+| **Frontend** | Streamlit + `streamlit-cognito-auth` + `streamlit-option-menu` |
 | **Auth** | Amazon Cognito User Pool (JWT / OAuth 2.0) |
 | **Infrastructure** | AWS CloudFormation (Lambda, DynamoDB, Cognito, S3, IAM) |
 | **Config sharing** | AWS SSM Parameter Store |
@@ -154,8 +284,8 @@ Launches a Streamlit chat application that authenticates users via Cognito OAuth
 | **Amazon DynamoDB** | Warranty and product registration records |
 | **Amazon S3** | CloudFormation templates, Lambda ZIPs, KB documents |
 | **AWS CloudFormation** | Infrastructure-as-code for all shared resources |
-| **AWS SSM Parameter Store** | Cross-lab config sharing (KB IDs, gateway URLs, ARNs) |
-| **Amazon CloudWatch** | Logs + optional OTEL traces |
+| **AWS SSM Parameter Store** | Cross-step config sharing (KB IDs, gateway URLs, ARNs) |
+| **Amazon CloudWatch** | Logs + OTEL traces via Application Signals |
 | **AWS IAM** | Execution roles for Lambda, Runtime, Bedrock, CodeBuild |
 
 ---
@@ -190,7 +320,7 @@ brew install python@3.12
 
 ```bash
 # Navigate to the project directory
-cd Build-Prod-AI-Agents-with-AWS-AgentCore
+cd aws-bedrock-agentcore-customer-support
 
 # Create .venv explicitly using the brew-installed 3.12
 /opt/homebrew/opt/python@3.12/bin/python3.12 -m venv .venv
@@ -223,38 +353,51 @@ aws sts get-caller-identity
 
 ## 🚀 Running the Project
 
-### Run all labs end-to-end
+### Option A — Makefile (recommended)
 
 ```bash
-python main.py --lab all
+make prereq    # Deploy CloudFormation infrastructure
+make run       # Run all 6 pipeline steps (Steps 1–6)
+make test      # Run unit tests (no AWS required)
+make smoke     # Run end-to-end smoke tests (requires Step 4 deployed)
+make clean     # Delete all AWS resources
+make verify    # Audit all 15 resource types for cleanup
+```
+
+### Option B — CLI directly
+
+#### Run all steps end-to-end
+
+```bash
+python main.py --step all
 ```
 
 This runs in sequence:
 1. **Prerequisite** — deploys CloudFormation stacks (Lambda, DynamoDB, IAM, S3, Cognito)
-2. **Lab 1** — syncs the Knowledge Base, tests the prototype agent with 3 sample queries
-3. **Lab 2** — creates AgentCore Memory, seeds history, demonstrates personalization
-4. **Lab 3** — creates Gateway with JWT auth, tests MCP tools via Lambda
-5. **Lab 4** — builds ARM64 container, deploys to AgentCore Runtime (~15 min first run)
-6. **Lab 5** — launches Streamlit at `http://localhost:8501`
-7. **Lab 6** — configures OTEL tracing, runs instrumented agent, sends traces to CloudWatch
+2. **Step 1** — syncs the Knowledge Base, tests the prototype agent with 3 sample queries
+3. **Step 2** — creates AgentCore Memory, seeds history, demonstrates personalization
+4. **Step 3** — creates Gateway with JWT auth, tests MCP tools via Lambda
+5. **Step 4** — builds ARM64 container, deploys to AgentCore Runtime (~15 min first run)
+6. **Step 5** — launches Streamlit at `http://localhost:8501`
+7. **Step 6** — configures OTEL tracing, runs instrumented agent, sends traces to CloudWatch
 
-View traces after Lab 6 in: **CloudWatch → Application Signals → GenAI Observability**
+View traces after Step 6 in: **CloudWatch → Application Signals → GenAI Observability**
 
-### Run individual labs
+#### Run individual steps
 
 ```bash
 python main.py --prereq            # Deploy CloudFormation only
-python main.py --lab 1             # Lab 1 only
-python main.py --lab 2             # Lab 2 only
-python main.py --lab 3             # Lab 3 only
-python main.py --lab 4             # Lab 4 only (builds + deploys container)
-python main.py --lab 5             # Lab 5 only (Streamlit frontend)
-python main.py --lab 6             # Lab 6 only (Observability + CloudWatch)
-python main.py --lab 3 4           # Run Labs 3 and 4 in sequence
-python main.py --lab all --skip-prereq  # Skip CloudFormation, run labs only
+python main.py --step 1            # Step 1 only
+python main.py --step 2            # Step 2 only
+python main.py --step 3            # Step 3 only
+python main.py --step 4            # Step 4 only (builds + deploys container)
+python main.py --step 5            # Step 5 only (Streamlit frontend)
+python main.py --step 6            # Step 6 only (Observability + CloudWatch)
+python main.py --step 3 4          # Run Steps 3 and 4 in sequence
+python main.py --step all --skip-prereq  # Skip CloudFormation, run steps only
 ```
 
-### Cleanup — delete all AWS resources
+#### Cleanup — delete all AWS resources
 
 ```bash
 # Preview what will be deleted (nothing is removed)
@@ -264,13 +407,15 @@ python main.py --cleanup --dry-run
 python main.py --cleanup
 ```
 
-### Verify cleanup — confirm nothing is left behind
+#### Verify cleanup — confirm nothing is left behind
 
 ```bash
 bash scripts/verify_cleanup.sh
+# or:
+make verify
 ```
 
-This checks 15 resource types and prints a pass/fail report. If any items show ❌, some AWS services delete asynchronously — wait 30–60 seconds and re-run the script:
+This checks 15 resource types and prints a pass/fail report. If any items show ❌, some AWS services delete asynchronously — wait 30–60 seconds and re-run:
 
 | Service | Typical delete time |
 |---------|-------------------|
@@ -286,8 +431,9 @@ When all 15 checks show ✅, the account is fully clean.
 ## Project Structure
 
 ```
-agentcore-customer-support/
+aws-bedrock-agentcore-customer-support/
 ├── main.py                    # CLI entry point (argparse)
+├── Makefile                   # make run / test / clean / verify
 ├── requirements.txt           # Pinned dependencies
 ├── .env.example               # Environment variable template
 ├── .gitignore
@@ -298,20 +444,24 @@ agentcore-customer-support/
 ├── agentcore/                 # Main Python package
 │   ├── __init__.py            # AWS_REGION = "us-east-1"
 │   ├── utils.py               # Shared AWS utilities (Cognito, SSM, IAM)
-│   ├── lab1_agent.py          # 4 tools + KB lifecycle + prototype agent
-│   ├── lab2_memory.py         # AgentCore Memory + HookProvider
-│   ├── lab3_gateway.py        # AgentCore Gateway + MCP client
-│   ├── lab4_runtime.py        # Runtime deployment + test invocations
-│   ├── lab5_frontend.py       # Streamlit launcher
-│   ├── lab6_cleanup.py        # Full 9-step resource teardown
-│   ├── lab_observability.py   # OTEL + CloudWatch setup
+│   ├── step1_agent.py         # 4 tools + KB lifecycle + prototype agent
+│   ├── step2_memory.py        # AgentCore Memory + HookProvider
+│   ├── step3_gateway.py       # AgentCore Gateway + MCP client
+│   ├── step4_runtime.py       # Runtime deployment + test invocations
+│   ├── step5_frontend.py      # Streamlit launcher
+│   ├── step6_observability.py # OTEL + CloudWatch setup
+│   ├── step7_cleanup.py       # Full resource teardown
 │   └── frontend/              # Streamlit chat application
-│       ├── main.py
-│       ├── chat.py
-│       └── chat_utils.py
+│       ├── main.py            # Auth + Contoso sidebar nav + page routing
+│       ├── chat.py            # Streaming chat manager
+│       ├── chat_utils.py      # URL formatting helpers
+│       ├── profile.py         # Profile page (user info, session)
+│       ├── settings.py        # Settings page (SSM config, model info)
+│       └── requirements.txt   # Frontend-specific dependencies
 │
 ├── runtime/
-│   └── agent_entrypoint.py    # Container entrypoint packaged into AgentCore Runtime
+│   ├── agent_entrypoint.py    # Container entrypoint packaged into AgentCore Runtime
+│   └── observability_agent.py # Standalone OTEL demo script
 │
 ├── prerequisite/
 │   ├── infrastructure.yaml    # CloudFormation: Lambda, DynamoDB, S3, IAM
@@ -320,11 +470,11 @@ agentcore-customer-support/
 │
 ├── scripts/
 │   ├── prereq.sh              # Infrastructure deployment (CloudFormation)
-│   └── cleanup.sh             # Shell-based cleanup alternative
+│   └── verify_cleanup.sh      # 15-resource audit script
 │
 └── tests/
-    ├── test_lab1_tools.py     # Unit tests for tool functions (no AWS)
-    └── smoke_test.py          # End-to-end tests (requires Lab 4 deployed)
+    ├── test_step1_tools.py    # Unit tests for tool functions (no AWS)
+    └── smoke_test.py          # End-to-end tests (requires Step 4 deployed)
 ```
 
 ---
@@ -333,9 +483,13 @@ agentcore-customer-support/
 
 ```bash
 # Unit tests — no AWS credentials required
-pytest tests/test_lab1_tools.py -v
+make test
+# or:
+pytest tests/test_step1_tools.py -v
 
-# End-to-end smoke tests — requires Lab 4 to be deployed
+# End-to-end smoke tests — requires Step 4 to be deployed
+make smoke
+# or:
 pytest tests/smoke_test.py -v
 ```
 
@@ -347,14 +501,14 @@ All resources deploy to **`us-east-1`**. Override with:
 
 ```bash
 export AWS_DEFAULT_REGION=us-west-2
-python main.py --lab all
+python main.py --step all
 ```
 
 ---
 
 ## Cost Estimate
 
-Running all labs for a few hours (including one full CodeBuild ARM64 build):
+Running all steps for a few hours (including one full CodeBuild ARM64 build):
 
 | Resource | Estimated Cost |
 |----------|---------------|
@@ -363,7 +517,7 @@ Running all labs for a few hours (including one full CodeBuild ARM64 build):
 | Bedrock KB ingestion + queries | ~$0.50–2.00 |
 | AgentCore Memory storage + retrievals | ~$0.10–0.50 |
 | Lambda + DynamoDB + S3 + CloudFormation | ~$0.01–0.10 |
-| **Total (full lab run)** | **~$5–15 USD** |
+| **Total (full pipeline run)** | **~$5–15 USD** |
 
 Always run cleanup when done:
 
@@ -383,6 +537,7 @@ python main.py --cleanup
 | macOS creates files with `600` permissions | Added `chmod 644` fix; ARM64 container runs as non-root `bedrock_agentcore` user |
 | Container wasn't rebuilding after code changes | Added `force_rebuild=True` flag to `launch_and_wait()` |
 | SSM params pointed to deleted KB on re-run | Added `bedrock.get_knowledge_base()` validation before reusing SSM values |
+| KB stuck in `DELETE_UNSUCCESSFUL` | Fixed deletion order: delete KB first → poll until gone → delete S3 Vectors |
 
 ---
 
@@ -410,7 +565,7 @@ These estimates are grounded in real-world enterprise AgentCore and Bedrock depl
 
 ---
 
-## Architecture — Final State (Lab 6)
+## Architecture — Final State (Step 6)
 
 ```
 Customer
