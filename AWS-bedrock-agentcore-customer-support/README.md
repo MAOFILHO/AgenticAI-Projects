@@ -438,14 +438,15 @@ python main.py --step 3 4          # Run Steps 3 and 4 in sequence
 python main.py --step all --skip-prereq  # Skip CloudFormation, run steps only
 ```
 
-<img width="1023" height="638" alt="Screenshot 2026-06-16 at 12 35 14 AM" src="https://github.com/user-attachments/assets/3861f221-3e9a-4386-b58a-f5bec99cbe38" />
-<img width="1020" height="628" alt="Screenshot 2026-06-16 at 12 35 34 AM" src="https://github.com/user-attachments/assets/a4057d57-53eb-48bd-b7b8-b6281094e67a" />
-<img width="1036" height="644" alt="Screenshot 2026-06-16 at 12 35 56 AM" src="https://github.com/user-attachments/assets/1a8e874c-9647-43ca-8274-ebff6e55b598" />
-<img width="1022" height="644" alt="Screenshot 2026-06-16 at 12 36 15 AM" src="https://github.com/user-attachments/assets/284d2fed-9ae4-4e56-a7bf-cd7c216daa3d" />
-<img width="1033" height="645" alt="Screenshot 2026-06-16 at 12 36 32 AM" src="https://github.com/user-attachments/assets/e4ab3b2a-310d-4327-95e0-6d927292076e" />
-<img width="1029" height="644" alt="Screenshot 2026-06-16 at 12 37 04 AM" src="https://github.com/user-attachments/assets/5113595e-3884-4115-8bc8-b0fadfe72c8d" />
-<img width="1127" height="705" alt="Screenshot 2026-06-17 at 1 05 59 PM" src="https://github.com/user-attachments/assets/adcdfe9f-3de9-449d-98c1-7527289bb00f" />
-<img width="1134" height="707" alt="Screenshot 2026-06-17 at 1 06 14 PM" src="https://github.com/user-attachments/assets/0cc557d7-8736-4344-aa99-44f7db867ee3" />
+<img width="1106" height="717" alt="Screenshot 2026-06-17 at 2 39 31 PM" src="https://github.com/user-attachments/assets/dba62587-6593-4ce3-9427-18338cc1e2f2" />
+<img width="1116" height="711" alt="Screenshot 2026-06-17 at 2 39 54 PM" src="https://github.com/user-attachments/assets/0da0107d-e7de-48e9-963c-1e85371e54d8" />
+<img width="1125" height="713" alt="Screenshot 2026-06-17 at 2 40 57 PM" src="https://github.com/user-attachments/assets/c652f88b-f88c-46e7-8b1f-3725e4436927" />
+<img width="1133" height="713" alt="Screenshot 2026-06-17 at 2 41 31 PM" src="https://github.com/user-attachments/assets/ea5e233f-c878-4065-9953-b4ef0670b28c" />
+<img width="1130" height="710" alt="Screenshot 2026-06-17 at 2 41 54 PM" src="https://github.com/user-attachments/assets/d659cdf0-5639-4756-a9fd-2b9de4bdd952" />
+<img width="1128" height="711" alt="Screenshot 2026-06-17 at 2 42 21 PM" src="https://github.com/user-attachments/assets/853f43e0-e623-495b-a647-9e699bc51d94" />
+<img width="1131" height="716" alt="Screenshot 2026-06-17 at 2 43 53 PM" src="https://github.com/user-attachments/assets/815d70ae-33b1-462b-8ce8-2871da941568" />
+<img width="1132" height="712" alt="Screenshot 2026-06-17 at 2 44 17 PM" src="https://github.com/user-attachments/assets/1fad0a34-a956-4cae-9d49-01b98847d972" />
+
 
 
 
