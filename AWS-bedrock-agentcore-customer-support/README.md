@@ -384,7 +384,8 @@ Other useful commands:
 ```bash
 make test      # Unit tests — no AWS credentials required
 ```
-<img width="1190" height="361" alt="Screenshot 2026-06-16 at 9 43 47 PM" src="https://github.com/user-attachments/assets/2e027235-ad5e-4332-b186-93d5b1c329aa" />
+<img width="1135" height="389" alt="Screenshot 2026-06-17 at 10 32 16 AM" src="https://github.com/user-attachments/assets/496e8cbb-50e4-43e9-bcec-817492d33fbd" />
+
 
 ### Option B — CLI directly
 
