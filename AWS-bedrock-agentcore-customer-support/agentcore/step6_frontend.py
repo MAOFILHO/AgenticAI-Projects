@@ -1,5 +1,5 @@
 """
-Step 5: Customer-Facing Streamlit Frontend
+Step 6: Customer-Facing Streamlit Frontend
 
 Launches the Streamlit chat application using credentials from SSM/Secrets Manager.
 The app provides a real-time streaming chat interface backed by the AgentCore Runtime endpoint.
@@ -30,8 +30,8 @@ def _free_port(port: int) -> None:
 
 
 def run() -> None:
-    """Run Step 5: launch the Streamlit customer support chat interface."""
-    print("\n=== Step 5: Customer-Facing Streamlit Frontend ===")
+    """Run Step 6: launch the Streamlit customer support chat interface."""
+    print("\n=== Step 6: Customer-Facing Streamlit Frontend ===")
 
     print("\n[Step 1/2] Verifying AgentCore Runtime endpoint is available...")
     try:
@@ -40,7 +40,7 @@ def run() -> None:
         print(f"  Runtime ARN: {agent_arn}")
     except Exception as e:
         print(f"  WARNING: Could not retrieve runtime ARN from SSM: {e}")
-        print("  Make sure Step 4 has been completed before running Step 5.")
+        print("  Make sure Steps 4 and 5 have been completed before running Step 6.")
 
     print(f"\n[Step 2/2] Launching Streamlit chat application on port {PORT}...")
     _free_port(PORT)

@@ -5,7 +5,7 @@ Runs the Step 1 Strands agent under opentelemetry-instrument so traces
 are sent to CloudWatch GenAI Observability. Not the Runtime container
 entrypoint — this is a standalone local script.
 
-Usage (called by step6_observability.py):
+Usage (called by step5_observability.py):
   opentelemetry-instrument python runtime/observability_agent.py --session-id "session-1234"
 """
 import argparse

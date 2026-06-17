@@ -28,8 +28,8 @@ STEP_DESCRIPTIONS = {
     2: "AgentCore Memory   — Persistent customer memory across sessions",
     3: "Gateway & Identity — Shared MCP tools via JWT-secured gateway",
     4: "Runtime Deployment — Containerized agent on managed AgentCore Runtime",
-    5: "Frontend           — Streamlit chat interface with Cognito auth",
-    6: "Observability      — OpenTelemetry tracing to CloudWatch GenAI dashboard",
+    5: "Observability      — OpenTelemetry tracing to CloudWatch GenAI dashboard",
+    6: "Frontend           — Streamlit chat interface with Cognito auth",
 }
 
 
@@ -68,9 +68,9 @@ def run_step(step_num: int) -> None:
     elif step_num == 4:
         from agentcore.step4_runtime import run
     elif step_num == 5:
-        from agentcore.step5_frontend import run
+        from agentcore.step5_observability import run
     elif step_num == 6:
-        from agentcore.step6_observability import run
+        from agentcore.step6_frontend import run
     else:
         raise ValueError(f"Unknown step number: {step_num}")
 

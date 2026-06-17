@@ -161,8 +161,8 @@ Build: CodeBuild (ARM64 + Docker)
 | **Step 2** | Persistent customer memory across sessions | AgentCore Memory, LTM extraction |
 | **Step 3** | Shared tools via JWT-secured MCP gateway | AgentCore Gateway, Cognito, Lambda |
 | **Step 4** | Production deployment with managed runtime | AgentCore Runtime, ECR, CodeBuild |
-| **Step 5** | Customer-facing browser chat interface | Streamlit, Cognito auth |
-| **Step 6** | OpenTelemetry tracing to CloudWatch GenAI dashboard | AgentCore Observability, OTEL |
+| **Step 5** | OpenTelemetry tracing to CloudWatch GenAI dashboard | AgentCore Observability, OTEL |
+| **Step 6** | Customer-facing browser chat interface | Streamlit, Cognito auth |
 | **Step 7** | Full resource teardown | All of the above |
 
 ### Step 1 — Prototype Agent & Knowledge Base
@@ -219,22 +219,7 @@ Uses the `bedrock-agentcore-starter-toolkit` `Runtime` class to:
 
 Total cold-build time: ~15 minutes for the first deployment; subsequent redeploys reuse the ECR layer cache.
 
-### Step 5 — Streamlit Frontend
-
-![Step 5 Architecture — Streamlit app connecting to the full AgentCore cloud stack](images/architecture_lab5_streamlit.png)
-
-Launches a Streamlit chat application that authenticates users via Cognito OAuth, obtains a bearer token, and routes all messages through the AgentCore Runtime endpoint. The Contoso-branded portal includes sidebar navigation (Chat / Profile / Settings), a Logout button, and a Settings page showing live SSM configuration values.
-
-**Login credentials** (provisioned automatically by Step 2 / `get_or_create_cognito_pool()`):
-
-| Field | Value |
-|---|---|
-| Username | `testuser` |
-| Password | `MyPassword123!` |
-
-> These credentials are created programmatically — no AWS Console setup required.
-
-### Step 6 — Observability
+### Step 5 — Observability
 
 Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWatch log groups, and runs the agent under `opentelemetry-instrument` for automatic trace capture. Traces appear in **CloudWatch → Application Signals → GenAI Observability**.
 
@@ -249,6 +234,21 @@ Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWat
 **Traces view** — end-to-end span detail for every agent invocation, tool call, and LLM round-trip:
 
 ![CloudWatch GenAI Observability — Trace detail](images/traces_lab4_observability.png)
+
+### Step 6 — Streamlit Frontend
+
+![Step 6 Architecture — Streamlit app connecting to the full AgentCore cloud stack](images/architecture_lab5_streamlit.png)
+
+Launches a Streamlit chat application that authenticates users via Cognito OAuth, obtains a bearer token, and routes all messages through the AgentCore Runtime endpoint. The Contoso-branded portal includes sidebar navigation (Chat / Profile / Settings), a Logout button, and a Settings page showing live SSM configuration values. Streamlit is the final step because it blocks the terminal — running it last ensures observability is already configured so all chat interactions are traced.
+
+**Login credentials** (provisioned automatically by Step 2 / `get_or_create_cognito_pool()`):
+
+| Field | Value |
+|---|---|
+| Username | `testuser` |
+| Password | `MyPassword123!` |
+
+> These credentials are created programmatically — no AWS Console setup required.
 
 ---
 
@@ -401,10 +401,10 @@ This runs in sequence:
 3. **Step 2** — creates AgentCore Memory, seeds history, demonstrates personalization
 4. **Step 3** — creates Gateway with JWT auth, tests MCP tools via Lambda
 5. **Step 4** — builds ARM64 container, deploys to AgentCore Runtime (~15 min first run)
-6. **Step 5** — launches Streamlit at `http://localhost:8501`
-7. **Step 6** — configures OTEL tracing, runs instrumented agent, sends traces to CloudWatch
+6. **Step 5** — configures OTEL tracing, runs instrumented agent, sends traces to CloudWatch
+7. **Step 6** — launches Streamlit at `http://localhost:8501` (blocks terminal — always runs last)
 
-View traces after Step 6 in: **CloudWatch → Application Signals → GenAI Observability**
+View traces after Step 5 in: **CloudWatch → Application Signals → GenAI Observability**
 
 #### Run individual steps
 
@@ -414,8 +414,8 @@ python main.py --step 1            # Step 1 only
 python main.py --step 2            # Step 2 only
 python main.py --step 3            # Step 3 only
 python main.py --step 4            # Step 4 only (builds + deploys container)
-python main.py --step 5            # Step 5 only (Streamlit frontend)
-python main.py --step 6            # Step 6 only (Observability + CloudWatch)
+python main.py --step 5            # Step 5 only (Observability + CloudWatch)
+python main.py --step 6            # Step 6 only (Streamlit frontend)
 python main.py --step 3 4          # Run Steps 3 and 4 in sequence
 python main.py --step all --skip-prereq  # Skip CloudFormation, run steps only
 ```
@@ -493,8 +493,8 @@ aws-bedrock-agentcore-customer-support/
 │   ├── step2_memory.py        # AgentCore Memory + HookProvider
 │   ├── step3_gateway.py       # AgentCore Gateway + MCP client
 │   ├── step4_runtime.py       # Runtime deployment + test invocations
-│   ├── step5_frontend.py      # Streamlit launcher
-│   ├── step6_observability.py # OTEL + CloudWatch setup
+│   ├── step5_observability.py # OTEL + CloudWatch setup
+│   ├── step6_frontend.py      # Streamlit launcher
 │   ├── step7_cleanup.py       # Full resource teardown
 │   └── frontend/              # Streamlit chat application
 │       ├── main.py            # Auth + Contoso sidebar nav + page routing
