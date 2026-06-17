@@ -91,13 +91,14 @@ def create_or_get_gateway(cognito_config: dict) -> dict:
 
 
 def create_gateway_target(gateway_id: str) -> None:
-    """Register the Lambda tool target on the gateway."""
+    """Register the Lambda tool target on the gateway, updating it if it already exists."""
     gateway_client = boto3.client("bedrock-agentcore-control", region_name=REGION)
     api_spec = load_api_spec(API_SPEC_FILE)
+    lambda_arn = get_ssm_parameter("/app/customersupport/agentcore/lambda_arn")
     lambda_target_config = {
         "mcp": {
             "lambda": {
-                "lambdaArn": get_ssm_parameter("/app/customersupport/agentcore/lambda_arn"),
+                "lambdaArn": lambda_arn,
                 "toolSchema": {"inlinePayload": api_spec},
             }
         }
@@ -111,8 +112,23 @@ def create_gateway_target(gateway_id: str) -> None:
             credentialProviderConfigurations=[{"credentialProviderType": "GATEWAY_IAM_ROLE"}],
         )
         print(f"  Gateway target created: {resp['targetId']}")
+    except gateway_client.exceptions.ConflictException:
+        targets = gateway_client.list_gateway_targets(gatewayIdentifier=gateway_id).get("items", [])
+        existing = next((t for t in targets if t["name"] == "LambdaUsingSDK"), None)
+        if existing:
+            gateway_client.update_gateway_target(
+                gatewayIdentifier=gateway_id,
+                targetId=existing["targetId"],
+                name="LambdaUsingSDK",
+                description="Lambda Target using SDK",
+                targetConfiguration=lambda_target_config,
+                credentialProviderConfigurations=[{"credentialProviderType": "GATEWAY_IAM_ROLE"}],
+            )
+            print(f"  Gateway target updated: {existing['targetId']} → Lambda ARN refreshed")
+        else:
+            print(f"  Gateway target conflict but could not find existing target to update")
     except Exception as e:
-        print(f"  Gateway target already exists or error: {e}")
+        print(f"  Gateway target error: {e}")
 
 
 def build_gateway_agent(gateway_url: str, bearer_token: str, memory_id: str) -> Agent:

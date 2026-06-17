@@ -123,7 +123,7 @@ Customer → Streamlit Chat UI (Cognito OAuth)
     │   AgentCore Runtime     │  ← Managed ARM64 container (ECR + CodeBuild)
     │                         │    JWT-verified via Cognito User Pool
     │  ┌───────────────────┐  │
-    │  │  Strands Agent    │  │  ← Nova 2 Lite (Amazon), temperature=0.3
+    │  │  Strands Agent    │  │  ← Nova Pro (Amazon), temperature=0.3
     │  │  (agent_entry-    │  │
     │  │   point.py)       │  │
     │  └────────┬──────────┘  │
@@ -157,7 +157,7 @@ Build: CodeBuild (ARM64 + Docker)
 
 | Step | What You Build | Key Service |
 |------|---------------|-------------|
-| **Step 1** | Prototype agent: 4 tools + Bedrock Knowledge Base | Bedrock KB, Strands, S3 Vectors |
+| **Step 1** | Prototype agent: 4 tools (9 product categories) + Bedrock Knowledge Base | Bedrock KB, Strands, S3 Vectors |
 | **Step 2** | Persistent customer memory across sessions | AgentCore Memory, LTM extraction |
 | **Step 3** | Shared tools via JWT-secured MCP gateway | AgentCore Gateway, Cognito, Lambda |
 | **Step 4** | Production deployment with managed runtime | AgentCore Runtime, ECR, CodeBuild |
@@ -257,7 +257,7 @@ Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWat
 | Layer | Technology |
 |-------|-----------|
 | **Agent framework** | Strands Agents (`strands-agents`, `@tool`, `HookProvider`) |
-| **LLM** | Amazon Nova 2 Lite (`us.amazon.nova-2-lite-v1:0`) |
+| **LLM** | Amazon Nova Pro (`us.amazon.nova-pro-v1:0`) |
 | **Embeddings** | Amazon Titan Embed Text v2 (1024 dimensions, FLOAT32) |
 | **Vector store** | S3 Vectors (cosine similarity, `s3vectors` boto3 client) |
 | **Knowledge Base** | Amazon Bedrock Knowledge Base |
@@ -284,7 +284,7 @@ Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWat
 | **Bedrock AgentCore Gateway** | Secure MCP endpoint exposing Lambda tools to agents |
 | **Bedrock Knowledge Base** | Semantic document retrieval (S3 Vectors backend) |
 | **S3 Vectors** | Native vector storage inside S3 (no external vector DB) |
-| **Amazon Nova 2 Lite** | Foundation model for agent reasoning |
+| **Amazon Nova Pro** | Foundation model for agent reasoning |
 | **Titan Embed Text v2** | Embedding model for KB document indexing |
 | **AWS CodeBuild** | ARM64 Docker image build pipeline |
 | **Amazon ECR** | Container image registry |
@@ -637,7 +637,7 @@ Streamlit Chat UI ──── Cognito OAuth ──── JWT Token
 AgentCore Runtime Endpoint (ARM64 managed container)
    │
    ▼
-agent_entrypoint.py → Strands Agent (Nova 2 Lite)
+agent_entrypoint.py → Strands Agent (Nova Pro)
    │
    ├── get_technical_support() ──► Bedrock Knowledge Base (S3 Vectors)
    │                                 └── 6 tech docs (CPU install, laptop troubleshooting, ...)

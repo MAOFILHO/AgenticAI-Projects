@@ -16,24 +16,29 @@ from strands_tools import retrieve
 from agentcore import AWS_REGION
 from agentcore.utils import get_ssm_parameter
 
-MODEL_ID = "us.amazon.nova-2-lite-v1:0"
+MODEL_ID = "us.amazon.nova-pro-v1:0"
 
-SYSTEM_PROMPT = """You are a helpful and professional customer support assistant for an electronics e-commerce company.
-Your role is to:
-- Provide accurate information using the tools available to you
-- Support the customer with technical information and product specifications, and maintenance questions
-- Be friendly, patient, and understanding with customers
-- Always offer additional help after answering questions
-- If you can't help with something, direct customers to the appropriate contact
+SYSTEM_PROMPT = """You are a helpful customer support assistant for an electronics company.
 
-You have access to the following tools:
-1. get_return_policy() - For warranty and return policy questions
-2. get_product_info() - To get information about a specific product
-3. web_search() - To search the web for current prices, product reviews, availability, news, or any information that may have changed recently.
-4. get_technical_support() - For troubleshooting issues, setup guides, maintenance tips, and detailed technical assistance
-For any technical problems, setup questions, or maintenance concerns, always use the get_technical_support() tool as it contains our comprehensive technical documentation and step-by-step guides.
+ABSOLUTE RULES — YOU MUST FOLLOW THESE:
 
-Always use the appropriate tool to get accurate, up-to-date information rather than making assumptions about electronic products or specifications."""
+1. ONLY talk about the ONE product the customer is asking about RIGHT NOW.
+2. NEVER mention other products the customer owns or asked about before.
+3. NEVER say "Since you also mentioned..." or "Regarding your other device..." or "You also own..."
+4. When the customer says "it", "my device", or "this product", find the LAST product mentioned BY NAME in the conversation. That is what "it" means. Example: if messages mention "Dell XPS", then "Gaming Console Pro", then "it" — "it" = Gaming Console Pro, NOT Dell XPS.
+5. Messages may start with [BACKGROUND]. IGNORE that section completely. ONLY answer what comes after [CURRENT QUESTION].
+6. Do NOT mix information from [BACKGROUND] into your answer.
+7. Keep responses focused and concise.
+
+TOOLS:
+- get_return_policy() — warranty and return policy
+- get_product_info() — product specifications
+- web_search() — current prices, reviews, availability
+- get_technical_support() — troubleshooting, setup guides, maintenance
+
+Always use tools for accurate information. Do not guess product specs.
+
+REMEMBER: Only discuss the ONE product the customer is currently asking about. Nothing else."""
 
 
 @tool
@@ -99,7 +104,7 @@ def get_product_info(product_type: str) -> str:
     Get detailed technical specifications and information for electronics products.
 
     Args:
-        product_type: Electronics product type (e.g., 'laptops', 'smartphones', 'headphones', 'monitors')
+        product_type: Electronics product type (e.g., 'laptops', 'smartphones', 'headphones', 'monitors', 'gaming consoles', 'tablets', 'smart tvs', 'speakers', 'smartwatches')
     Returns:
         Formatted product information including warranty, features, and policies
     """
@@ -131,6 +136,41 @@ def get_product_info(product_type: str) -> str:
             "features": "HDR support, high refresh rates, adjustable stands",
             "compatibility": "HDMI, DisplayPort, USB-C inputs",
             "support": "Color calibration and technical support",
+        },
+        "gaming consoles": {
+            "warranty": "1-year manufacturer warranty + optional gaming warranty",
+            "specs": "Next-gen octa-core processor, 16GB GDDR6 RAM, 1TB SSD, ray tracing GPU",
+            "features": "4K gaming at 120fps, backward compatibility, haptic feedback controllers",
+            "compatibility": "HDMI 2.1, Wi-Fi 6, Bluetooth 5.2, USB-C, expandable storage",
+            "support": "Online multiplayer support, firmware updates, dedicated gaming support line",
+        },
+        "tablets": {
+            "warranty": "1-year manufacturer warranty",
+            "specs": "10-13 inch displays, 64GB-1TB storage, Apple M-series/Snapdragon processors",
+            "features": "Stylus support, split-screen multitasking, cellular options",
+            "compatibility": "iPadOS/Android, keyboard and stylus accessories",
+            "support": "Software updates and technical support included",
+        },
+        "smart tvs": {
+            "warranty": "2-year manufacturer warranty + optional extended coverage",
+            "specs": "43-85 inch OLED/QLED panels, 4K/8K resolution, 120Hz refresh rate",
+            "features": "Built-in streaming apps, voice control, screen mirroring, Dolby Atmos",
+            "compatibility": "HDMI 2.1, Wi-Fi 6, Bluetooth 5.0, USB, Ethernet",
+            "support": "Firmware updates, smart home integration support",
+        },
+        "speakers": {
+            "warranty": "1-year manufacturer warranty + optional audio warranty",
+            "specs": "Bluetooth 5.2, 20W-100W output, waterproof ratings up to IPX7",
+            "features": "360-degree sound, multi-room pairing, voice assistant built-in",
+            "compatibility": "Bluetooth, Wi-Fi, AUX 3.5mm, USB-C charging",
+            "support": "Firmware updates via companion app, dedicated audio support",
+        },
+        "smartwatches": {
+            "warranty": "1-year manufacturer warranty",
+            "specs": "AMOLED displays, heart rate/SpO2 sensors, GPS, 5ATM water resistance",
+            "features": "Fitness tracking, sleep monitoring, contactless payments, app ecosystem",
+            "compatibility": "iOS/Android companion apps, Bluetooth 5.0, Wi-Fi",
+            "support": "Software updates and health feature support included",
         },
     }
     product = products.get(product_type.lower())

@@ -123,10 +123,42 @@ class CustomerSupportMemoryHooks(HookProvider):
             for i in self.client.get_memory_strategies(self.memory_id)
         }
 
+    @staticmethod
+    def _resolve_pronouns(messages: list, user_query: str) -> str:
+        """If the user message uses pronouns without naming a product, prepend the last named product."""
+        import re
+        pronouns = re.compile(r'\b(it|its|the device|my device|this product|this device)\b', re.IGNORECASE)
+        product_pattern = re.compile(
+            r'(Gaming Console Pro|Dell XPS\s*\d*|MacBook Pro|ThinkPad\w*|iPhone\s*\d*|'
+            r'Samsung Galaxy\s*\w*|Smart TV\w*|Smartwatch\w*|Speaker\w*|Tablet\w*|'
+            r'Headphones?\w*|Monitor\w*)',
+            re.IGNORECASE,
+        )
+        if not pronouns.search(user_query):
+            return user_query
+        if product_pattern.search(user_query):
+            return user_query
+        last_product = None
+        for msg in reversed(messages[:-1]):
+            text = ""
+            if isinstance(msg.get("content"), list):
+                for block in msg["content"]:
+                    if isinstance(block, dict) and "text" in block:
+                        text += block["text"] + " "
+            match = product_pattern.search(text)
+            if match:
+                last_product = match.group(0)
+                break
+        if last_product:
+            return f"Regarding the {last_product}: {user_query}"
+        return user_query
+
     def retrieve_customer_context(self, event: MessageAddedEvent) -> None:
         messages = event.agent.messages
         if messages[-1]["role"] == "user" and "toolResult" not in messages[-1]["content"][0]:
             user_query = messages[-1]["content"][0]["text"]
+            user_query = self._resolve_pronouns(messages, user_query)
+            messages[-1]["content"][0]["text"] = user_query
             try:
                 all_context = []
                 for context_type, namespace in self.namespaces.items():
@@ -134,7 +166,7 @@ class CustomerSupportMemoryHooks(HookProvider):
                         memory_id=self.memory_id,
                         namespace=namespace.format(actorId=self.actor_id),
                         query=user_query,
-                        top_k=3,
+                        top_k=1,
                     )
                     for memory in memories:
                         if isinstance(memory, dict):
@@ -144,7 +176,11 @@ class CustomerSupportMemoryHooks(HookProvider):
                 if all_context:
                     context_text = "\n".join(all_context)
                     messages[-1]["content"][0]["text"] = (
-                        f"Customer Context:\n{context_text}\n\n{user_query}"
+                        f"[BACKGROUND — IGNORE THIS SECTION, do not mention any product or device listed here]\n"
+                        f"{context_text}\n"
+                        f"[END BACKGROUND — IGNORE EVERYTHING ABOVE]\n\n"
+                        f"[CURRENT QUESTION — answer ONLY this question about ONLY the product mentioned here]\n"
+                        f"{user_query}"
                     )
             except Exception as e:
                 logger.error(f"Failed to retrieve customer context: {e}")
