@@ -194,13 +194,46 @@ def _delete_s3_vectors(account_id: str) -> None:
                 print(f"  WARNING S3 Vectors ({vb}): {e}")
 
 
+def _set_data_sources_retain_policy(bedrock, kb_id: str, kb_name: str) -> None:
+    """Set dataDeletionPolicy=RETAIN on all data sources so KB deletion skips vector store cleanup."""
+    try:
+        ds_list = bedrock.list_data_sources(knowledgeBaseId=kb_id).get("dataSourceSummaries", [])
+        for ds in ds_list:
+            ds_id = ds["dataSourceId"]
+            try:
+                ds_detail = bedrock.get_data_source(knowledgeBaseId=kb_id, dataSourceId=ds_id)["dataSource"]
+                update_kwargs = {
+                    "knowledgeBaseId": kb_id,
+                    "dataSourceId": ds_id,
+                    "name": ds_detail["name"],
+                    "dataSourceConfiguration": ds_detail["dataSourceConfiguration"],
+                    "dataDeletionPolicy": "RETAIN",
+                }
+                if "vectorIngestionConfiguration" in ds_detail:
+                    update_kwargs["vectorIngestionConfiguration"] = ds_detail["vectorIngestionConfiguration"]
+                if "description" in ds_detail:
+                    update_kwargs["description"] = ds_detail["description"]
+                if "serverSideEncryptionConfiguration" in ds_detail:
+                    update_kwargs["serverSideEncryptionConfiguration"] = ds_detail["serverSideEncryptionConfiguration"]
+                bedrock.update_data_source(**update_kwargs)
+                print(f"    Set RETAIN policy on data source {ds_id} ({kb_name})")
+            except Exception as e:
+                if "ResourceNotFoundException" not in str(e):
+                    print(f"    WARNING updating data source {ds_id}: {e}")
+    except Exception as e:
+        if "ResourceNotFoundException" not in str(e):
+            print(f"    WARNING listing data sources for {kb_name}: {e}")
+
+
 def delete_knowledge_bases() -> None:
     """Delete Bedrock Knowledge Bases and S3 Vectors resources.
 
-    Handles two scenarios:
-    - KBs in normal state: delete KB first, wait, then clean S3 Vectors.
-    - KBs stuck in DELETE_UNSUCCESSFUL: delete S3 Vectors first (the blocker),
-      then retry KB deletion.
+    Correct deletion sequence to avoid DELETE_UNSUCCESSFUL:
+      1. Set dataDeletionPolicy=RETAIN on all data sources (prevents KB from
+         trying to clean up vector store data that may already be gone)
+      2. Delete the KB itself
+      3. Poll until fully gone
+      4. Delete S3 Vectors indexes and buckets (clean up storage separately)
     """
     import time
     bedrock = boto3.client("bedrock-agent", region_name=REGION)
@@ -218,52 +251,56 @@ def delete_knowledge_bases() -> None:
         _delete_s3_vectors(account_id)
         return
 
-    stuck_kbs = [kb for kb in targets if kb.get("status") == "DELETE_UNSUCCESSFUL"]
-    normal_kbs = [kb for kb in targets if kb.get("status") != "DELETE_UNSUCCESSFUL"]
+    print(f"  Found {len(targets)} KB(s) to delete.")
 
-    # Handle stuck KBs: delete S3 Vectors first to unblock, then retry KB deletion
-    if stuck_kbs:
-        print(f"  Found {len(stuck_kbs)} KB(s) stuck in DELETE_UNSUCCESSFUL — cleaning S3 Vectors first...")
-        _delete_s3_vectors(account_id)
-        for kb in stuck_kbs:
-            kb_id = kb["knowledgeBaseId"]
-            try:
-                bedrock.delete_knowledge_base(knowledgeBaseId=kb_id)
-                print(f"  Retry deletion triggered for KB: {kb['name']} ({kb_id})")
-            except Exception as e:
-                print(f"  WARNING retrying KB {kb_id}: {e}")
-        normal_kbs.extend(stuck_kbs)
+    # Step 1: Set RETAIN policy on all data sources so KB deletion won't fail
+    #         trying to clean up vector store data
+    print("  Setting dataDeletionPolicy=RETAIN on all data sources...")
+    for kb in targets:
+        _set_data_sources_retain_policy(bedrock, kb["knowledgeBaseId"], kb["name"])
 
-    # Handle normal KBs: delete KB first, then wait
-    kb_ids_deleted = []
-    for kb in normal_kbs:
+    # Step 2: Delete the KBs
+    kb_ids = []
+    retried = set()
+    for kb in targets:
         kb_id = kb["knowledgeBaseId"]
-        if kb_id not in [k["knowledgeBaseId"] for k in stuck_kbs]:
-            try:
-                bedrock.delete_knowledge_base(knowledgeBaseId=kb_id)
-                print(f"  Deletion triggered for KB: {kb['name']} ({kb_id})")
-            except Exception as e:
-                print(f"  WARNING KB {kb_id}: {e}")
-        kb_ids_deleted.append(kb_id)
+        try:
+            bedrock.delete_knowledge_base(knowledgeBaseId=kb_id)
+            print(f"  Deletion triggered for KB: {kb['name']} ({kb_id})")
+        except Exception as e:
+            print(f"  WARNING KB {kb_id}: {e}")
+        kb_ids.append(kb_id)
 
-    # Poll until all KBs are gone
-    if kb_ids_deleted:
+    # Step 3: Poll until all KBs are gone (up to 180s)
+    if kb_ids:
         print("  Waiting for KB deletion to complete...")
-        for _ in range(24):  # up to 120s
+        for attempt in range(36):  # up to 180s
             time.sleep(5)
             remaining = bedrock.list_knowledge_bases().get("knowledgeBaseSummaries", [])
-            still_present = [k for k in remaining if k["knowledgeBaseId"] in kb_ids_deleted]
+            still_present = [k for k in remaining if k["knowledgeBaseId"] in kb_ids]
             if not still_present:
                 print("  All KBs fully deleted.")
                 break
-            statuses = [f"{k['name']}={k['status']}" for k in still_present]
-            print(f"    Status: {statuses} — waiting...")
-        else:
-            print("  WARNING: KB did not finish deleting within 120s.")
 
-    # Clean up any remaining S3 Vectors (for normal KBs path)
-    if not stuck_kbs:
-        _delete_s3_vectors(account_id)
+            # Retry stuck KBs once: set RETAIN policy again and re-trigger deletion
+            for k in still_present:
+                if k["status"] == "DELETE_UNSUCCESSFUL" and k["knowledgeBaseId"] not in retried:
+                    retried.add(k["knowledgeBaseId"])
+                    print(f"    Retrying stuck KB: {k['name']} (setting RETAIN + re-deleting)")
+                    _set_data_sources_retain_policy(bedrock, k["knowledgeBaseId"], k["name"])
+                    try:
+                        bedrock.delete_knowledge_base(knowledgeBaseId=k["knowledgeBaseId"])
+                    except Exception:
+                        pass
+
+            if attempt % 4 == 0:
+                statuses = [f"{k['name']}={k['status']}" for k in still_present]
+                print(f"    Status: {statuses} — waiting...")
+        else:
+            print("  WARNING: KB did not finish deleting within 180s.")
+
+    # Step 4: Clean up S3 Vectors storage separately
+    _delete_s3_vectors(account_id)
 
 
 def delete_cloudwatch_log_groups() -> None:
@@ -307,25 +344,27 @@ def run(dry_run: bool = False) -> None:
       1. Empty S3 buckets   — CloudFormation cannot delete non-empty buckets
       2. Delete CF stack     — Lambda Delete handler does KB → wait → S3 Vectors → SSM (KB)
       3. KB fallback         — catch any KB the CF handler missed
-      4. AgentCore resources — Memory, Runtime, Gateway (independent of CF stack)
-      5. Build / container   — CodeBuild, ECR
-      6. Observability       — CloudWatch log groups
-      7. Remaining glue      — IAM roles, SSM params, Cognito, Secrets Manager, local files
+      4. AgentCore Memory
+      5. AgentCore Runtime
+      6. AgentCore Gateway
+      7. CodeBuild + ECR
+      8. Observability       — CloudWatch log groups
+      9. Remaining glue      — IAM roles, SSM params, Cognito, Secrets Manager, local files
     """
     print("\n=== Step 7: Complete Resource Cleanup ===")
     if dry_run:
         print("  DRY RUN mode — no resources will be deleted.\n")
 
     # ── 1 ── Empty S3 first so CloudFormation can delete the bucket
-    print("\n[Step 1/7] Emptying S3 buckets (required before CloudFormation stack deletion)...")
+    print("\n[Step 1/9] Emptying S3 buckets (required before CloudFormation stack deletion)...")
     if not dry_run:
         empty_s3_buckets()
     else:
-        print("  [DRY RUN] Would empty and delete project S3 buckets.")
+        print("  [DRY RUN] Would empty project S3 buckets.")
 
     # ── 2 ── CloudFormation stack deletion: the Lambda Delete handler handles
     #         KB deletion → poll until gone → S3 Vectors cleanup → SSM KB params
-    print("\n[Step 2/7] Deleting CloudFormation prerequisite stack...")
+    print("\n[Step 2/9] Deleting CloudFormation prerequisite stack...")
     print("  (Lambda Delete handler: KB → waits for deletion → S3 Vectors → SSM KB params)")
     if not dry_run:
         delete_cloudformation_stacks()
@@ -333,14 +372,14 @@ def run(dry_run: bool = False) -> None:
         print("  [DRY RUN] Would delete CloudFormation stack and wait for completion.")
 
     # ── 3 ── Fallback: delete any KB the CF handler missed (e.g. already-stuck KBs)
-    print("\n[Step 3/7] Knowledge Base fallback cleanup (catches any CF-missed KBs)...")
+    print("\n[Step 3/9] Knowledge Base fallback cleanup (catches any CF-missed KBs)...")
     if not dry_run:
         delete_knowledge_bases()
     else:
         print("  [DRY RUN] Would check for and delete any remaining KBs and S3 Vectors.")
 
-    # ── 4 ── AgentCore resources (not in CF stack — created by steps 2–4)
-    print("\n[Step 4/7] Deleting AgentCore resources (Memory, Runtime, Gateway)...")
+    # ── 4 ── AgentCore Memory
+    print("\n[Step 4/9] Deleting AgentCore Memory resource...")
     if not dry_run:
         try:
             memory_id = get_ssm_parameter("/app/customersupport/agentcore/memory_id")
@@ -348,31 +387,43 @@ def run(dry_run: bool = False) -> None:
             print("  Memory deleted.")
         except Exception as e:
             print(f"  Memory: {e}")
+    else:
+        print("  [DRY RUN] Would delete AgentCore Memory resource.")
 
+    # ── 5 ── AgentCore Runtime
+    print("\n[Step 5/9] Deleting AgentCore Runtime endpoint...")
+    if not dry_run:
         try:
             runtime_arn = get_ssm_parameter("/app/customersupport/agentcore/runtime_arn")
             runtime_resource_cleanup(runtime_arn)
             print("  Runtime endpoint deleted.")
         except Exception as e:
             print(f"  Runtime: {e}")
+    else:
+        print("  [DRY RUN] Would delete AgentCore Runtime endpoint.")
 
+    # ── 6 ── AgentCore Gateway
+    print("\n[Step 6/9] Deleting AgentCore Gateway and targets...")
+    if not dry_run:
         try:
             gateway_id = get_ssm_parameter("/app/customersupport/agentcore/gateway_id")
             gateway_target_cleanup(gateway_id)
             print("  Gateway deleted.")
         except Exception as e:
             print(f"  Gateway: {e}")
+    else:
+        print("  [DRY RUN] Would delete AgentCore Gateway and targets.")
 
-    # ── 5 ── Build / container artifacts
-    print("\n[Step 5/7] Deleting CodeBuild projects and ECR repositories...")
+    # ── 7 ── Build / container artifacts
+    print("\n[Step 7/9] Deleting CodeBuild projects and ECR repositories...")
     if not dry_run:
         delete_codebuild_projects()
         delete_ecr_repositories()
     else:
         print("  [DRY RUN] Would delete CodeBuild projects and ECR repositories.")
 
-    # ── 6 ── Observability
-    print("\n[Step 6/7] Deleting CloudWatch log groups and observability resources...")
+    # ── 8 ── Observability
+    print("\n[Step 8/9] Deleting CloudWatch log groups and observability resources...")
     if not dry_run:
         delete_cloudwatch_log_groups()
         try:
@@ -382,8 +433,8 @@ def run(dry_run: bool = False) -> None:
     else:
         print("  [DRY RUN] Would delete CloudWatch log groups.")
 
-    # ── 7 ── IAM, SSM, Cognito, Secrets Manager, local files
-    print("\n[Step 7/7] Deleting IAM roles, SSM parameters, Cognito, and Secrets Manager...")
+    # ── 9 ── IAM, SSM, Cognito, Secrets Manager, local files
+    print("\n[Step 9/9] Deleting IAM roles, SSM parameters, Cognito, and Secrets Manager...")
     if not dry_run:
         try:
             delete_agentcore_runtime_execution_role()

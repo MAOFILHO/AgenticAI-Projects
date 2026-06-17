@@ -662,6 +662,7 @@ def gateway_target_cleanup(gateway_id: str = None):
         gatewayIdentifier=gateway_id, maxResults=100
     )
 
+    import time
     for item in list_response["items"]:
         target_id = item["targetId"]
         print(f"   Deleting target: {target_id}")
@@ -669,6 +670,20 @@ def gateway_target_cleanup(gateway_id: str = None):
             gatewayIdentifier=gateway_id, targetId=target_id
         )
         print(f"   ✅ Target {target_id} deleted")
+
+    # Wait for target deletions to propagate before deleting gateway
+    if list_response["items"]:
+        print("   Waiting for target deletions to propagate...")
+        for _ in range(12):
+            time.sleep(5)
+            remaining = gateway_client.list_gateway_targets(
+                gatewayIdentifier=gateway_id, maxResults=100
+            ).get("items", [])
+            if not remaining:
+                print("   All targets confirmed deleted.")
+                break
+        else:
+            print("   WARNING: Targets still present after 60s — attempting gateway deletion anyway.")
 
     # Delete the gateway
     print(f"🗑️  Deleting gateway: {gateway_id}")
@@ -749,8 +764,6 @@ def local_file_cleanup():
         "Dockerfile",
         ".dockerignore",
         ".bedrock_agentcore.yaml",
-        "customer_support_agent.py",
-        "agent_runtime.py",
     ]
 
     deleted_files = []
