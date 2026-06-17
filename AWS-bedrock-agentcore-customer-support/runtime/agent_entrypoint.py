@@ -42,6 +42,7 @@ app = BedrockAgentCoreApp()  #### AGENTCORE RUNTIME - LINE 2 ####
 async def invoke(payload, context=None):
     """AgentCore Runtime entrypoint function"""
     user_input = payload.get("prompt", "")
+    history = payload.get("history", [])
 
     # Access request headers - handle None case
     request_headers = context.request_headers or {}
@@ -98,6 +99,14 @@ async def invoke(payload, context=None):
                     system_prompt=SYSTEM_PROMPT,
                     hooks=[memory_hooks],
                 )
+                # Load conversation history so the agent has context from prior turns
+                for msg in history:
+                    role = msg.get("role", "user")
+                    content = msg.get("content", "")
+                    agent.messages.append({
+                        "role": role,
+                        "content": [{"text": content}],
+                    })
                 # Invoke the agent
                 response = agent(user_input)
                 return response.message["content"][0]["text"]

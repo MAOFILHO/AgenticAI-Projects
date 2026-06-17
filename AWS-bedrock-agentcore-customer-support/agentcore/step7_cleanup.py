@@ -22,8 +22,13 @@ from agentcore.utils import (
     get_ssm_parameter,
 )
 
-def empty_and_track_s3_buckets() -> list[str]:
-    """Find and empty all project-related S3 buckets. Returns list of bucket names."""
+def empty_s3_buckets() -> list[str]:
+    """Find and empty all project-related S3 buckets (without deleting them).
+
+    Buckets are only emptied so CloudFormation can delete them during stack teardown.
+    Deleting buckets here would break the CF Lambda delete handler that needs them
+    for KB cleanup.
+    """
     s3 = boto3.client("s3", region_name=REGION)
     cfn = boto3.client("cloudformation", region_name=REGION)
     buckets_to_clean: list[str] = []
@@ -79,8 +84,6 @@ def empty_and_track_s3_buckets() -> list[str]:
                 if objs:
                     s3.delete_objects(Bucket=bucket_name, Delete={"Objects": [{"Key": o["Key"]} for o in objs]})
             print(f"    Emptied.")
-            s3.delete_bucket(Bucket=bucket_name)
-            print(f"    Deleted.")
         except Exception as e:
             print(f"    WARNING: {e}")
 
@@ -167,58 +170,16 @@ def delete_ecr_repositories() -> None:
         print(f"  WARNING: {e}")
 
 
-def delete_knowledge_bases() -> None:
-    """Delete Bedrock Knowledge Base first, wait for completion, then clean up S3 Vectors.
-
-    Order matters: KB must be fully deleted before touching S3 Vectors indexes/buckets.
-    Bedrock auto-deletes data sources as part of KB deletion — do NOT delete them manually first.
-    Deleting S3 Vectors before the KB finishes causes DELETE_UNSUCCESSFUL.
-    """
-    import time
-    bedrock = boto3.client("bedrock-agent", region_name=REGION)
-    account_id = boto3.client("sts").get_caller_identity()["Account"]
+def _delete_s3_vectors(account_id: str) -> None:
+    """Delete all project S3 Vectors indexes and buckets."""
     s3vectors = boto3.client("s3vectors", region_name=REGION)
-    vector_bucket = f"{account_id}-{REGION}-kb-vector-bucket"
-
-    # Step 1: Delete Knowledge Base (Bedrock auto-handles data sources)
-    kb_ids_deleted = []
-    try:
-        kbs = bedrock.list_knowledge_bases().get("knowledgeBaseSummaries", [])
-        targets = [kb for kb in kbs if account_id in kb.get("name", "") or REGION in kb.get("name", "")]
-        if not targets:
-            print("  No project Knowledge Bases found.")
-        for kb in targets:
-            kb_id = kb["knowledgeBaseId"]
-            bedrock.delete_knowledge_base(knowledgeBaseId=kb_id)
-            kb_ids_deleted.append(kb_id)
-            print(f"  Deletion triggered for KB: {kb['name']} ({kb_id})")
-    except Exception as e:
-        print(f"  WARNING KB: {e}")
-
-    # Step 2: Poll until ALL KBs are fully gone before touching S3 Vectors
-    if kb_ids_deleted:
-        print("  Waiting for KB deletion to complete before cleaning S3 Vectors...")
-        for _ in range(24):  # up to 120s
-            time.sleep(5)
-            remaining = bedrock.list_knowledge_bases().get("knowledgeBaseSummaries", [])
-            still_present = [k for k in remaining if k["knowledgeBaseId"] in kb_ids_deleted]
-            if not still_present:
-                print("  KB fully deleted.")
-                break
-            statuses = [k["status"] for k in still_present]
-            print(f"    Status: {statuses} — waiting...")
-        else:
-            print("  WARNING: KB did not finish deleting within 120s — S3 Vectors cleanup may fail.")
-
-    # Step 3: Now safe to delete S3 Vectors index(es) and bucket(s).
-    # Use list_vector_buckets so versioned names (_v2, _v3 …) are caught automatically.
     base_bucket_prefix = f"{account_id}-{REGION}-kb-vector-bucket"
     try:
         all_buckets = s3vectors.list_vector_buckets().get("vectorBuckets", [])
         project_buckets = [b["vectorBucketName"] for b in all_buckets
                            if b.get("vectorBucketName", "").startswith(base_bucket_prefix)]
     except Exception:
-        project_buckets = [base_bucket_prefix]  # fallback to base name
+        project_buckets = [base_bucket_prefix]
 
     for vb in project_buckets:
         try:
@@ -231,6 +192,78 @@ def delete_knowledge_bases() -> None:
         except Exception as e:
             if "NoSuchBucket" not in str(e) and "does not exist" not in str(e).lower():
                 print(f"  WARNING S3 Vectors ({vb}): {e}")
+
+
+def delete_knowledge_bases() -> None:
+    """Delete Bedrock Knowledge Bases and S3 Vectors resources.
+
+    Handles two scenarios:
+    - KBs in normal state: delete KB first, wait, then clean S3 Vectors.
+    - KBs stuck in DELETE_UNSUCCESSFUL: delete S3 Vectors first (the blocker),
+      then retry KB deletion.
+    """
+    import time
+    bedrock = boto3.client("bedrock-agent", region_name=REGION)
+    account_id = boto3.client("sts").get_caller_identity()["Account"]
+
+    try:
+        kbs = bedrock.list_knowledge_bases().get("knowledgeBaseSummaries", [])
+        targets = [kb for kb in kbs if account_id in kb.get("name", "") or REGION in kb.get("name", "")]
+    except Exception as e:
+        print(f"  WARNING KB: {e}")
+        return
+
+    if not targets:
+        print("  No project Knowledge Bases found.")
+        _delete_s3_vectors(account_id)
+        return
+
+    stuck_kbs = [kb for kb in targets if kb.get("status") == "DELETE_UNSUCCESSFUL"]
+    normal_kbs = [kb for kb in targets if kb.get("status") != "DELETE_UNSUCCESSFUL"]
+
+    # Handle stuck KBs: delete S3 Vectors first to unblock, then retry KB deletion
+    if stuck_kbs:
+        print(f"  Found {len(stuck_kbs)} KB(s) stuck in DELETE_UNSUCCESSFUL — cleaning S3 Vectors first...")
+        _delete_s3_vectors(account_id)
+        for kb in stuck_kbs:
+            kb_id = kb["knowledgeBaseId"]
+            try:
+                bedrock.delete_knowledge_base(knowledgeBaseId=kb_id)
+                print(f"  Retry deletion triggered for KB: {kb['name']} ({kb_id})")
+            except Exception as e:
+                print(f"  WARNING retrying KB {kb_id}: {e}")
+        normal_kbs.extend(stuck_kbs)
+
+    # Handle normal KBs: delete KB first, then wait
+    kb_ids_deleted = []
+    for kb in normal_kbs:
+        kb_id = kb["knowledgeBaseId"]
+        if kb_id not in [k["knowledgeBaseId"] for k in stuck_kbs]:
+            try:
+                bedrock.delete_knowledge_base(knowledgeBaseId=kb_id)
+                print(f"  Deletion triggered for KB: {kb['name']} ({kb_id})")
+            except Exception as e:
+                print(f"  WARNING KB {kb_id}: {e}")
+        kb_ids_deleted.append(kb_id)
+
+    # Poll until all KBs are gone
+    if kb_ids_deleted:
+        print("  Waiting for KB deletion to complete...")
+        for _ in range(24):  # up to 120s
+            time.sleep(5)
+            remaining = bedrock.list_knowledge_bases().get("knowledgeBaseSummaries", [])
+            still_present = [k for k in remaining if k["knowledgeBaseId"] in kb_ids_deleted]
+            if not still_present:
+                print("  All KBs fully deleted.")
+                break
+            statuses = [f"{k['name']}={k['status']}" for k in still_present]
+            print(f"    Status: {statuses} — waiting...")
+        else:
+            print("  WARNING: KB did not finish deleting within 120s.")
+
+    # Clean up any remaining S3 Vectors (for normal KBs path)
+    if not stuck_kbs:
+        _delete_s3_vectors(account_id)
 
 
 def delete_cloudwatch_log_groups() -> None:
@@ -286,7 +319,7 @@ def run(dry_run: bool = False) -> None:
     # ── 1 ── Empty S3 first so CloudFormation can delete the bucket
     print("\n[Step 1/7] Emptying S3 buckets (required before CloudFormation stack deletion)...")
     if not dry_run:
-        empty_and_track_s3_buckets()
+        empty_s3_buckets()
     else:
         print("  [DRY RUN] Would empty and delete project S3 buckets.")
 

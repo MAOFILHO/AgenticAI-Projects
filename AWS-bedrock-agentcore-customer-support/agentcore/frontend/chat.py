@@ -275,9 +275,14 @@ class ChatManager:
             chunk_count = 0
             accumulated_response = ""
 
+            history = [
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages[:-1]
+            ]
+
             for chunk in self.invoke_endpoint(
                 agent_arn=st.session_state["agent_arn"],
-                payload=json.dumps({"prompt": prompt, "actor_id": actor_id}),
+                payload=json.dumps({"prompt": prompt, "actor_id": actor_id, "history": history}),
                 bearer_token=bearer_token,
                 session_id=st.session_state["session_id"],
             ):

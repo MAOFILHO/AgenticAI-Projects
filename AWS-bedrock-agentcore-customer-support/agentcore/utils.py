@@ -648,11 +648,11 @@ def agentcore_memory_cleanup(memory_id: str = None):
 
 
 def gateway_target_cleanup(gateway_id: str = None):
+    gateway_client = boto3.client(
+        "bedrock-agentcore-control",
+        region_name=REGION,
+    )
     if not gateway_id:
-        gateway_client = boto3.client(
-            "bedrock-agentcore-control",
-            region_name=REGION,
-        )
         response = gateway_client.list_gateways()
         gateway_id = response["items"][0]["gatewayId"]
     print(f"🗑️  Deleting all targets for gateway: {gateway_id}")
@@ -682,6 +682,7 @@ def runtime_resource_cleanup(runtime_arn: str = None):
         agentcore_control_client = boto3.client(
             "bedrock-agentcore-control", region_name=REGION
         )
+        ecr_client = boto3.client("ecr", region_name=REGION)
         if runtime_arn:
             runtime_id = runtime_arn.split(":")[-1].split("/")[-1]
             response = agentcore_control_client.delete_agent_runtime(
@@ -689,10 +690,6 @@ def runtime_resource_cleanup(runtime_arn: str = None):
             )
             print(f"  ✅ Agent runtime deleted: {response['status']}")
         else:
-            ecr_client = boto3.client("ecr", region_name=REGION)
-
-            # Delete the AgentCore Runtime
-            # print("  🗑️  Deleting AgentCore Runtime...")
             runtimes = agentcore_control_client.list_agent_runtimes()
             for runtime in runtimes["agentRuntimes"]:
                 response = agentcore_control_client.delete_agent_runtime(
