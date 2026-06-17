@@ -350,13 +350,14 @@ def run(dry_run: bool = False) -> None:
       7. CodeBuild + ECR
       8. Observability       — CloudWatch log groups
       9. Remaining glue      — IAM roles, SSM params, Cognito, Secrets Manager, local files
+     10. Delete S3 buckets   — safe now that CF and KB cleanup are done
     """
     print("\n=== Step 7: Complete Resource Cleanup ===")
     if dry_run:
         print("  DRY RUN mode — no resources will be deleted.\n")
 
     # ── 1 ── Empty S3 first so CloudFormation can delete the bucket
-    print("\n[Step 1/9] Emptying S3 buckets (required before CloudFormation stack deletion)...")
+    print("\n[Step 1/10] Emptying S3 buckets (required before CloudFormation stack deletion)...")
     if not dry_run:
         empty_s3_buckets()
     else:
@@ -364,7 +365,7 @@ def run(dry_run: bool = False) -> None:
 
     # ── 2 ── CloudFormation stack deletion: the Lambda Delete handler handles
     #         KB deletion → poll until gone → S3 Vectors cleanup → SSM KB params
-    print("\n[Step 2/9] Deleting CloudFormation prerequisite stack...")
+    print("\n[Step 2/10] Deleting CloudFormation prerequisite stack...")
     print("  (Lambda Delete handler: KB → waits for deletion → S3 Vectors → SSM KB params)")
     if not dry_run:
         delete_cloudformation_stacks()
@@ -372,14 +373,14 @@ def run(dry_run: bool = False) -> None:
         print("  [DRY RUN] Would delete CloudFormation stack and wait for completion.")
 
     # ── 3 ── Fallback: delete any KB the CF handler missed (e.g. already-stuck KBs)
-    print("\n[Step 3/9] Knowledge Base fallback cleanup (catches any CF-missed KBs)...")
+    print("\n[Step 3/10] Knowledge Base fallback cleanup (catches any CF-missed KBs)...")
     if not dry_run:
         delete_knowledge_bases()
     else:
         print("  [DRY RUN] Would check for and delete any remaining KBs and S3 Vectors.")
 
     # ── 4 ── AgentCore Memory
-    print("\n[Step 4/9] Deleting AgentCore Memory resource...")
+    print("\n[Step 4/10] Deleting AgentCore Memory resource...")
     if not dry_run:
         try:
             memory_id = get_ssm_parameter("/app/customersupport/agentcore/memory_id")
@@ -391,7 +392,7 @@ def run(dry_run: bool = False) -> None:
         print("  [DRY RUN] Would delete AgentCore Memory resource.")
 
     # ── 5 ── AgentCore Runtime
-    print("\n[Step 5/9] Deleting AgentCore Runtime endpoint...")
+    print("\n[Step 5/10] Deleting AgentCore Runtime endpoint...")
     if not dry_run:
         try:
             runtime_arn = get_ssm_parameter("/app/customersupport/agentcore/runtime_arn")
@@ -403,7 +404,7 @@ def run(dry_run: bool = False) -> None:
         print("  [DRY RUN] Would delete AgentCore Runtime endpoint.")
 
     # ── 6 ── AgentCore Gateway
-    print("\n[Step 6/9] Deleting AgentCore Gateway and targets...")
+    print("\n[Step 6/10] Deleting AgentCore Gateway and targets...")
     if not dry_run:
         try:
             gateway_id = get_ssm_parameter("/app/customersupport/agentcore/gateway_id")
@@ -415,7 +416,7 @@ def run(dry_run: bool = False) -> None:
         print("  [DRY RUN] Would delete AgentCore Gateway and targets.")
 
     # ── 7 ── Build / container artifacts
-    print("\n[Step 7/9] Deleting CodeBuild projects and ECR repositories...")
+    print("\n[Step 7/10] Deleting CodeBuild projects and ECR repositories...")
     if not dry_run:
         delete_codebuild_projects()
         delete_ecr_repositories()
@@ -423,7 +424,7 @@ def run(dry_run: bool = False) -> None:
         print("  [DRY RUN] Would delete CodeBuild projects and ECR repositories.")
 
     # ── 8 ── Observability
-    print("\n[Step 8/9] Deleting CloudWatch log groups and observability resources...")
+    print("\n[Step 8/10] Deleting CloudWatch log groups and observability resources...")
     if not dry_run:
         delete_cloudwatch_log_groups()
         try:
@@ -434,7 +435,7 @@ def run(dry_run: bool = False) -> None:
         print("  [DRY RUN] Would delete CloudWatch log groups.")
 
     # ── 9 ── IAM, SSM, Cognito, Secrets Manager, local files
-    print("\n[Step 9/9] Deleting IAM roles, SSM parameters, Cognito, and Secrets Manager...")
+    print("\n[Step 9/10] Deleting IAM roles, SSM parameters, Cognito, and Secrets Manager...")
     if not dry_run:
         try:
             delete_agentcore_runtime_execution_role()
@@ -471,5 +472,28 @@ def run(dry_run: bool = False) -> None:
             print("  Local config files cleaned up.")
         except Exception as e:
             print(f"  WARNING local cleanup: {e}")
+
+    # ── 10 ── Delete emptied S3 buckets (safe now that CF and KB are gone)
+    print("\n[Step 10/10] Deleting emptied S3 buckets...")
+    if not dry_run:
+        s3 = boto3.client("s3", region_name=REGION)
+        buckets_to_delete: list[str] = []
+        try:
+            for b in s3.list_buckets().get("Buckets", []):
+                bn = b["Name"]
+                if any(p in bn.lower() for p in ["agentcore", "customer-support", "customersupport", "bedrock-kb", "knowledgebase"]):
+                    buckets_to_delete.append(bn)
+        except Exception as e:
+            print(f"  WARNING listing buckets: {e}")
+        if not buckets_to_delete:
+            print("  No project S3 buckets remaining.")
+        for bucket_name in buckets_to_delete:
+            try:
+                s3.delete_bucket(Bucket=bucket_name)
+                print(f"  Deleted bucket: {bucket_name}")
+            except Exception as e:
+                print(f"  WARNING deleting {bucket_name}: {e}")
+    else:
+        print("  [DRY RUN] Would delete emptied project S3 buckets.")
 
     print("\n=== Step 7 complete — all resources cleaned up ===\n")
