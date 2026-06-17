@@ -165,6 +165,8 @@ Build: CodeBuild (ARM64 + Docker)
 | **Step 6** | Customer-facing browser chat interface | Streamlit, Cognito auth |
 | **Step 7** | Full resource teardown | All of the above |
 
+---
+
 ### Step 1 — Prototype Agent & Knowledge Base
 
 ![Step 1 Architecture — Local agent with 4 tools and Amazon Bedrock](images/architecture_lab1_strands.png)
@@ -177,6 +179,8 @@ Creates 4 `@tool` functions using the Strands framework:
 
 Automates the full Knowledge Base lifecycle: S3 Vectors index creation → Bedrock KB provisioning → S3 data source attachment → document ingestion job polling until COMPLETE.
 
+---
+
 ### Step 2 — AgentCore Memory
 
 ![Step 2 Architecture — Agent with AgentCore Memory](images/architecture_lab2_memory.png)
@@ -187,11 +191,15 @@ Creates a `CustomerSupportMemory` resource with two strategies:
 
 Implements `CustomerSupportMemoryHooks(HookProvider)` that fires on every agent turn to retrieve context (MessageAddedEvent) and save interactions (AfterInvocationEvent). Seeded with fictional history, then polls until long-term memory extraction completes — demonstrating recall of "prefers Linux, uses ThinkPad" without the customer mentioning it again.
 
+---
+
 ### Step 3 — AgentCore Gateway & MCP
 
 ![Step 3 Architecture — Agent with Gateway, Cognito auth, and Lambda tools](images/architecture_lab3_gateway.png)
 
 Deploys a `customersupport-gw` endpoint with a `customJWTAuthorizer` backed by Cognito. Registers a Lambda-based warranty checker (reads DynamoDB) as an MCP tool schema. Demonstrates calling the warranty tool via MCPClient with the gateway URL — zero direct Lambda invocations from the agent code.
+
+---
 
 ### Step 4 — AgentCore Runtime Deployment
 
@@ -201,13 +209,19 @@ The starter toolkit automates the full build-and-deploy pipeline in two commands
 
 ![Starter toolkit configure step — agent code to Dockerfile](images/configure.png)
 
+---
+
 **`launch`** — pushes the Dockerfile to CodeBuild, builds an ARM64 container image, pushes it to ECR, and deploys it to a managed AgentCore Runtime endpoint:
 
 ![Starter toolkit launch step — Dockerfile through CodeBuild and ECR to Runtime](images/launch.png)
 
+---
+
 **`invoke`** — sends requests through the Runtime endpoint with a bearer token, routing through the full container stack:
 
 ![Invoke flow — agent code through Docker container to ECR repository](images/invoke.png)
+
+---
 
 ![Step 4 Architecture — Full runtime with observability, Gateway, and Memory](images/architecture_lab4_runtime.png)
 
@@ -218,6 +232,8 @@ Uses the `bedrock-agentcore-starter-toolkit` `Runtime` class to:
 4. Poll until status is `READY`, then run 3 live test invocations through the endpoint
 
 Total cold-build time: ~15 minutes for the first deployment; subsequent redeploys reuse the ECR layer cache.
+
+---
 
 ### Step 5 — Observability
 
@@ -234,6 +250,8 @@ Configures OpenTelemetry via `aws-opentelemetry-distro` (ADOT), creates CloudWat
 **Traces view** — end-to-end span detail for every agent invocation, tool call, and LLM round-trip:
 
 ![CloudWatch GenAI Observability — Trace detail](images/traces_lab4_observability.png)
+
+---
 
 ### Step 6 — Streamlit Frontend
 
