@@ -426,8 +426,8 @@ python main.py --step all --skip-prereq  # Skip CloudFormation, run steps only
 <img width="1022" height="644" alt="Screenshot 2026-06-16 at 12 36 15 AM" src="https://github.com/user-attachments/assets/284d2fed-9ae4-4e56-a7bf-cd7c216daa3d" />
 <img width="1033" height="645" alt="Screenshot 2026-06-16 at 12 36 32 AM" src="https://github.com/user-attachments/assets/e4ab3b2a-310d-4327-95e0-6d927292076e" />
 <img width="1029" height="644" alt="Screenshot 2026-06-16 at 12 37 04 AM" src="https://github.com/user-attachments/assets/5113595e-3884-4115-8bc8-b0fadfe72c8d" />
-<img width="1038" height="645" alt="Screenshot 2026-06-16 at 12 37 36 AM" src="https://github.com/user-attachments/assets/d141fff8-5771-4992-b6b0-a455cce6dd4b" />
-<img width="1031" height="309" alt="Screenshot 2026-06-16 at 12 38 05 AM" src="https://github.com/user-attachments/assets/38bd62c6-a6ac-4ce4-bd91-440176e56a91" />
+<img width="1127" height="705" alt="Screenshot 2026-06-17 at 1 05 59 PM" src="https://github.com/user-attachments/assets/adcdfe9f-3de9-449d-98c1-7527289bb00f" />
+<img width="1134" height="707" alt="Screenshot 2026-06-17 at 1 06 14 PM" src="https://github.com/user-attachments/assets/0cc557d7-8736-4344-aa99-44f7db867ee3" />
 
 
 
@@ -437,11 +437,11 @@ python main.py --step all --skip-prereq  # Skip CloudFormation, run steps only
 ```bash
 # Preview what will be deleted (nothing is removed)
 python main.py --cleanup --dry-run
-
+```
 <img width="980" height="448" alt="Screenshot 2026-06-16 at 12 40 54 AM" src="https://github.com/user-attachments/assets/bef9a720-6185-4f21-ae3d-387f323de103" />
 
-
 # Delete everything
+```bash
 python main.py --cleanup
 ```
 <img width="977" height="640" alt="Screenshot 2026-06-16 at 12 46 00 AM" src="https://github.com/user-attachments/assets/96278cbd-a20d-4a44-9707-732f91c16b9e" />
@@ -672,9 +672,6 @@ agent_entrypoint.py → Strands Agent (Nova Pro)
 
 <img width="1419" height="735" alt="Screenshot 2026-06-16 at 8 50 58 PM" src="https://github.com/user-attachments/assets/16189012-1bff-4599-a9e2-848b1af18e34" />
 
-<img width="1421" height="746" alt="Screenshot 2026-06-16 at 9 04 40 PM" src="https://github.com/user-attachments/assets/76cb2223-4814-4cac-b3a1-9d150b23216a" />
-
-<img width="1421" height="732" alt="Screenshot 2026-06-16 at 9 04 58 PM" src="https://github.com/user-attachments/assets/e80be38f-560c-4cd0-bec7-8c80d0e5f312" />
 
 
 
