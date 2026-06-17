@@ -384,6 +384,7 @@ Other useful commands:
 ```bash
 make test      # Unit tests — no AWS credentials required
 ```
+<img width="1190" height="361" alt="Screenshot 2026-06-16 at 9 43 47 PM" src="https://github.com/user-attachments/assets/2e027235-ad5e-4332-b186-93d5b1c329aa" />
 
 ### Option B — CLI directly
 
@@ -418,15 +419,35 @@ python main.py --step 3 4          # Run Steps 3 and 4 in sequence
 python main.py --step all --skip-prereq  # Skip CloudFormation, run steps only
 ```
 
+<img width="1023" height="638" alt="Screenshot 2026-06-16 at 12 35 14 AM" src="https://github.com/user-attachments/assets/3861f221-3e9a-4386-b58a-f5bec99cbe38" />
+<img width="1020" height="628" alt="Screenshot 2026-06-16 at 12 35 34 AM" src="https://github.com/user-attachments/assets/a4057d57-53eb-48bd-b7b8-b6281094e67a" />
+<img width="1036" height="644" alt="Screenshot 2026-06-16 at 12 35 56 AM" src="https://github.com/user-attachments/assets/1a8e874c-9647-43ca-8274-ebff6e55b598" />
+<img width="1022" height="644" alt="Screenshot 2026-06-16 at 12 36 15 AM" src="https://github.com/user-attachments/assets/284d2fed-9ae4-4e56-a7bf-cd7c216daa3d" />
+<img width="1033" height="645" alt="Screenshot 2026-06-16 at 12 36 32 AM" src="https://github.com/user-attachments/assets/e4ab3b2a-310d-4327-95e0-6d927292076e" />
+<img width="1029" height="644" alt="Screenshot 2026-06-16 at 12 37 04 AM" src="https://github.com/user-attachments/assets/5113595e-3884-4115-8bc8-b0fadfe72c8d" />
+<img width="1038" height="645" alt="Screenshot 2026-06-16 at 12 37 36 AM" src="https://github.com/user-attachments/assets/d141fff8-5771-4992-b6b0-a455cce6dd4b" />
+<img width="1031" height="309" alt="Screenshot 2026-06-16 at 12 38 05 AM" src="https://github.com/user-attachments/assets/38bd62c6-a6ac-4ce4-bd91-440176e56a91" />
+
+
+
+
 #### Cleanup — delete all AWS resources
 
 ```bash
 # Preview what will be deleted (nothing is removed)
 python main.py --cleanup --dry-run
 
+<img width="980" height="448" alt="Screenshot 2026-06-16 at 12 40 54 AM" src="https://github.com/user-attachments/assets/bef9a720-6185-4f21-ae3d-387f323de103" />
+
+
 # Delete everything
 python main.py --cleanup
 ```
+<img width="977" height="640" alt="Screenshot 2026-06-16 at 12 46 00 AM" src="https://github.com/user-attachments/assets/96278cbd-a20d-4a44-9707-732f91c16b9e" />
+
+<img width="985" height="643" alt="Screenshot 2026-06-16 at 12 46 15 AM" src="https://github.com/user-attachments/assets/0ca7dd8a-05b6-43c6-ae0b-866f91a437e5" />
+
+
 
 #### Verify cleanup — confirm nothing is left behind
 
@@ -446,6 +467,8 @@ This checks 15 resource types and prints a pass/fail report. If any items show �
 | Cognito User Pools | up to 30s |
 
 When all 15 checks show ✅, the account is fully clean.
+
+<img width="1038" height="645" alt="Screenshot 2026-06-16 at 12 51 49 AM" src="https://github.com/user-attachments/assets/fe465ee2-013d-4c01-83c5-eb527a488621" />
 
 ---
 
@@ -515,6 +538,9 @@ pytest tests/smoke_test.py -v
 ```
 
 The smoke suite runs **24 tests across 7 layers** of the stack:
+
+<img width="1134" height="574" alt="Screenshot 2026-06-16 at 7 34 23 PM" src="https://github.com/user-attachments/assets/be1d51a6-5b98-4dc5-bebb-ddd5859567f2" />
+
 
 | Test class | What it checks |
 |---|---|
@@ -623,3 +649,35 @@ agent_entrypoint.py → Strands Agent (Nova 2 Lite)
                                       ├── check_warranty() → Lambda → DynamoDB
                                       └── web_search() → DuckDuckGo
 ```
+---
+
+## Customer Support Agent Web Application (screenshots)
+
+<img width="1342" height="713" alt="Screenshot 2026-06-16 at 8 41 40 PM" src="https://github.com/user-attachments/assets/8ffa4593-2a1d-4231-8175-224061a1ff65" />
+
+<img width="1431" height="662" alt="Screenshot 2026-06-16 at 9 33 27 PM" src="https://github.com/user-attachments/assets/18e8a30c-9c6c-4b71-96dc-d6a44d11d780" />
+
+<img width="1426" height="746" alt="Screenshot 2026-06-16 at 8 39 40 PM" src="https://github.com/user-attachments/assets/7f7783f6-ee5b-477e-be6e-715631ed445b" />
+
+<img width="1434" height="733" alt="Screenshot 2026-06-16 at 8 39 58 PM" src="https://github.com/user-attachments/assets/877ce2de-aaf8-4a6c-bab2-359b756b2b04" />
+
+<img width="1405" height="734" alt="Screenshot 2026-06-16 at 8 46 04 PM" src="https://github.com/user-attachments/assets/9186284a-21d7-4ad8-8534-a72a5dc1a7e8" />
+
+<img width="1399" height="730" alt="Screenshot 2026-06-16 at 8 47 26 PM" src="https://github.com/user-attachments/assets/3e160388-a022-4962-b64d-0cf44c47eb81" />
+
+<img width="1407" height="725" alt="Screenshot 2026-06-16 at 8 48 44 PM" src="https://github.com/user-attachments/assets/6e9dc448-bbc0-4b86-a79f-7832d0231627" />
+
+<img width="1406" height="737" alt="Screenshot 2026-06-16 at 8 49 38 PM" src="https://github.com/user-attachments/assets/538d7114-c14a-4860-9910-6fd3558e6abb" />
+
+<img width="1419" height="735" alt="Screenshot 2026-06-16 at 8 50 58 PM" src="https://github.com/user-attachments/assets/16189012-1bff-4599-a9e2-848b1af18e34" />
+
+<img width="1421" height="746" alt="Screenshot 2026-06-16 at 9 04 40 PM" src="https://github.com/user-attachments/assets/76cb2223-4814-4cac-b3a1-9d150b23216a" />
+
+<img width="1421" height="732" alt="Screenshot 2026-06-16 at 9 04 58 PM" src="https://github.com/user-attachments/assets/e80be38f-560c-4cd0-bec7-8c80d0e5f312" />
+
+
+
+
+
+
+
