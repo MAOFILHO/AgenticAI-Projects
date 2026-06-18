@@ -8,9 +8,9 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-Chat%20UI-FF4B4B?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A **production-grade, fully automated** AI assistant for analyzing urban safety incidents. Built on **Retrieval-Augmented Generation (RAG)** with Azure AI services, featuring a Contoso-branded Streamlit web interface with observability via Azure Monitor.
+Designed and deployed a production-grade AI Smart Incident Assistant to enhance the analysis of urban safety incidents. The system is built on **Retrieval-Augmented Generation (RAG)** using Microsoft Fabric, which ensures accurate, context-driven answers, and Azure AI technologies, including Azure AI Search, Azure AI Vision, Azure Document Intelligence, and Azure AI Foundry to power the assistant’s capabilities. The project involves processing both structured data (PDFs) and unstructured data (incident images), and using Azure OpenAI for text generation, image captioning, and question-answering tasks, with a Contoso-branded Streamlit web interface and observability via Azure Monitor.
 
-**Key differentiator:** Zero Azure Portal visits required. One command provisions all cloud resources, another runs the full data pipeline, and a third launches the web app.
+**Key differentiator:** The project is fully automated with Zero Azure Portal visits required. One command provisions all cloud resources, another runs the full data pipeline, and a third launches the web app.
 
 ---
 
@@ -35,11 +35,11 @@ Using **Retrieval-Augmented Generation (RAG)**, the assistant delivers accurate,
                         python -m src.provision
   ┌──────────────────────────────────────────────────────────────┐
   │  Resource Group ─► OpenAI (GPT-4o + Embeddings)              │
-  │                 ─► Document Intelligence (F0)                 │
-  │                 ─► AI Vision (S1)                             │
-  │                 ─► AI Search (Free)                           │
-  │                 ─► Application Insights (telemetry)           │
-  │                 ─► .env auto-generated                        │
+  │                 ─► Document Intelligence (F0)                │
+  │                 ─► AI Vision (S1)                            │
+  │                 ─► AI Search (Free)                          │
+  │                 ─► Application Insights (telemetry)          │
+  │                 ─► .env auto-generated                       │
   └──────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
@@ -52,11 +52,11 @@ Using **Retrieval-Augmented Generation (RAG)**, the assistant delivers accurate,
   │  6 SOPs ──► Text Parsing ─────────────► parsed_sops.json     │
   │                        │                                     │
   │                        ▼                                     │
-  │              text-embedding-3-small (1536-dim)                │
+  │              text-embedding-3-small (1536-dim)               │
   │                        │                                     │
   │                        ▼                                     │
-  │              Azure AI Search (HNSW Vector Index)              │
-  │              186 documents indexed                            │
+  │              Azure AI Search (HNSW Vector Index)             │
+  │              186 documents indexed                           │
   │                                                              │
   └──────────────────────────────────────────────────────────────┘
                                 │
@@ -65,7 +65,8 @@ Using **Retrieval-Augmented Generation (RAG)**, the assistant delivers accurate,
                       streamlit run src/web/app.py
   ┌──────────────────────────────────────────────────────────────┐
   │                                                              │
-  │  User Query ─► Embed ─► Hybrid Search ─► Top-k Docs ─► GPT  │
+  │  User Query ─► Embed ─► Hybrid Search ─► Top-k Docs ─► GPT   |
+  │                                                              |
   │                                    Context-aware Response    │
   │                                                              │
   │  + Chat history memory (10-turn rolling window)              │
@@ -105,44 +106,54 @@ Using **Retrieval-Augmented Generation (RAG)**, the assistant delivers accurate,
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/MAOFILHO/AgenticAI-Projects.git
-cd AgenticAI-Projects/Smart-Incident-Assistant-for-Urban-Safety
+git clone https://github.com/MAOFILHO/AgenticAI-Projects/tree/main/Smart-Incident-Assistant-for-Urban-Safety2
+cd Smart-Incident-Assistant-for-Urban-Safety2
 python3.12 -m venv .venv        # Requires Python 3.10+
 source .venv/bin/activate        # macOS/Linux
 make install                     # Installs all dependencies + upgrades pip
 ```
-
 > **Note:** If `python3.12` is not available, use any Python 3.10+ interpreter to create the venv.
+
+<img width="923" height="912" alt="Screenshot 2026-06-18 at 5 45 24 PM" src="https://github.com/user-attachments/assets/d5e7223b-b4dd-4a8d-9ac2-a219c0d000b6" />
+
 
 ### 2. Provision Azure Resources
 
 ```bash
 make provision
 ```
-
 Creates all Azure resources automatically and generates your `.env` file with real keys and endpoints. No portal visits needed.
+
+<img width="925" height="909" alt="Screenshot 2026-06-18 at 5 45 50 PM" src="https://github.com/user-attachments/assets/08c7694e-a80c-45ec-a3b8-9d193f7bd7e2" />
+
 
 ### 3. Validate Environment
 
 ```bash
 make smoke-test
 ```
-
 Runs 29 checks: Python version, packages, Azure CLI, `.env` config, data directories, API connectivity.
+
+<img width="924" height="772" alt="Screenshot 2026-06-18 at 5 46 48 PM" src="https://github.com/user-attachments/assets/e394b2e1-1c4e-474d-9deb-284b4e6967c4" />
+
 
 ### 4. Run the Data Pipeline
 
 ```bash
 make pipeline
 ```
-
 Extracts text from 50 PDFs, captions 130 images with GPT-4o Vision, parses 6 SOPs, generates embeddings, and uploads 186 documents to Azure AI Search. Takes ~15 minutes (image captioning is the bottleneck).
+
+<img width="926" height="909" alt="Screenshot 2026-06-18 at 5 47 09 PM" src="https://github.com/user-attachments/assets/3189e156-aef3-4d92-9d95-8f1c3f6950d7" />
+<img width="919" height="904" alt="Screenshot 2026-06-18 at 5 47 42 PM" src="https://github.com/user-attachments/assets/fae80fd9-9318-4c41-8e16-1e3f4b474a25" />
+
 
 ### 5. Launch the Web App
 
 ```bash
 make run
 ```
+<img width="924" height="208" alt="Screenshot 2026-06-18 at 5 48 21 PM" src="https://github.com/user-attachments/assets/d214157f-48e6-48b6-8850-9c88733d5cd6" />
 
 Open `http://localhost:8501` and log in with:
 
@@ -152,6 +163,8 @@ Open `http://localhost:8501` and log in with:
 | **Password** | `MyPassword123!` |
 
 Credentials are configurable via `APP_USERNAME` and `APP_PASSWORD` in `.env`.
+
+<img width="1270" height="931" alt="Screenshot 2026-06-18 at 8 29 50 AM" src="https://github.com/user-attachments/assets/497cf683-6935-4d21-a3d3-ee7eed6903a1" />
 
 ---
 
@@ -190,7 +203,7 @@ Rolling 10-turn window maintains conversational context for follow-up questions,
 Every response includes expandable source cards showing document type, filename, and content snippet. Image-type sources display the actual photo inline.
 
 ### Secure Login
-Username/password authentication with configurable credentials via `.env`. Session tracking with unique session IDs.
+Username/password authentication with configurable credentials via `.env` Session tracking with unique session IDs.
 
 ### Multi-Page Web App
 - **Chat** — RAG chat interface with source attribution and inline images
@@ -217,7 +230,7 @@ Uses **Azure Monitor OpenTelemetry** for production-grade observability:
 ## Project Structure
 
 ```
-Smart-Incident-Assistant-for-Urban-Safety/
+Smart-Incident-Assistant-for-Urban-Safety2/
 ├── README.md                          # This file
 ├── requirements.txt                   # Python dependencies
 ├── .env.template                      # Environment variable template
