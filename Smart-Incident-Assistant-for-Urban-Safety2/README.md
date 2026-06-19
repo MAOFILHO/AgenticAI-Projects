@@ -1,4 +1,4 @@
-# Smart Incident Assistant for Urban Safety
+# Smart Incident Assistant for Urban Safety v2.0
 
 ## Fully Automated Multimodal RAG on Azure
 
