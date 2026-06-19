@@ -1,3 +1,49 @@
+### The Problem
+ShopSmart is a mid-size e-commerce platform processing **50,000** customer support tickets per day. Their current system is a simple router that classifies tickets and sends them to human agents. This approach has several limitations:
+
+### Current Pain Point	            Impact
+Human agents handle ALL tickets	    High cost, slow response times
+No automated order lookups	        Agents spend 40% of time just looking up order status
+No policy consistency	              Different agents give different answers about return policies
+Platinum customers wait in queue	  VIP customers get the same treatment as everyone else
+No conversation memory	            Customers repeat themselves when they call back
+
+### The Solution: Multi-Agent System
+We are building a Supervisor Multi-Agent System that:
+
+Supervisor Router classifies incoming tickets using LLM-based structured output
+Quick Answer Node handles simple order status lookups without an LLM (deterministic path)
+4 Specialist Sub-Agents handle complex tickets with domain-specific tools
+RAG Knowledge Base ensures consistent policy answers across all specialists
+HITL Escalation routes platinum customers and critical tickets to human managers
+PII Redaction protects customer data before it reaches any LLM
+Memory maintains conversation context across multi-turn interactions
+
+<img width="899" height="369" alt="Screenshot 2026-06-04 at 10 17 55 PM" src="https://github.com/user-attachments/assets/970aa548-3da6-420a-a340-74ddedb50317" />
+
+---
+
+## Results & Impact
+These estimates are grounded in real-world results from companies using AI support automation (e.g., Intercom, Zendesk AI, Klarna AI assistant, and IBM Watson Assistant case studies):
+
+→ **30–50%** ticket automation is typical once LLM + workflow routing is introduced.
+
+→ **25–60%** reduction in support costs via automation + deflection.
+
+→ **30–40%** of tickets are simple queries (order status, FAQs) → ideal for deterministic handling.
+
+→ **20–35%** improvement in first-response time with AI triage and prioritization.
+
+→ **15–25%** CSAT increase when memory + faster responses are introduced.
+
+→ **70%+** reduction in policy inconsistency when using centralized knowledge (RAG).
+
+---
+
+
+
+
+
 # ShopSmart Observability
 
 Production observability for the ShopSmart AI support agent using **LangSmith** and **Langfuse** side-by-side. Same agent, same 5 tickets, two dashboards.
