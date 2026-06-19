@@ -51,25 +51,25 @@ Cities and municipalities handle hundreds of urban safety incidents daily — tr
 
 A production-grade RAG system that unifies structured reports, visual evidence, and procedural SOPs into a single queryable intelligence layer — powered by Azure OpenAI, Azure AI Search, and Azure Document Intelligence.
 
-- **Multimodal RAG ingestion** — PDF reports extracted via Azure Document Intelligence; incident photos captioned via GPT-4o Vision; SOPs parsed and structured automatically
+- **Multimodal RAG ingestion** — PDF reports extracted via Azure Document Intelligence; incident photos captioned via GPT-4o Vision; SOPs parsed and structured automatically.
 - **Hybrid semantic search** — vector + keyword retrieval surfaces the right incident, image, or procedure regardless of how the query is phrased. Combines keyword-based BM25 matching with vector cosine similarity (HNSW, 1536-dim embeddings) for best-of-both retrieval accuracy.
-- **Cross-modal correlation** — a single query can retrieve an incident report, its associated image caption, and the applicable SOP in one response
-- **Conversational interface** — multi-turn RAG assistant with 10-turn chat memory, so analysts can drill down without re-stating context
+- **Cross-modal correlation** — a single query can retrieve an incident report, its associated image caption, and the applicable SOP in one response.
+- **Conversational interface** — multi-turn RAG assistant with 10-turn chat memory, so analysts can drill down without re-stating context.
 - **Grounded, auditable answers** — every response is traceable to retrieved source documents; no hallucinated protocols. Every response includes expandable source cards showing document type, filename, and content snippet. Image-type sources display the actual photo inline.
 - **Observability & Telemetry** — every response is traceable using Azure Monitor OpenTelemetry for production-grade observability. Application Insights for agentic workload traces.
 - **Web Search (Optional)** — Supplements RAG answers with live web search results via SerpAPI. Toggle in the sidebar. Requires a SerpAPI key in `.env`.
-- **Multi-Page Web App** — Chat: RAG chat interface with source attribution and inline images. Profile: User account details, session info, login duration. Settings: Model config, Azure resource endpoints, pipeline status, session telemetry
+- **Multi-Page Web App** — Chat: RAG chat interface with source attribution and inline images. Profile: User account details, session info, login duration. Settings: Model config, Azure resource endpoints, pipeline status, and session telemetry.
 - **Secure Login** — Username/password authentication with configurable credentials via `.env` Session tracking with unique session IDs.
 
 ---
 
 ### Results & Impact
 
-→ Improved incident triage efficiency by an estimated **35% faster** — analysts query instead of manually scanning
+→ Improved incident triage efficiency by an estimated **35% faster** — analysts query instead of manually scanning.
 
-→ Reduced SOP and incident search time by **60%** — unified semantic index replaces multi-system manual lookup
+→ Reduced SOP and incident search time by **60%** — unified semantic index replaces multi-system manual lookup.
 
-→ Cut manual extraction effort by **50%** — automated OCR, structured extraction, and AI-assisted retrieval eliminate manual copy-paste workflows
+→ Cut manual extraction effort by **50%** — automated OCR, structured extraction, and AI-assisted retrieval eliminate manual copy-paste workflows.
 
 
 ---
