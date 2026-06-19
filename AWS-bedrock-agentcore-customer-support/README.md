@@ -113,7 +113,7 @@ A fully automated pipeline that converts a Strands-based prototype into a produc
 
 ---
 
-## Results & Outcomes
+## Results & Impact
 
 These estimates are grounded in real-world enterprise AgentCore and Bedrock deployments:
 
