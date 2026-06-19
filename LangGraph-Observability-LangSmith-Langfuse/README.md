@@ -145,3 +145,13 @@ Both are optional — the agent runs and prints results even if neither platform
 
 <img width="859" height="662" alt="Screenshot 2026-06-07 at 8 03 51 PM" src="https://github.com/user-attachments/assets/e895de53-7a4d-41f6-804a-454ad22c398d" />
 
+<img width="1116" height="519" alt="1779058492723" src="https://github.com/user-attachments/assets/972a645c-a044-450c-a339-7fdabb6f0d95" />
+
+<img width="1116" height="553" alt="1779058506253" src="https://github.com/user-attachments/assets/09812a34-a64f-4a55-8f08-47d83c96cd02" />
+
+<img width="1116" height="549" alt="1779058523735" src="https://github.com/user-attachments/assets/0276472a-8b0c-45f0-8764-5968c73a92aa" />
+
+
+
+
+
