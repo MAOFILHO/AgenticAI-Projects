@@ -1,4 +1,4 @@
-# Contoso Smart Incident Assistant for Urban Safety
+# Smart Incident Assistant for Urban Safety
 
 ## Fully Automated Multimodal RAG on Azure
 
