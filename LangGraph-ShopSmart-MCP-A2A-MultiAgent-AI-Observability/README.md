@@ -208,6 +208,8 @@ mcp_server.py          mcp_client.py           agents.py
 - **`mcp_client.py`** — Bridges MCP tools to LangChain `StructuredTool` objects for agent consumption.
 - **`make mcp`** — Starts the MCP server standalone for external clients (stdio transport).
 
+---
+
 ## Quick Start
 
 ```bash
@@ -238,6 +240,7 @@ make diagram
 # Auto-generated on every make run / make app as well
 # Output: docs/graph_diagram.md (Mermaid) + docs/graph_diagram.png (image)
 ```
+---
 
 ## Cleanup & Reinstall
 
@@ -263,6 +266,8 @@ make test           # full test suite (requires OPENAI_API_KEY)
 make run            # process a sample ticket via CLI
 make app            # launch Streamlit frontend
 ```
+
+---
 
 ## Project Structure
 
@@ -359,6 +364,7 @@ make smoke      # Quick validation (no API key required for offline tests)
 ```
 
 ---
+
 ## Troubleshooting
 
 ### Tests skipped with "OPENAI_API_KEY not set"
