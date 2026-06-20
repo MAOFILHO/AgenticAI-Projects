@@ -3,12 +3,13 @@
 ### The Problem
 ShopSmart is a mid-size e-commerce platform processing **50,000** customer support tickets per day. Their current system is a simple router that classifies tickets and sends them to human agents. This approach has several limitations:
 
-### Current Pain Point	            Impact
-Human agents handle ALL tickets		High cost, slow response times
-No automated order lookups	      	Agents spend 40% of time just looking up order status
-No policy consistency	            Different agents give different answers about return policies
-Platinum customers wait in queue	VIP customers get the same treatment as everyone else
-No conversation memory	            Customers repeat themselves when they call back
+| Current Pain Point  | Impact |
+|---------------------|--------|
+| Human agents handle ALL tickets |	High cost, slow response times |
+| No automated order lookups | Agents spend 40% of time just looking up order status |
+| No policy consistency	| Different agents give different answers about return policies |
+| Platinum customers wait in queue | VIP customers get the same treatment as everyone else |
+| No conversation memory | Customers repeat themselves when they call back |
 
 ### The Solution: Multi-Agent System
 A production-grade multi-agent customer support system built with **LangChain**, **LangGraph**, **MCP**, and **A2A** protocols.
@@ -38,15 +39,6 @@ These estimates are grounded in real-world results from companies using AI suppo
 - **20–35%** improvement in first-response time with AI triage and prioritization.
 - **15–25%** CSAT increase when memory + faster responses are introduced.
 - **70%+** reduction in policy inconsistency when using centralized knowledge (RAG).
-
----
-
-### Prerequisites
-
-- **Python 3.12** (tested on 3.12.10; setup script enforces 3.12)
-- **OpenAI API key** (required for LLM and embeddings)
-- **LangSmith API key** (required — observability)
-- **Langfuse API keys** (required — observability)
 
 ---
 
@@ -122,6 +114,13 @@ graph TD
     H -.-> MCP
 ```
 
+### Why This Architecture?
+- Not every path needs AI: Simple order status queries use deterministic lookups (fast, cheap, reliable)
+- Specialists outperform generalists: Each sub-agent has focused tools and prompts
+- Humans stay in the loop: Critical decisions still go to human managers
+- RAG ensures consistency: All agents reference the same policy knowledge base
+
+
 ### System Summary
 
 | Component | Details |
@@ -173,7 +172,7 @@ else → order_handler (fallback)
 
 ---
 
-## Auto-Generated LangGraph Diagram
+## LangGraph Diagram
 
 ```mermaid
 ---
@@ -234,11 +233,19 @@ mcp_server.py          mcp_client.py           agents.py
 - **`mcp_client.py`** — Bridges MCP tools to LangChain `StructuredTool` objects for agent consumption.
 - **`make mcp`** — Starts the MCP server standalone for external clients (stdio transport).
 
-### Why This Architecture?
-Not every path needs AI: Simple order status queries use deterministic lookups (fast, cheap, reliable)
-Specialists outperform generalists: Each sub-agent has focused tools and prompts
-Humans stay in the loop: Critical decisions still go to human managers
-RAG ensures consistency: All agents reference the same policy knowledge base
+---
+
+## Prerequisites
+
+- **Python 3.12** (tested on 3.12.10; setup script enforces 3.12)
+- **OpenAI API key** (required for LLM and embeddings)
+- **LangSmith API key** (required — observability)
+- **Langfuse API keys** (required — observability)
+
+<img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/0984914a-2ffd-4fbb-85c5-e39e528cd696" />
+
+<img width="820" height="406" alt="Screenshot 2026-06-19 at 11 07 23 PM" src="https://github.com/user-attachments/assets/cfaaf2f4-23cb-4ea9-ba86-5414b05a92fa" />
+
 
 ---
 
@@ -272,6 +279,24 @@ make diagram
 # Auto-generated on every make run / make app as well
 # Output: docs/graph_diagram.md (Mermaid) + docs/graph_diagram.png (image)
 ```
+
+<img width="1040" height="378" alt="Screenshot 2026-06-19 at 11 53 06 PM" src="https://github.com/user-attachments/assets/775f44f6-076d-472c-9289-ad0fff04520a" />
+
+<img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/67256e89-2bcc-4560-8bc0-d75ffe6b1d7a" />
+
+<img width="1079" height="645" alt="Screenshot 2026-06-19 at 8 09 29 PM" src="https://github.com/user-attachments/assets/8aa778fb-acd1-4c89-8264-9e64d317084d" />
+
+<img width="1079" height="648" alt="Screenshot 2026-06-19 at 8 10 10 PM" src="https://github.com/user-attachments/assets/edc72c92-6506-4163-91ed-3db6595506ff" />
+
+<img width="1066" height="642" alt="Screenshot 2026-06-19 at 8 22 30 PM" src="https://github.com/user-attachments/assets/84df3f8f-b9aa-4722-ae07-c89f55bf3eb2" />
+
+<img width="1069" height="636" alt="Screenshot 2026-06-19 at 8 23 18 PM" src="https://github.com/user-attachments/assets/90f93db5-b757-45ad-a1e6-569766b2f1c0" />
+
+<img width="1072" height="718" alt="Screenshot 2026-06-19 at 11 32 02 PM" src="https://github.com/user-attachments/assets/356d1f55-6f54-4b9e-81c3-c04ddd4a8184" />
+
+<img width="1078" height="438" alt="Screenshot 2026-06-19 at 8 24 55 PM" src="https://github.com/user-attachments/assets/8166f0bd-94d0-4831-af79-8075e4ec79e1" />
+
+
 ---
 
 ## Cleanup & Reinstall
@@ -287,6 +312,7 @@ make clean
 # Option 2: Full cleanup (removes .venv for fresh reinstall)
 make cleanup
 ```
+<img width="1051" height="252" alt="Screenshot 2026-06-19 at 7 31 02 PM" src="https://github.com/user-attachments/assets/1684270f-c5ac-44dd-b65d-2ae02e37ffb3" />
 
 After `make cleanup`, reinstall with:
 
@@ -342,11 +368,11 @@ shopsmart-support/
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `OPENAI_API_KEY` | Yes | OpenAI API key |
-| `LANGSMITH_API_KEY` | No | LangSmith auto-tracing |
-| `LANGSMITH_PROJECT` | No | LangSmith project name (default: shopsmart-support) |
-| `LANGFUSE_PUBLIC_KEY` | No | Langfuse callback tracing |
-| `LANGFUSE_SECRET_KEY` | No | Langfuse secret |
-| `LANGFUSE_HOST` | No | Langfuse host (default: https://us.cloud.langfuse.com) |
+| `LANGSMITH_API_KEY` | Yes | LangSmith auto-tracing |
+| `LANGSMITH_PROJECT` | Yes | LangSmith project name (default: shopsmart-support) |
+| `LANGFUSE_PUBLIC_KEY` | Yes | Langfuse callback tracing |
+| `LANGFUSE_SECRET_KEY` | Yes | Langfuse secret |
+| `LANGFUSE_HOST` | Yes | Langfuse host (default: https://us.cloud.langfuse.com) |
 
 ---
 
@@ -364,6 +390,9 @@ shopsmart-support/
 | **Category Distribution** | Breakdown of tickets by category | — |
 | **Priority Distribution** | Breakdown of tickets by priority level | — |
 
+<img width="1071" height="596" alt="Screenshot 2026-06-19 at 7 07 22 PM" src="https://github.com/user-attachments/assets/6459d110-34c4-4d7f-ada3-8ff5640d87d6" />
+
+
 ### Observability Metrics (LangSmith + Langfuse)
 
 | Metric | Platform | Description |
@@ -373,6 +402,21 @@ shopsmart-support/
 | **Cost per Ticket** | Both | $ cost per ticket (auto-computed from tokens) |
 | **Custom Scores** | Both | Routing accuracy score per classification |
 | **Error Rate** | Both | Failed LLM calls or tool errors |
+
+<img width="1165" height="651" alt="Screenshot 2026-06-19 at 6 38 04 PM" src="https://github.com/user-attachments/assets/e0a93de3-3dbc-44db-b466-6a816df2b0d0" />
+
+<img width="1429" height="742" alt="Screenshot 2026-06-19 at 6 38 47 PM" src="https://github.com/user-attachments/assets/3af305a1-a589-45b0-b770-a3681f2673d8" />
+
+<img width="1422" height="701" alt="Screenshot 2026-06-19 at 6 39 00 PM" src="https://github.com/user-attachments/assets/ef38336c-3316-41a6-b670-e0e43b4e3dbf" />
+
+<img width="950" height="693" alt="Screenshot 2026-06-19 at 6 39 45 PM" src="https://github.com/user-attachments/assets/bb408ed2-f93d-40c3-8e7c-cf773b77f3e1" />
+
+<img width="1435" height="665" alt="Screenshot 2026-06-19 at 6 41 02 PM" src="https://github.com/user-attachments/assets/d23a6f56-91c1-4602-9b3c-9119b9866d22" />
+
+<img width="859" height="665" alt="Screenshot 2026-06-19 at 6 41 48 PM" src="https://github.com/user-attachments/assets/92bb67f6-93e1-4ac3-9c26-37d6659bb2cf" />
+
+<img width="859" height="666" alt="Screenshot 2026-06-19 at 6 41 18 PM" src="https://github.com/user-attachments/assets/ebdb165a-a899-4063-96a8-a0b177fb7420" />
+
 
 ### Benchmark Baselines
 
@@ -387,6 +431,7 @@ Based on initial testing with a 20-ticket batch:
 | Escalation Rate | ~10-15% (with platinum customer in dataset) |
 | Quick Answer Rate | ~35% (order_status with order ID) |
 
+
 ### CLI Commands
 
 ```bash
@@ -394,6 +439,26 @@ make metrics    # Print system summary to stdout
 make test       # Run full test suite (includes routing accuracy)
 make smoke      # Quick validation (no API key required for offline tests)
 ```
+<img width="1046" height="416" alt="Screenshot 2026-06-19 at 11 39 37 PM" src="https://github.com/user-attachments/assets/7a17afb3-4e9a-4fd2-8bcd-882bea056429" />
+
+
+---
+
+## ShopSmart Web Application (screenshots)
+
+<img width="1436" height="743" alt="Screenshot 2026-06-19 at 6 26 10 PM" src="https://github.com/user-attachments/assets/d2b6b69c-65a6-4e25-a90f-9b06f0041250" />
+
+<img width="1430" height="746" alt="Screenshot 2026-06-19 at 6 32 18 PM" src="https://github.com/user-attachments/assets/aa56d5eb-e144-4e25-9b12-ca1b0dd5eb66" />
+
+<img width="1428" height="744" alt="Screenshot 2026-06-19 at 6 36 11 PM" src="https://github.com/user-attachments/assets/5b751aa1-3413-49d5-9feb-6c9eb8849f33" />
+
+<img width="1430" height="748" alt="Screenshot 2026-06-19 at 6 36 32 PM" src="https://github.com/user-attachments/assets/18e6358a-8382-4bd4-85ba-0b7911b2241b" />
+
+<img width="1098" height="659" alt="Screenshot 2026-06-19 at 7 06 19 PM" src="https://github.com/user-attachments/assets/3707d529-f545-4d91-af1a-dfc50c13ab56" />
+
+<img width="1083" height="630" alt="Screenshot 2026-06-19 at 7 04 34 PM" src="https://github.com/user-attachments/assets/247dd5ea-0d83-421c-b7af-aedb11d4d20e" />
+
+<img width="1064" height="627" alt="Screenshot 2026-06-19 at 11 45 31 PM" src="https://github.com/user-attachments/assets/e2d3e12f-9c77-4fc5-b57c-ae904cff81b0" />
 
 ---
 
@@ -411,6 +476,9 @@ cat .env | grep OPENAI_API_KEY
 ### OpenAI 429 "insufficient_quota" errors
 
 Your OpenAI API key has no credits or billing is not enabled. Go to [platform.openai.com/settings/organization/billing](https://platform.openai.com/settings/organization/billing) and add a payment method or purchase credits. The full test suite costs under $0.50.
+
+<img width="1087" height="448" alt="Screenshot 2026-06-19 at 6 11 50 PM" src="https://github.com/user-attachments/assets/c8aa5a88-56d0-4309-838a-d5e04cff7b69" />
+
 
 ### ImportError: `create_tool_calling_agent` or `create_react_agent`
 
@@ -464,5 +532,6 @@ This project requires **Python 3.12** (tested on 3.12.10). The setup script enfo
 brew install python@3.12     # Homebrew
 pyenv install 3.12.10        # pyenv
 ```
+<img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/23e1b659-1335-4af8-a608-95c11526cc9d" />
 
 If you see syntax errors related to `str | None` or `dict[str, list]`, your Python version is too old. Check with `python3.12 --version`.
