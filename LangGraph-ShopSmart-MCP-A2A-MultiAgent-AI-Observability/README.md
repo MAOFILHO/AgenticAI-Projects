@@ -417,6 +417,12 @@ shopsmart-support/
 
 <img width="859" height="666" alt="Screenshot 2026-06-19 at 6 41 18 PM" src="https://github.com/user-attachments/assets/ebdb165a-a899-4063-96a8-a0b177fb7420" />
 
+<img width="1116" height="519" alt="610518677-972a645c-a044-450c-a339-7fdabb6f0d95" src="https://github.com/user-attachments/assets/f685687c-4a12-44b6-98ff-d5a1adaefb40" />
+
+<img width="1116" height="553" alt="610518669-09812a34-a64f-4a55-8f08-47d83c96cd02" src="https://github.com/user-attachments/assets/70940608-363c-4ca1-bda2-a0e727e145d4" />
+
+<img width="1116" height="549" alt="610518649-0276472a-8b0c-45f0-8764-5968c73a92aa" src="https://github.com/user-attachments/assets/4c8a2e9f-ef91-429f-b762-9359fca791d4" />
+
 
 ### Benchmark Baselines
 
