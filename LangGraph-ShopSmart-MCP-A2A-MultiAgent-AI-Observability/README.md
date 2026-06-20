@@ -28,11 +28,11 @@ MCP (Model Context Protocol) is the **standard** for tool access in this project
 
 ```
 mcp_server.py          mcp_client.py           agents.py
-┌──────────────┐      ┌──────────────┐      ┌──────────────┐
-│  FastMCP      │      │  LangChain   │      │  Specialist  │
-│  10 @mcp.tool │◄─────│  StructuredTool│◄─────│  Agents      │
-│  definitions  │      │  wrappers    │      │  (4 agents)  │
-└──────┬───────┘      └──────────────┘      └──────────────┘
+┌───────────-───┐      ┌────-─────────--─┐      ┌──────────────┐
+│  FastMCP      │      │  LangChain      │      │  Specialist  │
+│  10 @mcp.tool │◄─────│  StructuredTool │◄─────│  Agents      │
+│  definitions  │      │  wrappers       │      │  (4 agents)  │
+└──────┬─────-──┘      └──────────────---┘      └──────────────┘
        │
        ▼ (make mcp)
   External MCP Clients
