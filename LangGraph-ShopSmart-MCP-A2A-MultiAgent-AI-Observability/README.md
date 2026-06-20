@@ -1,18 +1,58 @@
 # ShopSmart Customer Support — Multi-Agent System
 
+### The Problem
+ShopSmart is a mid-size e-commerce platform processing **50,000** customer support tickets per day. Their current system is a simple router that classifies tickets and sends them to human agents. This approach has several limitations:
+
+### Current Pain Point	            Impact
+Human agents handle ALL tickets		High cost, slow response times
+No automated order lookups	      	Agents spend 40% of time just looking up order status
+No policy consistency	            Different agents give different answers about return policies
+Platinum customers wait in queue	VIP customers get the same treatment as everyone else
+No conversation memory	            Customers repeat themselves when they call back
+
+### The Solution: Multi-Agent System
 A production-grade multi-agent customer support system built with **LangChain**, **LangGraph**, **MCP**, and **A2A** protocols.
 
-## Prerequisites
+### Patterns Implemented
+
+1. **Supervisor Router** — Structured output classification with business rule overrides
+2. **Specialist Sub-Agents** — Domain-specific tool-calling agents via `create_agent`
+3. **Deterministic Quick-Answer** — No LLM for simple order lookups (~30-40% of tickets)
+4. **RAG Policy Lookup** — FAISS semantic search across policies.md
+5. **PII Redaction** — Regex (email, phone) + database (names) before LLM exposure
+6. **HITL Escalation** — LangGraph `interrupt()` + `Command(resume=...)` for human review
+7. **Thread Memory** — `MemorySaver` for multi-turn conversation continuity
+8. **Cross-Session Store** — `InMemoryStore` for customer history across threads
+9. **MCP Protocol** — MCP-first architecture: tools defined in `mcp_server.py`, accessed via `mcp_client.py`, also available standalone (`make mcp`)
+10. **A2A Protocol** — Google A2A spec (Agent Cards, Task lifecycle, Registry)
+11. **Dual Observability** — LangSmith auto-tracing + Langfuse callbacks
+
+---
+
+### Results & Impact
+These estimates are grounded in real-world results from companies using AI support automation (e.g., Intercom, Zendesk AI, Klarna AI assistant, and IBM Watson Assistant case studies):
+
+- **30–50%** ticket automation is typical once LLM + workflow routing is introduced.
+- **25–60%** reduction in support costs via automation + deflection.
+- **30–40%** of tickets are simple queries (order status, FAQs) → ideal for deterministic handling.
+- **20–35%** improvement in first-response time with AI triage and prioritization.
+- **15–25%** CSAT increase when memory + faster responses are introduced.
+- **70%+** reduction in policy inconsistency when using centralized knowledge (RAG).
+
+---
+
+### Prerequisites
 
 - **Python 3.12** (tested on 3.12.10; setup script enforces 3.12)
 - **OpenAI API key** (required for LLM and embeddings)
 - **LangSmith API key** (required — observability)
 - **Langfuse API keys** (required — observability)
 
+---
 
 ## Architecture
 
-## Mermaid Diagram
+### Mermaid Diagram
 
 ```mermaid
 graph TD
@@ -82,7 +122,7 @@ graph TD
     H -.-> MCP
 ```
 
-## System Summary
+### System Summary
 
 | Component | Details |
 |-----------|---------|
@@ -97,21 +137,8 @@ graph TD
 | **Observability** | LangSmith (auto-trace) + Langfuse (callback) |
 | **Frontend** | Streamlit (chat, manager review, dashboard, observability) |
 
-## Patterns Implemented
 
-1. **Supervisor Router** — Structured output classification with business rule overrides
-2. **Specialist Sub-Agents** — Domain-specific tool-calling agents via `create_agent`
-3. **Deterministic Quick-Answer** — No LLM for simple order lookups (~30-40% of tickets)
-4. **RAG Policy Lookup** — FAISS semantic search across policies.md
-5. **PII Redaction** — Regex (email, phone) + database (names) before LLM exposure
-6. **HITL Escalation** — LangGraph `interrupt()` + `Command(resume=...)` for human review
-7. **Thread Memory** — `MemorySaver` for multi-turn conversation continuity
-8. **Cross-Session Store** — `InMemoryStore` for customer history across threads
-9. **MCP Protocol** — MCP-first architecture: tools defined in `mcp_server.py`, accessed via `mcp_client.py`, also available standalone (`make mcp`)
-10. **A2A Protocol** — Google A2A spec (Agent Cards, Task lifecycle, Registry)
-11. **Dual Observability** — LangSmith auto-tracing + Langfuse callbacks
-
-## Data
+### Data
 
 | Dataset | Records | Purpose |
 |---------|---------|---------|
@@ -121,7 +148,7 @@ graph TD
 | tickets.json | 100 | Support tickets (6 categories, 4 priority levels) |
 | policies.md | ~3KB | Return, shipping, billing, escalation policies (RAG source) |
 
-## Routing Logic
+### Routing Logic
 
 ```
 if needs_escalation → escalation (HITL)
@@ -135,7 +162,7 @@ elif escalation → escalation (HITL)
 else → order_handler (fallback)
 ```
 
-## Escalation Triggers
+### Escalation Triggers
 
 - Platinum customer + high/critical priority
 - Classification confidence < 0.6
@@ -184,7 +211,6 @@ graph TD;
 	classDef last fill:#bfb6fc
 
 ```
-
 ----
 
 ### MCP-First Tool Architecture
@@ -207,6 +233,12 @@ mcp_server.py          mcp_client.py           agents.py
 - **`mcp_server.py`** — Single source of truth. All 10 tools are defined here with `@mcp.tool()`.
 - **`mcp_client.py`** — Bridges MCP tools to LangChain `StructuredTool` objects for agent consumption.
 - **`make mcp`** — Starts the MCP server standalone for external clients (stdio transport).
+
+### Why This Architecture?
+Not every path needs AI: Simple order status queries use deterministic lookups (fast, cheap, reliable)
+Specialists outperform generalists: Each sub-agent has focused tools and prompts
+Humans stay in the loop: Critical decisions still go to human managers
+RAG ensures consistency: All agents reference the same policy knowledge base
 
 ---
 
@@ -320,7 +352,7 @@ shopsmart-support/
 
 ## System Metrics Reference
 
-## Operational Metrics
+### Operational Metrics
 
 | Metric | Description | Target |
 |--------|-------------|--------|
@@ -332,7 +364,7 @@ shopsmart-support/
 | **Category Distribution** | Breakdown of tickets by category | — |
 | **Priority Distribution** | Breakdown of tickets by priority level | — |
 
-## Observability Metrics (LangSmith + Langfuse)
+### Observability Metrics (LangSmith + Langfuse)
 
 | Metric | Platform | Description |
 |--------|----------|-------------|
@@ -342,7 +374,7 @@ shopsmart-support/
 | **Custom Scores** | Both | Routing accuracy score per classification |
 | **Error Rate** | Both | Failed LLM calls or tool errors |
 
-## Benchmark Baselines
+### Benchmark Baselines
 
 Based on initial testing with a 20-ticket batch:
 
@@ -355,7 +387,7 @@ Based on initial testing with a 20-ticket batch:
 | Escalation Rate | ~10-15% (with platinum customer in dataset) |
 | Quick Answer Rate | ~35% (order_status with order ID) |
 
-## CLI Commands
+### CLI Commands
 
 ```bash
 make metrics    # Print system summary to stdout
