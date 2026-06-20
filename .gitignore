@@ -1,1 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+.venv/
+
+# Environment variables (contains API keys)
+.env
+
+# Test / IDE caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Claude Code
+.claude/
+
+# macOS
 .DS_Store
