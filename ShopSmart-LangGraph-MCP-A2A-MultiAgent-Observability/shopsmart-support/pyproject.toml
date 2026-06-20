@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shopsmart-support"
+version = "1.0.0"
+description = "ShopSmart Customer Support — Production Multi-Agent System"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=0.3",
+    "langchain-openai>=0.3",
+    "langgraph>=0.3",
+    "langchain-community>=0.3",
+    "faiss-cpu",
+    "pydantic>=2.0",
+    "python-dotenv",
+    "streamlit>=1.30",
+    "matplotlib",
+    "langsmith",
+    "langfuse",
+    "mcp[cli]",
+    "httpx",
+    "sse-starlette",
+    "starlette",
+    "uvicorn",
+    "watchdog",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[project.scripts]
+shopsmart = "shopsmart.graph:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

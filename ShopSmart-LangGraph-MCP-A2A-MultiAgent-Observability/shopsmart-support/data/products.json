@@ -1,0 +1,422 @@
+[
+  {
+    "product_id": "PROD-0001",
+    "name": "Wireless Headphones",
+    "category": "Electronics",
+    "price": 195.42,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "9 lbs",
+      "dimensions": "12x12x9 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0002",
+    "name": "Smart Watch",
+    "category": "Electronics",
+    "price": 223.57,
+    "stock_status": "out_of_stock",
+    "specs": {
+      "weight": "3 lbs",
+      "dimensions": "18x6x5 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0003",
+    "name": "Bluetooth Speaker",
+    "category": "Electronics",
+    "price": 37.16,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "17 lbs",
+      "dimensions": "5x11x18 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0004",
+    "name": "USB-C Hub",
+    "category": "Electronics",
+    "price": 73.92,
+    "stock_status": "out_of_stock",
+    "specs": {
+      "weight": "9 lbs",
+      "dimensions": "5x10x18 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0005",
+    "name": "Cotton T-Shirt",
+    "category": "Clothing",
+    "price": 108.66,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "7 lbs",
+      "dimensions": "15x8x7 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0006",
+    "name": "Denim Jeans",
+    "category": "Clothing",
+    "price": 120.17,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "12 lbs",
+      "dimensions": "13x6x19 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0007",
+    "name": "Running Shoes",
+    "category": "Clothing",
+    "price": 165.5,
+    "stock_status": "low_stock",
+    "specs": {
+      "weight": "3 lbs",
+      "dimensions": "14x16x11 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0008",
+    "name": "Winter Jacket",
+    "category": "Clothing",
+    "price": 214.32,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "8 lbs",
+      "dimensions": "14x7x12 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0009",
+    "name": "Coffee Maker",
+    "category": "Home & Garden",
+    "price": 261.27,
+    "stock_status": "low_stock",
+    "specs": {
+      "weight": "9 lbs",
+      "dimensions": "19x16x10 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0010",
+    "name": "Garden Tools Set",
+    "category": "Home & Garden",
+    "price": 117.34,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "9 lbs",
+      "dimensions": "7x10x12 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0011",
+    "name": "LED Desk Lamp",
+    "category": "Home & Garden",
+    "price": 57.38,
+    "stock_status": "low_stock",
+    "specs": {
+      "weight": "9 lbs",
+      "dimensions": "12x15x6 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0012",
+    "name": "Storage Bins",
+    "category": "Home & Garden",
+    "price": 76.41,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "11 lbs",
+      "dimensions": "17x13x7 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0013",
+    "name": "Yoga Mat",
+    "category": "Sports",
+    "price": 71.18,
+    "stock_status": "out_of_stock",
+    "specs": {
+      "weight": "11 lbs",
+      "dimensions": "11x20x17 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0014",
+    "name": "Dumbbells Set",
+    "category": "Sports",
+    "price": 266.55,
+    "stock_status": "low_stock",
+    "specs": {
+      "weight": "5 lbs",
+      "dimensions": "13x9x12 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0015",
+    "name": "Resistance Bands",
+    "category": "Sports",
+    "price": 226.04,
+    "stock_status": "out_of_stock",
+    "specs": {
+      "weight": "9 lbs",
+      "dimensions": "18x17x16 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0016",
+    "name": "Water Bottle",
+    "category": "Sports",
+    "price": 73.59,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "17 lbs",
+      "dimensions": "20x7x6 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0017",
+    "name": "Mystery Novel",
+    "category": "Books",
+    "price": 259.71,
+    "stock_status": "in_stock",
+    "specs": {
+      "weight": "6 lbs",
+      "dimensions": "18x7x17 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0018",
+    "name": "Cookbook",
+    "category": "Books",
+    "price": 120.66,
+    "stock_status": "low_stock",
+    "specs": {
+      "weight": "17 lbs",
+      "dimensions": "13x5x8 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0019",
+    "name": "Self-Help Guide",
+    "category": "Books",
+    "price": 207.69,
+    "stock_status": "out_of_stock",
+    "specs": {
+      "weight": "9 lbs",
+      "dimensions": "15x8x14 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  },
+  {
+    "product_id": "PROD-0020",
+    "name": "Science Fiction",
+    "category": "Books",
+    "price": 136.07,
+    "stock_status": "low_stock",
+    "specs": {
+      "weight": "1 lbs",
+      "dimensions": "13x10x8 inches"
+    },
+    "faq": [
+      {
+        "q": "Is this product returnable?",
+        "a": "Yes, within 30 days of purchase."
+      },
+      {
+        "q": "What is the warranty?",
+        "a": "1-year manufacturer warranty included."
+      }
+    ]
+  }
+]
