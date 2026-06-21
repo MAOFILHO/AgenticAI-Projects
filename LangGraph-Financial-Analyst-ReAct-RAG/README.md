@@ -18,7 +18,7 @@ The RAG retriever is a tool the agent autonomously chooses when to use — not a
 
 ---
 
-### Resuts & Impact
+### Results & Impact
 These estimates are grounded in benchmarks from similar AI copilots in finance (e.g., Morgan Stanley GPT assistant, Bloomberg AI tools, internal RAG copilots):
 
 → Reduced analyst preparation time from 3–5 hours to **under 10 minutes**
