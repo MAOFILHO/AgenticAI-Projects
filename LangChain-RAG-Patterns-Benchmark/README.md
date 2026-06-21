@@ -1,6 +1,6 @@
 # RAG Pattern Comparison & Evaluation Pipeline
 
-Compares **6 RAG patterns** against the **same 40-question evaluation dataset and
+Compares **7 RAG patterns** against the **same 40-question evaluation dataset and
 document corpus**, using a common evaluation framework (custom retrieval metrics +
 LLM-as-judge generation metrics, plus RAGAS metrics) as the common evaluation harness
 for every pattern.
@@ -28,20 +28,14 @@ For **every** pattern above, the pipeline runs:
 - **RAGAS metrics** (enabled by default, `ENABLE_RAGAS=true`): Faithfulness, Answer Relevancy,
   Context Precision, Context Recall.
 
-At the end, the terminal prints a side-by-side comparison table and key differences
-summary, and a multi-sheet Excel report is exported to `outputs/`.
+At the end, the terminal prints a side-by-side comparison table and key differences summary, and a multi-sheet Excel report is exported to `outputs/`.
 
 Like patterns 1-5, it is traced to LangSmith when `LANGSMITH_API_KEY` is set.
 
 
 ### Pattern 7: Multimodal Vision + Text RAG (SecureLife)
 
-Pattern 7 is a different shape of problem — a motor-insurance claims agent that
-**looks at a damage photo and reads policy text** to make a coverage decision.
-It is run as a separate demo (`src/patterns/multimodal_securelife.py`), not as
-part of the 40-question retrieval/generation comparison, since its inputs
-(images, a claim record) and outputs (a structured coverage decision) don't fit
-the text-QA metric framework used by patterns 1-6.
+Pattern 7 is a different shape of problem — a motor-insurance claims agent that **looks at a damage photo and reads policy text** to make a coverage decision. It is run as a separate demo (`src/patterns/multimodal_securelife.py`), not as part of the 40-question retrieval/generation comparison, since its inputs (images, a claim record) and outputs (a structured coverage decision) don't fit the text-QA metric framework used by patterns 1-6.
 
 **The Architecture**
 
@@ -50,14 +44,11 @@ the text-QA metric framework used by patterns 1-6.
 For each of the 3 sample damage photos (front collision, side scratch, total
 loss) against the same claim record (`CLM-2025-0001`), the pipeline runs:
 
-1. **`vision_node`** — `gpt-4o` analyses the photo and returns a structured
-   `DamageAssessment` (damage type, severity, estimated repair cost in INR,
+1. **`vision_node`** — `gpt-4o` analyses the photo and returns a structured `DamageAssessment` (damage type, severity, estimated repair cost in INR,
    affected parts).
-2. **`policy_node`** — semantic search (FAISS RAG) over the 10-clause
-   SecureLife Motor Comprehensive policy document, returning the relevant
+2. **`policy_node`** — semantic search (FAISS RAG) over the 10-clause SecureLife Motor Comprehensive policy document, returning the relevant
    coverage citations.
-3. **`synthesize_node`** — cross-checks vision + policy + claim record and
-   returns a structured `CoverageDecision` (APPROVE/REVIEW/REJECT, confidence,
+3. **`synthesize_node`** — cross-checks vision + policy + claim record and returns a structured `CoverageDecision` (APPROVE/REVIEW/REJECT, confidence,
    fraud signal vs. clause `FR-001`, cited clauses, reasoning, next steps).
 
 <img width="1003" height="548" alt="Screenshot 2026-06-10 at 9 50 28 PM" src="https://github.com/user-attachments/assets/9526b5ad-f43c-4ee0-98be-88c9bbe0aca6" />
