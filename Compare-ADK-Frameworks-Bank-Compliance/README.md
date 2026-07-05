@@ -1,4 +1,4 @@
-# MidwestBank AML Compliance Pipeline — 5-ADK Comparison
+# MidwestBank AML Compliance Pipeline — 5 ADK Agent Development Kit Comparison
 
 Runs the same **BSA/AML compliance reporting pipeline** using five different agentic AI frameworks side by side, then displays a comparison of architecture, timing, and key differences.
 
@@ -60,7 +60,7 @@ We will build an Agentic AI system that:
 5. Generate a structured regulatory compliance report
 
 
-## Frameworks
+## ADK Frameworks
 
 | # | Framework | Orchestration Model |
 |---|-----------|--------------------|
@@ -182,14 +182,14 @@ compare-adks/
 - All frameworks use `gpt-4o-mini` by default (set `OPENAI_MODEL` in `.env` to override)
 - Google ADK uses LiteLLM to route to OpenAI — no `GOOGLE_API_KEY` required
 - LangGraph uses `MemorySaver` (in-memory) — no external storage needed
-- AutoGen pre-fetches data into agent context to avoid tool-call overhead
+- AutoGen pre-fetches data into the agent context to avoid tool-call overhead
 - Each runner is independent — no shared state between framework runs
 
 ## Platform
 
 Linux / macOS / Windows supported. Python 3.11+.
 
-## Screenshots
+## The Pipeline
 
 <img width="978" height="622" alt="Screenshot 2026-06-09 at 6 17 36 PM" src="https://github.com/user-attachments/assets/63f3db68-18a2-4b71-98e0-057e74acb474" />
 
@@ -197,17 +197,30 @@ Linux / macOS / Windows supported. Python 3.11+.
 
 <img width="1071" height="604" alt="Screenshot 2026-06-09 at 6 20 43 PM" src="https://github.com/user-attachments/assets/5626e4aa-4df5-4f83-8dce-b724be93435a" />
 
+## ADK Framework Comparison Results
+
 <img width="1026" height="774" alt="Screenshot 2026-06-09 at 6 21 05 PM" src="https://github.com/user-attachments/assets/ec1afaa2-3357-4e36-8dc7-f3199769b2d4" />
 
 <img width="1060" height="446" alt="Screenshot 2026-06-09 at 6 21 53 PM" src="https://github.com/user-attachments/assets/e2355e9d-0503-492f-b996-b4f876369f96" />
 
+
+## Observability
+
 <img width="1432" height="592" alt="Screenshot 2026-06-09 at 6 13 09 PM" src="https://github.com/user-attachments/assets/deded769-f040-4a30-9206-3934cad544bb" />
+
+---
 
 <img width="1434" height="618" alt="Screenshot 2026-06-09 at 6 14 06 PM" src="https://github.com/user-attachments/assets/94c3f44a-d957-4cd1-ab9b-2e00916fa080" />
 
+---
+
 <img width="952" height="879" alt="Screenshot 2026-06-09 at 6 14 35 PM" src="https://github.com/user-attachments/assets/99c98d8c-bd72-475a-ad98-684edab28e4a" />
 
+---
+
 <img width="954" height="877" alt="Screenshot 2026-06-09 at 6 14 57 PM" src="https://github.com/user-attachments/assets/0e4b128c-6957-4e2f-a562-2e86fd6f1e18" />
+
+---
 
 <img width="953" height="873" alt="Screenshot 2026-06-09 at 6 15 51 PM" src="https://github.com/user-attachments/assets/4f71503e-55c0-4722-80cd-8201a6642b60" />
 
