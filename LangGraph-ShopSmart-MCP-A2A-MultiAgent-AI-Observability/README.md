@@ -44,7 +44,6 @@ These estimates are grounded in real-world results from companies using AI suppo
 - **15–25%** CSAT increase when memory + faster responses are introduced.
 - **70%+** reduction in policy inconsistency when using centralized knowledge (RAG).
 
----
 
 ## Architecture
 
@@ -237,7 +236,6 @@ MCP (Model Context Protocol) is the **standard** for tool access in this project
 - **`mcp_client.py`** — Bridges MCP tools to LangChain `StructuredTool` objects for agent consumption.
 - **`make mcp`** — Starts the MCP server standalone for external clients (stdio transport).
 
----
 
 ## Prerequisites
 
@@ -250,8 +248,6 @@ MCP (Model Context Protocol) is the **standard** for tool access in this project
 
 <img width="820" height="406" alt="Screenshot 2026-06-19 at 11 07 23 PM" src="https://github.com/user-attachments/assets/cfaaf2f4-23cb-4ea9-ba86-5414b05a92fa" />
 
-
----
 
 ## Quick Start
 
@@ -301,7 +297,6 @@ make diagram
 <img width="1078" height="438" alt="Screenshot 2026-06-19 at 8 24 55 PM" src="https://github.com/user-attachments/assets/8166f0bd-94d0-4831-af79-8075e4ec79e1" />
 
 
----
 
 ## Cleanup & Reinstall
 
@@ -329,7 +324,6 @@ make run            # process a sample ticket via CLI
 make app            # launch Streamlit frontend
 ```
 
----
 
 ## Project Structure
 
@@ -367,6 +361,7 @@ shopsmart-support/
 | gpt-4.1-mini | Secondary (response formatter) | 0.3 |
 | text-embedding-3-small | RAG embeddings | — |
 
+
 ## Environment Variables
 
 | Variable | Required | Description |
@@ -378,7 +373,6 @@ shopsmart-support/
 | `LANGFUSE_SECRET_KEY` | Yes | Langfuse secret |
 | `LANGFUSE_HOST` | Yes | Langfuse host (default: https://us.cloud.langfuse.com) |
 
----
 
 ## System Metrics Reference
 
@@ -428,7 +422,7 @@ shopsmart-support/
 <img width="1116" height="549" alt="610518649-0276472a-8b0c-45f0-8764-5968c73a92aa" src="https://github.com/user-attachments/assets/4c8a2e9f-ef91-429f-b762-9359fca791d4" />
 
 
-### Benchmark Baselines
+## Benchmark Baselines
 
 Based on initial testing with a 20-ticket batch:
 
@@ -452,8 +446,6 @@ make smoke      # Quick validation (no API key required for offline tests)
 <img width="1046" height="416" alt="Screenshot 2026-06-19 at 11 39 37 PM" src="https://github.com/user-attachments/assets/7a17afb3-4e9a-4fd2-8bcd-882bea056429" />
 
 
----
-
 ## ShopSmart Web Application (screenshots)
 
 <img width="1436" height="743" alt="Screenshot 2026-06-19 at 6 26 10 PM" src="https://github.com/user-attachments/assets/d2b6b69c-65a6-4e25-a90f-9b06f0041250" />
@@ -470,7 +462,6 @@ make smoke      # Quick validation (no API key required for offline tests)
 
 <img width="1064" height="627" alt="Screenshot 2026-06-19 at 11 45 31 PM" src="https://github.com/user-attachments/assets/e2d3e12f-9c77-4fc5-b57c-ae904cff81b0" />
 
----
 
 ## Troubleshooting
 
