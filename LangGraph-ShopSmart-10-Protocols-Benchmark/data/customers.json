@@ -1,0 +1,102 @@
+[
+  {
+    "customer_id": "CUST-0001",
+    "name": "John Smith",
+    "email": "john.smith@email.com",
+    "phone": "555-754-2824",
+    "tier": "bronze",
+    "join_date": "2024-07-01",
+    "past_tickets_count": 7,
+    "last_contact_date": "2026-01-30"
+  },
+  {
+    "customer_id": "CUST-0002",
+    "name": "Sarah Johnson",
+    "email": "sarah.j@email.com",
+    "phone": "555-242-2679",
+    "tier": "silver",
+    "join_date": "2025-07-21",
+    "past_tickets_count": 13,
+    "last_contact_date": "2026-02-11"
+  },
+  {
+    "customer_id": "CUST-0003",
+    "name": "Michael Brown",
+    "email": "m.brown@email.com",
+    "phone": "555-130-2535",
+    "tier": "bronze",
+    "join_date": "2023-03-18",
+    "past_tickets_count": 0,
+    "last_contact_date": "2026-01-09"
+  },
+  {
+    "customer_id": "CUST-0004",
+    "name": "Emily Davis",
+    "email": "emily.d@email.com",
+    "phone": "555-303-9928",
+    "tier": "bronze",
+    "join_date": "2023-07-11",
+    "past_tickets_count": 8,
+    "last_contact_date": "2025-12-24"
+  },
+  {
+    "customer_id": "CUST-0005",
+    "name": "Robert Wilson",
+    "email": "r.wilson@email.com",
+    "phone": "555-990-1106",
+    "tier": "silver",
+    "join_date": "2025-02-23",
+    "past_tickets_count": 13,
+    "last_contact_date": "2026-01-23"
+  },
+  {
+    "customer_id": "CUST-0006",
+    "name": "Jennifer Garcia",
+    "email": "jennifer.g@email.com",
+    "phone": "555-384-3547",
+    "tier": "bronze",
+    "join_date": "2024-02-26",
+    "past_tickets_count": 3,
+    "last_contact_date": "2026-02-08"
+  },
+  {
+    "customer_id": "CUST-0007",
+    "name": "David Martinez",
+    "email": "david.m@email.com",
+    "phone": "555-489-2584",
+    "tier": "bronze",
+    "join_date": "2024-02-11",
+    "past_tickets_count": 8,
+    "last_contact_date": "2025-12-24"
+  },
+  {
+    "customer_id": "CUST-0008",
+    "name": "Lisa Anderson",
+    "email": "lisa.a@email.com",
+    "phone": "555-144-8527",
+    "tier": "silver",
+    "join_date": "2023-12-02",
+    "past_tickets_count": 2,
+    "last_contact_date": "2026-01-09"
+  },
+  {
+    "customer_id": "CUST-0009",
+    "name": "James Taylor",
+    "email": "james.t@email.com",
+    "phone": "555-400-6925",
+    "tier": "silver",
+    "join_date": "2025-08-26",
+    "past_tickets_count": 1,
+    "last_contact_date": "2026-01-02"
+  },
+  {
+    "customer_id": "CUST-0010",
+    "name": "Mary Thomas",
+    "email": "mary.thomas@email.com",
+    "phone": "555-333-5741",
+    "tier": "platinum",
+    "join_date": "2024-09-26",
+    "past_tickets_count": 3,
+    "last_contact_date": "2026-01-20"
+  }
+]

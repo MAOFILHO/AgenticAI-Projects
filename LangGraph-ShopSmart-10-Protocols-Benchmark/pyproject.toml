@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agenticai-communication-patterns-benchmark"
+version = "0.1.0"
+description = "Agentic AI Communication Patterns Benchmark — benchmarking REST, GraphQL, gRPC, Webhook, WebSocket, MQTT, AMQP, SOAP, MCP, and A2A inside a real multi-agent tool-calling loop"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=0.3",
+    "langchain-openai>=0.3",
+    "langgraph>=0.3",
+    "langchain-community>=0.3",
+    "faiss-cpu",
+    "pydantic>=2.0",
+    "python-dotenv",
+    "streamlit>=1.30",
+    "matplotlib",
+    "langsmith",
+    "langfuse",
+    "mcp[cli]",
+    "httpx",
+    "sse-starlette",
+    "starlette",
+    "uvicorn",
+    "watchdog",
+    "fastapi",
+    "strawberry-graphql",
+    "grpcio",
+    "grpcio-tools",
+    "websockets",
+    "paho-mqtt",
+    "pika",
+    "lxml",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[project.scripts]
+shopsmart = "shopsmart.graph:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
