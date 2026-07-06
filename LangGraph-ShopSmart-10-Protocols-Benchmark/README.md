@@ -6,7 +6,7 @@ The differentiator vs. a synthetic protocol benchmark: each protocol does **real
 
 Everything below this point documents the underlying ShopSmart multi-agent system this benchmark is built on top of.
 
-### The Problem
+## The Problem
 ShopSmart is a mid-size e-commerce platform processing **50,000** customer support tickets per day. Their current system is a simple router that classifies tickets and sends them to human agents. This approach has several limitations:
 
 | Current Pain Point  | Impact |
@@ -17,14 +17,13 @@ ShopSmart is a mid-size e-commerce platform processing **50,000** customer suppo
 | Platinum customers wait in the queue | VIP customers get the same treatment as everyone else |
 | No conversation memory | Customers repeat themselves when they call back |
 
----
 
-### The Solution: Multi-Agent System
+
+## The Solution: Multi-Agent System
 A production-grade multi-agent customer support system built with **LangChain**, **LangGraph**, **MCP**, and **A2A** protocols.
 
----
 
-### Patterns Implemented
+## Patterns Implemented
 
 1. **Supervisor Router** — Structured output classification with business rule overrides
 2. **Specialist Sub-Agents** — Domain-specific tool-calling agents via `create_agent`
@@ -39,9 +38,9 @@ A production-grade multi-agent customer support system built with **LangChain**,
 11. **Dual Observability** — LangSmith auto-tracing + Langfuse callbacks
 12. **8 Additional Communication Protocols** — REST, GraphQL, gRPC (Phase 1), Webhook, WebSocket (Phase 2), MQTT, AMQP via Docker brokers (Phase 3), SOAP (Phase 4) — each wired into a real specialist agent's tool-calling loop and instrumented with the same shared fault-injection/timing seam (`fault_injector.py`, `protocol_timing.py`) so all 10 protocols (including MCP/A2A above) are directly comparable via `make benchmark` or the Streamlit "🔌 Protocol Benchmark" tab
 
----
 
-### Results & Impact
+
+## Results & Impact
 These estimates are grounded in real-world results from companies using AI support automation (e.g., Intercom, Zendesk AI, Klarna AI assistant, and IBM Watson Assistant case studies):
 
 - **30–50%** ticket automation is typical once LLM + workflow routing is introduced.
@@ -141,9 +140,9 @@ graph TD
     G -.-> PROTO
     H -.-> PROTO
 ```
----
 
-### LangGraph Diagram
+
+## LangGraph Diagram
 
 ```mermaid
 ---
