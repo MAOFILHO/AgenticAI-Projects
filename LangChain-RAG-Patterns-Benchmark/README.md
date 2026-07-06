@@ -294,6 +294,8 @@ Both thresholds are configurable via `.env` (`REGRESSION_RELATIVE_DROP_THRESHOLD
 
 <img width="1374" height="457" alt="Screenshot 2026-06-10 at 4 19 07 PM" src="https://github.com/user-attachments/assets/7589e5c7-2ec4-4eec-be6f-263de257e8c6" />
 
+## Observability
+
 <img width="1684" height="574" alt="Screenshot 2026-06-10 at 3 35 29 PM" src="https://github.com/user-attachments/assets/b16e8c02-2ccd-44be-9783-6acd1d6fe570" />
 
 <img width="1680" height="887" alt="Screenshot 2026-06-10 at 3 36 29 PM" src="https://github.com/user-attachments/assets/91c82067-fd83-4f70-804e-1bc4839f3c6f" />
@@ -315,6 +317,8 @@ Both thresholds are configurable via `.env` (`REGRESSION_RELATIVE_DROP_THRESHOLD
 <img width="1005" height="897" alt="Screenshot 2026-06-10 at 3 39 34 PM" src="https://github.com/user-attachments/assets/200ceee6-8e58-426e-84a8-210f30195f39" />
 
 <img width="1011" height="891" alt="Screenshot 2026-06-10 at 3 59 25 PM" src="https://github.com/user-attachments/assets/c1550e5f-933c-4f44-9983-52d422510970" />
+
+## GitHub Actions (CI/CD)
 
 <img width="1683" height="528" alt="Screenshot 2026-06-10 at 9 00 51 PM" src="https://github.com/user-attachments/assets/22b9d345-df88-4bc3-96a9-cbca5457b784" />
 
