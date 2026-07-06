@@ -37,7 +37,7 @@ Like patterns 1-5, it is traced to LangSmith when `LANGSMITH_API_KEY` is set.
 
 Pattern 7 is a different shape of problem — a motor-insurance claims agent that **looks at a damage photo and reads policy text** to make a coverage decision. It is run as a separate demo (`src/patterns/multimodal_securelife.py`), not as part of the 40-question retrieval/generation comparison, since its inputs (images, a claim record) and outputs (a structured coverage decision) don't fit the text-QA metric framework used by patterns 1-6.
 
-**The Architecture**
+## The Architecture
 
 <img width="909" height="449" alt="Screenshot 2026-06-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/21b53475-4432-40d6-a3aa-d30bcbb1d53c" />
 
@@ -55,6 +55,8 @@ loss) against the same claim record (`CLM-2025-0001`), the pipeline runs:
 
 The claim record is loaded from `data/multimodal/SecureLife_claims.db` (SQLite database). 
 Sample images live in `data/multimodal/`.
+
+## Agent State
 
 <img width="1027" height="397" alt="Screenshot 2026-06-10 at 9 51 03 PM" src="https://github.com/user-attachments/assets/0cc1307d-7373-4576-930c-858ea364a1fc" />
 
