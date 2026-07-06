@@ -157,7 +157,7 @@ graph TD;
 
 ```
 
-### Why This Architecture?
+## Why This Architecture?
 - Not every path needs AI: Simple order status queries use deterministic lookups (fast, cheap, reliable)
 - Specialists outperform generalists: Each sub-agent has focused tools and prompts
 - Humans stay in the loop: Critical decisions still go to human managers
@@ -213,9 +213,8 @@ else → order_handler (fallback)
 - Legal threats or social media threats
 - High-value disputes > $500
 
-----
 
-### MCP-First Tool Architecture
+## MCP-First Tool Architecture
 
 MCP (Model Context Protocol) is the **standard** for tool access in this project, not an add-on:
 
