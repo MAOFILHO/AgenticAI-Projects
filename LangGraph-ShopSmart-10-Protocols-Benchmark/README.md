@@ -2,7 +2,7 @@
 
 A fork of the **ShopSmart Customer Support Multi-Agent System** that benchmarks **10 inter-service communication protocols** (REST, GraphQL, gRPC, Webhook, WebSocket, MQTT, AMQP, SOAP, MCP, A2A) side by side — using the *same* agent tool-calling loop, the *same* customer support domain, and the *same* observability stack (LangSmith + Langfuse), so results are directly comparable.
 
-The differentiator vs. a synthetic protocol benchmark: each protocol does **real work** inside an actual ShopSmart specialist agent's tool-calling loop (e.g. GraphQL powers a product catalog search, AMQP powers a billing fraud/audit check, A2A powers a real agent-to-agent order lookup delegation) — not an isolated request/response microbenchmark. See [Protocol Comparison](#protocol-comparison) for real measured results, and Benchmark Baselines for how to reproduce them.
+The differentiator vs. a synthetic protocol benchmark: each protocol does **real work** inside an actual ShopSmart specialist agent's tool-calling loop (e.g. GraphQL powers a product catalog search, AMQP powers a billing fraud/audit check, A2A powers a real agent-to-agent order lookup delegation) — not an isolated request/response microbenchmark. See [Protocol Comparison](#protocol-comparison) for real measured results, and [Benchmark Baselines](#benchmark-baselines) for how to reproduce them.
 
 Everything below this point documents the underlying ShopSmart multi-agent system on which this benchmark is built.
 
