@@ -6,13 +6,17 @@ ShopSmart is a mid-size e-commerce platform processing **50,000** customer suppo
 | Current Pain Point  | Impact |
 |---------------------|--------|
 | Human agents handle ALL tickets |	High cost, slow response times |
-| No automated order lookups | Agents spend 40% of time just looking up order status |
+| No automated order lookups | Agents spend 40% of their time just looking up order status |
 | No policy consistency	| Different agents give different answers about return policies |
-| Platinum customers wait in queue | VIP customers get the same treatment as everyone else |
+| Platinum customers wait in the queue | VIP customers get the same treatment as everyone else |
 | No conversation memory | Customers repeat themselves when they call back |
+
+---
 
 ### The Solution: Multi-Agent System
 A production-grade multi-agent customer support system built with **LangChain**, **LangGraph**, **MCP**, and **A2A** protocols.
+
+---
 
 ### Patterns Implemented
 
@@ -206,7 +210,7 @@ else → order_handler (fallback)
 - Platinum customer + high/critical priority
 - Classification confidence < 0.6
 - Category classified as "escalation"
-- Customer explicitly requests manager
+- Customer explicitly requests the manager
 - Legal threats or social media threats
 - High-value disputes > $500
 
@@ -217,7 +221,7 @@ else → order_handler (fallback)
 MCP (Model Context Protocol) is the **standard** for tool access in this project, not an add-on:
 
 ```
-mcp_server.py          mcp_client.py           agents.py
+  mcp_server.py           mcp_client.py            agents.py
 ┌───────────-───┐      ┌────-─────────--─┐      ┌──────────────┐
 │  FastMCP      │      │  LangChain      │      │  Specialist  │
 │  10 @mcp.tool │◄─────│  StructuredTool │◄─────│  Agents      │
