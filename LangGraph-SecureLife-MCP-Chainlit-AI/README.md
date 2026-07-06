@@ -4,6 +4,20 @@ Designed and implemented a distributed, asynchronous AI agent pipeline for end-t
 
 ---
 
+## 💼 Business Scenario
+
+Insurance companies process large volumes of claims that require reviewing policy documents, verifying claim details, and identifying fraud risks. Manually reviewing each request is time-consuming and error-prone.
+
+**SecureLife** is an AI-powered agent that helps insurance operations teams by:
+
+- Answering policy-related questions instantly using uploaded documents
+- Analyzing claims datasets to surface trends and anomalies
+- Looking up individual claim status on demand
+- Scoring fraud risk for incoming claims using business logic
+- Retrieving the latest regulatory updates from the web in real time
+
+---
+
 ## Results & Impact
 These figures are realistic estimates based on similar deployments in insurance AI automation:
 
