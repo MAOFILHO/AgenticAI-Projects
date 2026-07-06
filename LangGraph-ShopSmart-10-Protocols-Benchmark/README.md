@@ -1,10 +1,10 @@
-# AgenticAI Communication Patterns Benchmark
+# Agentic AI - 10 Protocols Benchmark
 
 A fork of the **ShopSmart Customer Support Multi-Agent System** that benchmarks **10 inter-service communication protocols** (REST, GraphQL, gRPC, Webhook, WebSocket, MQTT, AMQP, SOAP, MCP, A2A) side by side — using the *same* agent tool-calling loop, the *same* customer support domain, and the *same* observability stack (LangSmith + Langfuse), so results are directly comparable.
 
 The differentiator vs. a synthetic protocol benchmark: each protocol does **real work** inside an actual ShopSmart specialist agent's tool-calling loop (e.g. GraphQL powers a product catalog search, AMQP powers a billing fraud/audit check, A2A powers a real agent-to-agent order lookup delegation) — not an isolated request/response microbenchmark. See [Protocol Comparison](#protocol-comparison--example-run-10-tickets-category-balanced-selection) for real measured results, and [Benchmark Baselines](#benchmark-baselines) for how to reproduce them.
 
-Everything below this point documents the underlying ShopSmart multi-agent system this benchmark is built on top of.
+Everything below this point documents the underlying ShopSmart multi-agent system on which this benchmark is built.
 
 ## The Problem
 ShopSmart is a mid-size e-commerce platform processing **50,000** customer support tickets per day. Their current system is a simple router that classifies tickets and sends them to human agents. This approach has several limitations:
@@ -20,10 +20,10 @@ ShopSmart is a mid-size e-commerce platform processing **50,000** customer suppo
 
 
 ## The Solution: Multi-Agent System
-A production-grade multi-agent customer support system built with **LangChain**, **LangGraph**, **MCP**, and **A2A** protocols.
+A production-grade multi-agent customer support system built with **LangChain**, **LangGraph**, and 10 protocols for Benchmark.
 
 
-## Patterns Implemented
+## Agentic Patterns Implemented
 
 1. **Supervisor Router** — Structured output classification with business rule overrides
 2. **Specialist Sub-Agents** — Domain-specific tool-calling agents via `create_agent`
@@ -33,11 +33,8 @@ A production-grade multi-agent customer support system built with **LangChain**,
 6. **HITL Escalation** — LangGraph `interrupt()` + `Command(resume=...)` for human review
 7. **Thread Memory** — `MemorySaver` for multi-turn conversation continuity
 8. **Cross-Session Store** — `InMemoryStore` for customer history across threads
-9. **MCP Protocol** — MCP-first architecture: tools defined in `mcp_server.py`, accessed via `mcp_client.py`, also available standalone (`make mcp`)
-10. **A2A Protocol** — Google A2A spec (Agent Cards, Task lifecycle, Registry) — used for real handler-to-handler delegation (e.g. returns_specialist → order_specialist)
-11. **Dual Observability** — LangSmith auto-tracing + Langfuse callbacks
-12. **8 Additional Communication Protocols** — REST, GraphQL, gRPC (Phase 1), Webhook, WebSocket (Phase 2), MQTT, AMQP via Docker brokers (Phase 3), SOAP (Phase 4) — each wired into a real specialist agent's tool-calling loop and instrumented with the same shared fault-injection/timing seam (`fault_injector.py`, `protocol_timing.py`) so all 10 protocols (including MCP/A2A above) are directly comparable via `make benchmark` or the Streamlit "🔌 Protocol Benchmark" tab
-
+9. **10 Communication Protocols** — MCP-first architecture: tools defined in `mcp_server.py`, accessed via `mcp_client.py`. Google A2A spec (Agent Cards, Task lifecycle, Registry) — used for real handler-to-handler delegation. REST, GraphQL, gRPC (Phase 1), Webhook, WebSocket (Phase 2), MQTT, AMQP via Docker brokers (Phase 3), SOAP (Phase 4) — each wired into a real specialist agent's tool-calling loop and instrumented with the same shared fault-injection/timing seam (`fault_injector.py`, `protocol_timing.py`). All 10 protocols are directly comparable via `make benchmark` or the Streamlit "🔌 Protocol Benchmark" tab
+10. **Dual Observability** — LangSmith auto-tracing + Langfuse callbacks
 
 
 ## Results & Impact
@@ -316,7 +313,7 @@ make benchmark
 # Or use the "🔌 Protocol Benchmark" tab in the Streamlit app (make app) for the same
 # run with live charts in the browser
 
-# 12. Tear down protocol infrastructure when done
+# 12. Tear down the protocol infrastructure when done
 make protocols-down
 make responders-down
 make brokers-down
@@ -370,7 +367,7 @@ make app            # launch Streamlit frontend
 ## Project Structure
 
 ```
-AgenticAI-Communication-Patterns-Benchmark/
+LangGraph-ShopSmart-10-Protocols-Benchmark/
 ├── src/shopsmart/              # Core package (the only thing that's `pip install -e`'d)
 │   ├── config.py               # LLM/embeddings config + get_data_dir()/get_output_dir()
 │   ├── state.py                # State schema + Pydantic models
@@ -428,7 +425,8 @@ AgenticAI-Communication-Patterns-Benchmark/
 | `LANGFUSE_SECRET_KEY` | No | Langfuse secret |
 | `LANGFUSE_HOST` | No | Langfuse host (default: https://us.cloud.langfuse.com) |
 
-### Protocol Benchmark (all optional — defaults in `.env.example` work out of the box with `make protocols-up`/`brokers-up`)
+### Protocol Benchmark 
+(all optional — defaults in `.env.example` work out of the box with `make protocols-up`/`brokers-up`)
 
 | Variable | Description |
 |----------|-------------|
@@ -439,6 +437,153 @@ AgenticAI-Communication-Patterns-Benchmark/
 | `FAULT_MODE_<PROTOCOL>` | Per-protocol fault injection: `none` \| `timeout` \| `error` \| `malformed` \| `refused` (e.g. `FAULT_MODE_MQTT=timeout`) |
 | `<PROTOCOL>_TIMEOUT_S` | Per-protocol client timeout in seconds |
 | `<PROTOCOL>_MAX_RETRIES` | Per-protocol max retry attempts on failure |
+
+
+### Benchmark Baselines
+
+Based on initial testing with a 10-ticket batch:
+
+| Metric | Baseline |
+|--------|----------|
+| Routing Accuracy | ~85-95% |
+| Avg Latency (quick_answer) | < 0.5s |
+| Avg Latency (specialist) | 2-4s |
+| Avg Latency (HITL) | Depends on human response time |
+| Escalation Rate | ~10-15% (with platinum customer in dataset) |
+| Quick Answer Rate | ~35% (order_status with order ID) |
+
+### Protocol Comparison
+Example run (10 tickets, category-balanced selection)
+
+Produced via `make benchmark` (or the Streamlit "🔌 Protocol Benchmark" tab), using `select_benchmark_tickets()` to guarantee all 10 ticket categories are represented:
+
+| Protocol | Calls | p50 (ms) | p95 (ms) | Avg Payload (B) | Error % | Retry % |
+|----------|------:|---------:|---------:|-----------------:|--------:|--------:|
+| A2A      | 2 | 19,459.20 | 23,367.30 | 943 | 0 | 0 |
+| MQTT     | 2 | 1,013.49  | 1,017.84  | 59  | 0 | 0 |
+| REST     | 3 | 36.38     | 48.99     | 370.7 | 0 | 0 |
+| GRAPHQL  | 5 | 35.89     | 53.41     | 130.8 | 0 | 0 |
+| WEBHOOK  | 2 | 35.20     | 42.95     | 76  | 0 | 0 |
+| SOAP     | 1 | 39.83     | 39.83     | 102 | 0 | 0 |
+| AMQP     | 2 | 55.05     | 58.33     | 67  | 0 | 0 |
+| WS       | 3 | 6.11      | 18.69     | 146.7 | 0 | 0 |
+| GRPC     | 2 | 10.33     | 23.38     | 94.5 | 0 | 0 |
+| MCP      | 2 | 2.45      | 6.99      | 98.5 | 0 | 0 |
+
+**Key takeaway — A2A is ~3 orders of magnitude slower than every other protocol**, and that's expected, not a defect: in this project's A2A implementation, `A2AServer.send_task()` synchronously invokes the target specialist's *full* `agent.invoke()` tool-calling loop — a real nested LLM round-trip — while every other protocol here is a lightweight RPC/pub-sub call against a local server or broker. A2A's "payload" is effectively another agent's reasoning process, not a wire message. MQTT is the next-slowest (~1s), reflecting the real cost of its publish/subscribe-with-correlation-id round trip over the broker, versus the sub-100ms direct-call protocols (REST/GraphQL/gRPC/SOAP/Webhook/WS/MCP).
+
+**A2A's latency variance is dominated by nested-LLM-call risk, not the A2A transport itself.** A follow-up 15-ticket run produced `A2A p50 = 19,459 ms` but `A2A p95 = 1,304,067 ms` (~21.7 minutes) on the exact same protocol — a ~65x spread within one protocol's own results. The cause: one A2A call's nested `order_specialist.invoke()` happened to hit an OpenAI rate-limit retry storm, and since `timed_protocol_call` measures wall-clock time around the *entire* A2A call (including whatever the delegated agent does internally), that retry delay is fully absorbed into the A2A latency figure — while `error_rate`/`retry_rate` stayed at 0% (those track transport-level retries in `protocol_timing.py`, not the OpenAI SDK's own internal backoff, which happens one layer deeper inside the nested call). In other words: A2A is the one protocol here whose measured latency is only as predictable as the LLM call graph behind it, which is itself a notable finding about delegating work via A2A vs. a direct RPC/pub-sub protocol.
+
+
+## 🔌 Protocol Benchmark tab
+
+<img width="1421" height="696" alt="Screenshot 2026-07-06 at 8 01 26 AM" src="https://github.com/user-attachments/assets/82f634ac-7e64-40a9-8dd0-637bccf64561" />
+
+<img width="1070" height="647" alt="Screenshot 2026-07-06 at 10 05 33 AM" src="https://github.com/user-attachments/assets/5be6c226-6f50-4767-be10-6eaa97b395f9" />
+
+<img width="1081" height="371" alt="Screenshot 2026-07-06 at 10 05 05 AM" src="https://github.com/user-attachments/assets/995d815f-37bc-45a5-bf04-15a910b4f710" />
+
+<img width="1084" height="393" alt="Screenshot 2026-07-06 at 10 04 28 AM" src="https://github.com/user-attachments/assets/f63f0505-2648-47b2-a6c7-f5968a47ffb8" />
+
+<img width="1137" height="669" alt="Screenshot 2026-07-06 at 9 33 05 AM" src="https://github.com/user-attachments/assets/68339d77-c3d3-453b-a353-f2c24bf20ac9" />
+
+
+### CLI Commands
+
+```bash
+make metrics    # Print system summary to stdout
+make test       # Run full test suite (includes routing accuracy)
+make smoke      # Quick validation (no API key required for offline tests)
+```
+<img width="1046" height="416" alt="Screenshot 2026-06-19 at 11 39 37 PM" src="https://github.com/user-attachments/assets/7a17afb3-4e9a-4fd2-8bcd-882bea056429" />
+
+## Troubleshooting
+
+### Tests skipped with "OPENAI_API_KEY not set"
+
+The `.env` file is not being loaded by pytest. Verify that your `.env` file exists in the project root (not `.env.example`) and contains `OPENAI_API_KEY=sk-...`. The test suite loads it automatically via `python-dotenv` in `tests/conftest.py`.
+
+```bash
+# Verify .env exists and has the key
+cat .env | grep OPENAI_API_KEY
+```
+
+### OpenAI 429 "insufficient_quota" errors
+
+Your OpenAI API key has no credits or billing is not enabled. Go to [platform.openai.com/settings/organization/billing](https://platform.openai.com/settings/organization/billing) and add a payment method or purchase credits. The full test suite costs under $0.50.
+
+<img width="1087" height="448" alt="Screenshot 2026-06-19 at 6 11 50 PM" src="https://github.com/user-attachments/assets/c8aa5a88-56d0-4309-838a-d5e04cff7b69" />
+
+
+### ImportError: `create_tool_calling_agent` or `create_react_agent`
+
+The LangChain agent API has changed across versions:
+- `create_tool_calling_agent` was removed in `langchain` v1.3.10
+- `create_react_agent` from `langgraph.prebuilt` is deprecated in favour of `langchain.agents.create_agent`
+
+This project uses `create_agent` from `langchain.agents` with the `system_prompt=` parameter (not the older `prompt=` parameter). If you see `TypeError: create_agent() got an unexpected keyword argument 'prompt'`, change `prompt=` to `system_prompt=` in your agent builder calls.
+
+The pinned versions in `pyproject.toml` are tested to be compatible:
+
+```
+langchain>=0.3
+langchain-openai>=0.3
+langgraph>=0.3
+langchain-community>=0.3
+```
+
+### LangSmith 403 "Forbidden" warnings
+
+Your `LANGSMITH_API_KEY` is invalid, expired, or associated with a different organization. Either:
+- Update the key at [smith.langchain.com](https://smith.langchain.com/) → Settings → API Keys
+- Or remove/comment out `LANGSMITH_API_KEY` from `.env` to disable LangSmith tracing (the system runs fine without it)
+
+### Langfuse connection errors
+
+Verify that both `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`. If using Langfuse Cloud, ensure `LANGFUSE_HOST` is set to `https://us.cloud.langfuse.com` (US) or `https://cloud.langfuse.com` (EU), matching your account region.
+
+### `langchain-community` deprecation warning
+
+You may see: `DeprecationWarning: langchain-community is being sunset`. This is a known upstream warning — the FAISS integration still works. A future update will migrate to a standalone `langchain-faiss` package when available.
+
+### `ModuleNotFoundError: No module named 'langchain_text_splitters'`
+
+Run `pip install -e ".[dev]"` again — this dependency is installed transitively via `langchain`. If it persists, install directly: `pip install langchain-text-splitters`.
+
+### macOS: Streamlit Watchdog performance warning
+
+On macOS, Streamlit recommends the Watchdog module for better file-watching performance. This is included in the project dependencies, but requires Xcode command-line tools:
+
+```bash
+xcode-select --install   # one-time macOS setup
+pip install -e ".[dev]"  # watchdog is included in dependencies
+```
+
+### Streamlit: `ImportError: cannot import name 'X' from 'shopsmart...'` after pulling/editing code
+
+Streamlit's autoreload only re-executes `streamlit_app.py` itself on save — it does **not** reliably re-import already-loaded modules in `src/shopsmart/` within a long-running server process (this bit us when adding `select_benchmark_tickets` to `data_loader.py` while the app was already running from a prior manual test session). If you add or rename a function/module and the running app can't find it, fully restart the server rather than relying on the browser's auto-rerun:
+
+```bash
+# In the terminal running `make app`:
+Ctrl+C
+make app
+```
+
+### Protocol Benchmark tab: some protocols always show 0 calls
+
+This can be a real finding, not a bug: category-to-protocol coverage isn't 1:1 (see `select_benchmark_tickets()` in `data_loader.py`, which round-robins tickets across categories precisely to make this less likely). Even with every category represented, a given protocol only fires if the LLM actually chooses that tool during its tool-calling loop for that ticket. Also note **order_status tickets with a resolvable `ORD-xxxxx` id skip the agent entirely** via the deterministic quick-answer path (see "Routing Logic" above) — so REST/WebSocket (bound to `order_specialist`) won't fire for those, only for order tickets that fall through to the full agent. Increasing ticket count improves odds; 0 calls after a reasonably sized run (8-10+ tickets) is worth noting as a real signal about tool-selection/routing behaviour.
+
+### Python version errors
+
+This project requires **Python 3.12** (tested on 3.12.10). The setup script enforces this — if `python3.12` is not found, it will tell you how to install it:
+
+```bash
+brew install python@3.12     # Homebrew
+pyenv install 3.12.10        # pyenv
+```
+<img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/23e1b659-1335-4af8-a608-95c11526cc9d" />
+
+If you see syntax errors related to `str | None` or `dict[str, list]`, your Python version is too old. Check with `python3.12 --version`.
 
 
 ## System Metrics Reference
@@ -489,50 +634,6 @@ AgenticAI-Communication-Patterns-Benchmark/
 <img width="1116" height="549" alt="610518649-0276472a-8b0c-45f0-8764-5968c73a92aa" src="https://github.com/user-attachments/assets/4c8a2e9f-ef91-429f-b762-9359fca791d4" />
 
 
-## Benchmark Baselines
-
-Based on initial testing with a 20-ticket batch:
-
-| Metric | Baseline |
-|--------|----------|
-| Routing Accuracy | ~85-95% |
-| Avg Latency (quick_answer) | < 0.5s |
-| Avg Latency (specialist) | 2-4s |
-| Avg Latency (HITL) | Depends on human response time |
-| Escalation Rate | ~10-15% (with platinum customer in dataset) |
-| Quick Answer Rate | ~35% (order_status with order ID) |
-
-### Protocol Comparison — example run (10 tickets, category-balanced selection)
-
-Produced via `make benchmark` (or the Streamlit "🔌 Protocol Benchmark" tab), using `select_benchmark_tickets()` to guarantee all 6 ticket categories are represented:
-
-| Protocol | Calls | p50 (ms) | p95 (ms) | Avg Payload (B) | Error % | Retry % |
-|----------|------:|---------:|---------:|-----------------:|--------:|--------:|
-| A2A      | 2 | 19,459.20 | 23,367.30 | 943 | 0 | 0 |
-| MQTT     | 2 | 1,013.49  | 1,017.84  | 59  | 0 | 0 |
-| REST     | 3 | 36.38     | 48.99     | 370.7 | 0 | 0 |
-| GRAPHQL  | 5 | 35.89     | 53.41     | 130.8 | 0 | 0 |
-| WEBHOOK  | 2 | 35.20     | 42.95     | 76  | 0 | 0 |
-| SOAP     | 1 | 39.83     | 39.83     | 102 | 0 | 0 |
-| AMQP     | 2 | 55.05     | 58.33     | 67  | 0 | 0 |
-| WS       | 3 | 6.11      | 18.69     | 146.7 | 0 | 0 |
-| GRPC     | 2 | 10.33     | 23.38     | 94.5 | 0 | 0 |
-| MCP      | 2 | 2.45      | 6.99      | 98.5 | 0 | 0 |
-
-**Key takeaway — A2A is ~3 orders of magnitude slower than every other protocol**, and that's expected, not a defect: in this project's A2A implementation, `A2AServer.send_task()` synchronously invokes the target specialist's *full* `agent.invoke()` tool-calling loop — a real nested LLM round-trip — while every other protocol here is a lightweight RPC/pub-sub call against a local server or broker. A2A's "payload" is effectively another agent's reasoning process, not a wire message. MQTT is the next-slowest (~1s), reflecting the real cost of its publish/subscribe-with-correlation-id round trip over the broker, versus the sub-100ms direct-call protocols (REST/GraphQL/gRPC/SOAP/Webhook/WS/MCP).
-
-**A2A's latency variance is dominated by nested-LLM-call risk, not the A2A transport itself.** A follow-up 15-ticket run produced `A2A p50 = 19,459 ms` but `A2A p95 = 1,304,067 ms` (~21.7 minutes) on the exact same protocol — a ~65x spread within one protocol's own results. The cause: one A2A call's nested `order_specialist.invoke()` happened to hit an OpenAI rate-limit retry storm, and since `timed_protocol_call` measures wall-clock time around the *entire* A2A call (including whatever the delegated agent does internally), that retry delay is fully absorbed into the A2A latency figure — while `error_rate`/`retry_rate` stayed at 0% (those track transport-level retries in `protocol_timing.py`, not the OpenAI SDK's own internal backoff, which happens one layer deeper inside the nested call). In other words: A2A is the one protocol here whose measured latency is only as predictable as the LLM call graph behind it, which is itself a notable finding about delegating work via A2A vs. a direct RPC/pub-sub protocol.
-
-### CLI Commands
-
-```bash
-make metrics    # Print system summary to stdout
-make test       # Run full test suite (includes routing accuracy)
-make smoke      # Quick validation (no API key required for offline tests)
-```
-<img width="1046" height="416" alt="Screenshot 2026-06-19 at 11 39 37 PM" src="https://github.com/user-attachments/assets/7a17afb3-4e9a-4fd2-8bcd-882bea056429" />
-
-
 ## ShopSmart Web Application (screenshots)
 
 <img width="1436" height="743" alt="Screenshot 2026-06-19 at 6 26 10 PM" src="https://github.com/user-attachments/assets/d2b6b69c-65a6-4e25-a90f-9b06f0041250" />
@@ -549,96 +650,4 @@ make smoke      # Quick validation (no API key required for offline tests)
 
 <img width="1064" height="627" alt="Screenshot 2026-06-19 at 11 45 31 PM" src="https://github.com/user-attachments/assets/e2d3e12f-9c77-4fc5-b57c-ae904cff81b0" />
 
-### 🔌 Protocol Benchmark tab
 
-<!-- TODO: add screenshots of the Protocol Benchmark tab (ticket-count input, live table, latency/payload charts) here -->
-
-
-
-## Troubleshooting
-
-### Tests skipped with "OPENAI_API_KEY not set"
-
-The `.env` file is not being loaded by pytest. Verify that your `.env` file exists in the project root (not `.env.example`) and contains `OPENAI_API_KEY=sk-...`. The test suite loads it automatically via `python-dotenv` in `tests/conftest.py`.
-
-```bash
-# Verify .env exists and has the key
-cat .env | grep OPENAI_API_KEY
-```
-
-### OpenAI 429 "insufficient_quota" errors
-
-Your OpenAI API key has no credits or billing is not enabled. Go to [platform.openai.com/settings/organization/billing](https://platform.openai.com/settings/organization/billing) and add a payment method or purchase credits. The full test suite costs under $0.50.
-
-<img width="1087" height="448" alt="Screenshot 2026-06-19 at 6 11 50 PM" src="https://github.com/user-attachments/assets/c8aa5a88-56d0-4309-838a-d5e04cff7b69" />
-
-
-### ImportError: `create_tool_calling_agent` or `create_react_agent`
-
-The LangChain agent API has changed across versions:
-- `create_tool_calling_agent` was removed in `langchain` v1.3.10
-- `create_react_agent` from `langgraph.prebuilt` is deprecated in favor of `langchain.agents.create_agent`
-
-This project uses `create_agent` from `langchain.agents` with the `system_prompt=` parameter (not the older `prompt=` parameter). If you see `TypeError: create_agent() got an unexpected keyword argument 'prompt'`, change `prompt=` to `system_prompt=` in your agent builder calls.
-
-The pinned versions in `pyproject.toml` are tested compatible:
-
-```
-langchain>=0.3
-langchain-openai>=0.3
-langgraph>=0.3
-langchain-community>=0.3
-```
-
-### LangSmith 403 "Forbidden" warnings
-
-Your `LANGSMITH_API_KEY` is invalid, expired, or associated with a different organization. Either:
-- Update the key at [smith.langchain.com](https://smith.langchain.com/) → Settings → API Keys
-- Or remove/comment out `LANGSMITH_API_KEY` from `.env` to disable LangSmith tracing (the system runs fine without it)
-
-### Langfuse connection errors
-
-Verify that both `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`. If using Langfuse Cloud, ensure `LANGFUSE_HOST` is set to `https://us.cloud.langfuse.com` (US) or `https://cloud.langfuse.com` (EU) matching your account region.
-
-### `langchain-community` deprecation warning
-
-You may see: `DeprecationWarning: langchain-community is being sunset`. This is a known upstream warning — the FAISS integration still works. A future update will migrate to a standalone `langchain-faiss` package when available.
-
-### `ModuleNotFoundError: No module named 'langchain_text_splitters'`
-
-Run `pip install -e ".[dev]"` again — this dependency is installed transitively via `langchain`. If it persists, install directly: `pip install langchain-text-splitters`.
-
-### macOS: Streamlit Watchdog performance warning
-
-On macOS, Streamlit recommends the Watchdog module for better file-watching performance. This is included in the project dependencies, but requires Xcode command-line tools:
-
-```bash
-xcode-select --install   # one-time macOS setup
-pip install -e ".[dev]"  # watchdog is included in dependencies
-```
-
-### Streamlit: `ImportError: cannot import name 'X' from 'shopsmart...'` after pulling/editing code
-
-Streamlit's autoreload only re-executes `streamlit_app.py` itself on save — it does **not** reliably re-import already-loaded modules in `src/shopsmart/` within a long-running server process (this bit us when adding `select_benchmark_tickets` to `data_loader.py` while the app was already running from a prior manual test session). If you add or rename a function/module and the running app can't find it, fully restart the server rather than relying on the browser's auto-rerun:
-
-```bash
-# In the terminal running `make app`:
-Ctrl+C
-make app
-```
-
-### Protocol Benchmark tab: some protocols always show 0 calls
-
-This can be a real finding, not a bug: category-to-protocol coverage isn't 1:1 (see `select_benchmark_tickets()` in `data_loader.py`, which round-robins tickets across categories precisely to make this less likely). Even with every category represented, a given protocol only fires if the LLM actually chooses that tool during its tool-calling loop for that ticket. Also note **order_status tickets with a resolvable `ORD-xxxxx` id skip the agent entirely** via the deterministic quick-answer path (see "Routing Logic" above) — so REST/WebSocket (bound to `order_specialist`) won't fire for those, only for order tickets that fall through to the full agent. Increasing ticket count improves odds; 0 calls after a reasonably sized run (8-10+ tickets) is worth noting as a real signal about tool-selection/routing behavior.
-
-### Python version errors
-
-This project requires **Python 3.12** (tested on 3.12.10). The setup script enforces this — if `python3.12` is not found, it will tell you how to install it:
-
-```bash
-brew install python@3.12     # Homebrew
-pyenv install 3.12.10        # pyenv
-```
-<img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/23e1b659-1335-4af8-a608-95c11526cc9d" />
-
-If you see syntax errors related to `str | None` or `dict[str, list]`, your Python version is too old. Check with `python3.12 --version`.
