@@ -475,7 +475,7 @@ Produced via `make benchmark` (or the Streamlit "🔌 Protocol Benchmark" tab), 
 **A2A's latency variance is dominated by nested-LLM-call risk, not the A2A transport itself.** A follow-up 15-ticket run produced `A2A p50 = 19,459 ms` but `A2A p95 = 1,304,067 ms` (~21.7 minutes) on the exact same protocol — a ~65x spread within one protocol's own results. The cause: one A2A call's nested `order_specialist.invoke()` happened to hit an OpenAI rate-limit retry storm, and since `timed_protocol_call` measures wall-clock time around the *entire* A2A call (including whatever the delegated agent does internally), that retry delay is fully absorbed into the A2A latency figure — while `error_rate`/`retry_rate` stayed at 0% (those track transport-level retries in `protocol_timing.py`, not the OpenAI SDK's own internal backoff, which happens one layer deeper inside the nested call). In other words: A2A is the one protocol here whose measured latency is only as predictable as the LLM call graph behind it, which is itself a notable finding about delegating work via A2A vs. a direct RPC/pub-sub protocol.
 
 
-## 🔌 Protocol Benchmark tab
+## 🔌 Web App - Protocol Benchmark tab
 
 <img width="1421" height="696" alt="Screenshot 2026-07-06 at 8 01 26 AM" src="https://github.com/user-attachments/assets/82f634ac-7e64-40a9-8dd0-637bccf64561" />
 
