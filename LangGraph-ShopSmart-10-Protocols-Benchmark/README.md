@@ -270,6 +270,11 @@ MCP (Model Context Protocol) is the **standard** for tool access in this project
 
 <img width="820" height="406" alt="Screenshot 2026-06-19 at 11 07 23 PM" src="https://github.com/user-attachments/assets/cfaaf2f4-23cb-4ea9-ba86-5414b05a92fa" />
 
+<img width="782" height="708" alt="Screenshot 2026-07-06 at 1 52 39 PM" src="https://github.com/user-attachments/assets/0052bc93-8772-4d3c-a3c3-db3ddeaa7259" />
+
+
+<img width="716" height="529" alt="Screenshot 2026-07-06 at 1 53 02 PM" src="https://github.com/user-attachments/assets/016b1573-17cb-42ef-991b-00b69ecdebae" />
+
 
 ## Quick Start
 
