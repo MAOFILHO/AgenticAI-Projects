@@ -47,7 +47,7 @@ User Query
     ▼
 LLM / ReAct Agent (gpt-5-mini)
     │                   ▲
-    │ action             │ observation
+    │ action            │ observation
     ▼                   │
 ┌─────────────────────────────────────────────┐
 │                Agent Tools                  │
