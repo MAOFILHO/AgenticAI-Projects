@@ -9,7 +9,7 @@ An eval-driven compliance intelligence pipeline that automates regulatory synthe
 ## Architecture
 
 ```
-START ─┬─► regulation ─┐
+START ─┬─► regulation ──┐
        ├─► transaction ─┼─► classify ─► score ─► format ─► critic ─► (PASS/cap) ─► END
        └─► audit ───────┘                                     └─► (fail) ─► refiner ─┘
 ```
