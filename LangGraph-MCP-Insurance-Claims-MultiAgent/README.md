@@ -205,4 +205,6 @@ Requires **Python 3.11+**. Tested on 3.11 and 3.12.
 
 
 
+## Author
 
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
