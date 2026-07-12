@@ -11,12 +11,12 @@ ShopSmart is a mid-size e-commerce platform processing **50,000** customer suppo
 | Platinum customers wait in the queue | VIP customers get the same treatment as everyone else |
 | No conversation memory | Customers repeat themselves when they call back |
 
----
+
 
 ### The Solution: Multi-Agent System
 A production-grade multi-agent customer support system built with **LangChain**, **LangGraph**, **MCP**, and **A2A** protocols.
 
----
+
 
 ### Patterns Implemented
 
@@ -32,7 +32,7 @@ A production-grade multi-agent customer support system built with **LangChain**,
 10. **A2A Protocol** — Google A2A spec (Agent Cards, Task lifecycle, Registry)
 11. **Dual Observability** — LangSmith auto-tracing + Langfuse callbacks
 
----
+
 
 ### Results & Impact
 These estimates are grounded in real-world results from companies using AI support automation (e.g., Intercom, Zendesk AI, Klarna AI assistant, and IBM Watson Assistant case studies):
@@ -116,7 +116,7 @@ graph TD
     G -.-> MCP
     H -.-> MCP
 ```
----
+
 
 ### LangGraph Diagram
 
@@ -245,6 +245,8 @@ MCP (Model Context Protocol) is the **standard** for tool access in this project
 
 <img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/0984914a-2ffd-4fbb-85c5-e39e528cd696" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="820" height="406" alt="Screenshot 2026-06-19 at 11 07 23 PM" src="https://github.com/user-attachments/assets/cfaaf2f4-23cb-4ea9-ba86-5414b05a92fa" />
 
 
@@ -281,20 +283,33 @@ make diagram
 
 <img width="1040" height="378" alt="Screenshot 2026-06-19 at 11 53 06 PM" src="https://github.com/user-attachments/assets/775f44f6-076d-472c-9289-ad0fff04520a" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/67256e89-2bcc-4560-8bc0-d75ffe6b1d7a" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1079" height="645" alt="Screenshot 2026-06-19 at 8 09 29 PM" src="https://github.com/user-attachments/assets/8aa778fb-acd1-4c89-8264-9e64d317084d" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1079" height="648" alt="Screenshot 2026-06-19 at 8 10 10 PM" src="https://github.com/user-attachments/assets/edc72c92-6506-4163-91ed-3db6595506ff" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1066" height="642" alt="Screenshot 2026-06-19 at 8 22 30 PM" src="https://github.com/user-attachments/assets/84df3f8f-b9aa-4722-ae07-c89f55bf3eb2" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1069" height="636" alt="Screenshot 2026-06-19 at 8 23 18 PM" src="https://github.com/user-attachments/assets/90f93db5-b757-45ad-a1e6-569766b2f1c0" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1072" height="718" alt="Screenshot 2026-06-19 at 11 32 02 PM" src="https://github.com/user-attachments/assets/356d1f55-6f54-4b9e-81c3-c04ddd4a8184" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1078" height="438" alt="Screenshot 2026-06-19 at 8 24 55 PM" src="https://github.com/user-attachments/assets/8166f0bd-94d0-4831-af79-8075e4ec79e1" />
-
 
 
 ## Cleanup & Reinstall
@@ -402,22 +417,40 @@ shopsmart-support/
 
 <img width="1165" height="651" alt="Screenshot 2026-06-19 at 6 38 04 PM" src="https://github.com/user-attachments/assets/e0a93de3-3dbc-44db-b466-6a816df2b0d0" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1429" height="742" alt="Screenshot 2026-06-19 at 6 38 47 PM" src="https://github.com/user-attachments/assets/3af305a1-a589-45b0-b770-a3681f2673d8" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1422" height="701" alt="Screenshot 2026-06-19 at 6 39 00 PM" src="https://github.com/user-attachments/assets/ef38336c-3316-41a6-b670-e0e43b4e3dbf" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="950" height="693" alt="Screenshot 2026-06-19 at 6 39 45 PM" src="https://github.com/user-attachments/assets/bb408ed2-f93d-40c3-8e7c-cf773b77f3e1" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1435" height="665" alt="Screenshot 2026-06-19 at 6 41 02 PM" src="https://github.com/user-attachments/assets/d23a6f56-91c1-4602-9b3c-9119b9866d22" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="859" height="665" alt="Screenshot 2026-06-19 at 6 41 48 PM" src="https://github.com/user-attachments/assets/92bb67f6-93e1-4ac3-9c26-37d6659bb2cf" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="859" height="666" alt="Screenshot 2026-06-19 at 6 41 18 PM" src="https://github.com/user-attachments/assets/ebdb165a-a899-4063-96a8-a0b177fb7420" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1116" height="519" alt="610518677-972a645c-a044-450c-a339-7fdabb6f0d95" src="https://github.com/user-attachments/assets/f685687c-4a12-44b6-98ff-d5a1adaefb40" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1116" height="553" alt="610518669-09812a34-a64f-4a55-8f08-47d83c96cd02" src="https://github.com/user-attachments/assets/70940608-363c-4ca1-bda2-a0e727e145d4" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1116" height="549" alt="610518649-0276472a-8b0c-45f0-8764-5968c73a92aa" src="https://github.com/user-attachments/assets/4c8a2e9f-ef91-429f-b762-9359fca791d4" />
 
 
@@ -449,16 +482,28 @@ make smoke      # Quick validation (no API key required for offline tests)
 
 <img width="1436" height="743" alt="Screenshot 2026-06-19 at 6 26 10 PM" src="https://github.com/user-attachments/assets/d2b6b69c-65a6-4e25-a90f-9b06f0041250" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1430" height="746" alt="Screenshot 2026-06-19 at 6 32 18 PM" src="https://github.com/user-attachments/assets/aa56d5eb-e144-4e25-9b12-ca1b0dd5eb66" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1428" height="744" alt="Screenshot 2026-06-19 at 6 36 11 PM" src="https://github.com/user-attachments/assets/5b751aa1-3413-49d5-9feb-6c9eb8849f33" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1430" height="748" alt="Screenshot 2026-06-19 at 6 36 32 PM" src="https://github.com/user-attachments/assets/18e6358a-8382-4bd4-85ba-0b7911b2241b" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1098" height="659" alt="Screenshot 2026-06-19 at 7 06 19 PM" src="https://github.com/user-attachments/assets/3707d529-f545-4d91-af1a-dfc50c13ab56" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1083" height="630" alt="Screenshot 2026-06-19 at 7 04 34 PM" src="https://github.com/user-attachments/assets/247dd5ea-0d83-421c-b7af-aedb11d4d20e" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1064" height="627" alt="Screenshot 2026-06-19 at 11 45 31 PM" src="https://github.com/user-attachments/assets/e2d3e12f-9c77-4fc5-b57c-ae904cff81b0" />
 
 
@@ -505,7 +550,7 @@ Your `LANGSMITH_API_KEY` is invalid, expired, or associated with a different org
 
 ### Langfuse connection errors
 
-Verify that both `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`. If using Langfuse Cloud, ensure `LANGFUSE_HOST` is set to `https://us.cloud.langfuse.com` (US) or `https://cloud.langfuse.com` (EU) matching your account region.
+Verify that both `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`. If using Langfuse Cloud, ensure `LANGFUSE_HOST` is set to `https://us.cloud.langfuse.com` (US) or `https://cloud.langfuse.com` (EU), matching your account region.
 
 ### `langchain-community` deprecation warning
 
