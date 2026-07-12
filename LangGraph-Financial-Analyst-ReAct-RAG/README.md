@@ -16,7 +16,7 @@ Investment policies are real PDF documents loaded, split, and embedded using Lan
 The agent uses Tavily web search for real-time market intelligence.
 The RAG retriever is a tool the agent autonomously chooses when to use — not a hardwired chain
 
----
+
 
 ### Results & Impact
 These estimates are grounded in benchmarks from similar AI copilots in finance (e.g., Morgan Stanley GPT assistant, Bloomberg AI tools, internal RAG copilots):
@@ -37,7 +37,7 @@ These estimates are grounded in benchmarks from similar AI copilots in finance (
 
 → **Scalable architecture** capable of handling thousands of clients and millions of records via SQL backend
 
----
+
 
 ## Architecture
 
@@ -64,7 +64,7 @@ Final Answer
 
 Architecture diagrams (PNG) are auto-generated in `output/` on first run.
 
----
+
 
 ## Requirements
 
@@ -72,7 +72,7 @@ Architecture diagrams (PNG) are auto-generated in `output/` on first run.
 - [OpenAI API key](https://platform.openai.com)
 - [Tavily API key](https://tavily.com) — free tier: 1,000 searches/month
 
----
+
 
 ## Setup
 
@@ -97,7 +97,7 @@ cp .env.example .env
 # Then edit .env and add your keys
 ```
 
----
+
 
 ## Data
 
@@ -112,7 +112,7 @@ cp .env.example .env
 **holdings** — per-client stock positions: ticker, shares, cost basis, current price, sector  
 **market_data** — market snapshot: YTD return, PE ratio, analyst rating, 52-week range  
 
----
+
 
 ## Running
 
@@ -141,7 +141,7 @@ generate_all_diagrams(agent)
 "
 ```
 
----
+
 
 ## Output
 
@@ -150,7 +150,7 @@ generate_all_diagrams(agent)
 | `output/react_architecture.png` | Custom Graphviz diagram of ReAct loop + data sources |
 | `output/langgraph_agent.png` | Native LangGraph compiled graph (Mermaid render) |
 
----
+
 
 ## Four Queries
 
@@ -161,7 +161,7 @@ generate_all_diagrams(agent)
 | 3 | Concentration policy check for CLT-003 Adani position | portfolio_lookup, policy_retriever, calculate_metrics |
 | 4 | RBI policy impact on Telecom/Auto — CLT-005 | portfolio_lookup, market_data_search, tavily_search |
 
----
+
 
 ## Project Structure
 
@@ -188,7 +188,7 @@ meridian_wealth_agent/
     └── langgraph_agent.png
 ```
 
----
+
 
 ## Key Design Decisions
 
@@ -204,7 +204,7 @@ injected rather than relying on a global.
 
 **`python-dotenv`** — replaces Colab's `userdata.get()` for local secret management.
 
----
+
 
 ### Key Takeaways
 - Real databases > Python dicts — SQL gives you joins, filtering, aggregation, and scales to millions of rows
@@ -213,30 +213,50 @@ injected rather than relying on a global.
 - RAG as a tool — the agent decides when to search policies, not the developer
 - The ReAct trace is your debugging superpower — always inspect tool call sequences in development
 
----
 
-### Screenshots
+
+## Screenshots
 
 <img width="1284" height="768" alt="Screenshot 2026-06-05 at 12 08 24 PM" src="https://github.com/user-attachments/assets/878edd5e-1e12-462e-9410-f193c125cf33" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1304" height="778" alt="Screenshot 2026-06-05 at 10 05 39 AM" src="https://github.com/user-attachments/assets/4da2bedd-e3ca-457f-a19c-759047e7e927" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1042" height="710" alt="Screenshot 2026-06-05 at 10 04 24 AM" src="https://github.com/user-attachments/assets/0dd0064e-7be8-4cd4-8438-30e2ad3b8d62" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1068" height="711" alt="Screenshot 2026-06-05 at 10 06 29 AM" src="https://github.com/user-attachments/assets/543db022-6180-4e29-9efd-b0b20469a8b7" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1071" height="710" alt="Screenshot 2026-06-05 at 10 07 32 AM" src="https://github.com/user-attachments/assets/5ba862ed-10d4-4133-ab7f-2f060fa4c94b" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1341" height="426" alt="Screenshot 2026-06-05 at 10 09 39 AM" src="https://github.com/user-attachments/assets/c6c7feee-8422-48c8-ac86-1fad5a23d3fe" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1306" height="535" alt="Screenshot 2026-06-05 at 12 11 37 PM" src="https://github.com/user-attachments/assets/509f9f80-d3f1-455d-82ee-ec535303478e" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1068" height="685" alt="Screenshot 2026-06-05 at 10 10 20 AM" src="https://github.com/user-attachments/assets/8c0ebe86-fc45-4288-8b68-229a45079950" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1076" height="714" alt="Screenshot 2026-06-05 at 10 10 49 AM" src="https://github.com/user-attachments/assets/d82a3dac-047a-42f6-b1e2-ae54b98a0bfc" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1063" height="699" alt="Screenshot 2026-06-05 at 10 12 13 AM" src="https://github.com/user-attachments/assets/6ff5a3fc-37cd-4b60-b5d1-31ca75d5f86b" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1070" height="711" alt="Screenshot 2026-06-05 at 10 12 41 AM" src="https://github.com/user-attachments/assets/fe273295-a1a5-4ef7-aa36-2e56efc9094e" />
 
 
