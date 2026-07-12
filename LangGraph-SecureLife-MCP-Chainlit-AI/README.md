@@ -239,3 +239,6 @@ The system regex compiler will automatically isolate `CLM-2025-0001`, invoke the
 <img width="1151" height="739" alt="Screenshot 2026-06-05 at 5 50 27 PM" src="https://github.com/user-attachments/assets/21471a76-c00e-4db7-978f-69a92628c2c4" />
 
 
+## Author
+
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
