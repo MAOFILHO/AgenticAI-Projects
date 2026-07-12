@@ -2,7 +2,7 @@
 
 Designed and implemented a distributed, asynchronous AI agent pipeline for end-to-end insurance claims processing using a modern two-tier architecture: **LangGraph** and the **Model Context Protocol (MCP)** modern architecture. Built a **5-stage multi-agent workflow** (Triage, Document Verification, Fraud Analysis, Decisioning, Compliance Auditing) with guardrails for input sanitization and PII redaction. Enabled real-time conversational interaction via **Chainlit Client** and ensured full auditability through immutable database logging and transactional MCP operations.
 
----
+
 
 ## 💼 Business Scenario
 
@@ -16,7 +16,7 @@ Insurance companies process large volumes of claims that require reviewing polic
 - Scoring fraud risk for incoming claims using business logic
 - Retrieving the latest regulatory updates from the web in real time
 
----
+
 
 ## Results & Impact
 These figures are realistic estimates based on similar deployments in insurance AI automation:
@@ -35,7 +35,7 @@ These figures are realistic estimates based on similar deployments in insurance 
 - Accenture highlights **~20–40%** improvement in fraud detection with AI models
 - Industry STP benchmarks typically range between **60–85%** for digitized insurers
 
----
+
 
 ## 📂 Project Structure
 
@@ -60,7 +60,6 @@ SecureLife-MCP-Project/
 
 ```
 
----
 
 ## 🏗️ System Architecture & Workflow
 
@@ -107,7 +106,7 @@ The core processing engine is built as a stateful, directed acyclic graph (DAG) 
 4. **Decision Maker Node**: Prompts `gpt-4o` with the compiled context matrix. It enforces structured heuristics (e.g., automated `REJECT` thresholds if fraud score $\ge 0.6$) and formats local currency tokens natively ($\text{₹}$ for INR amounts).
 5. **Compliance Auditor Node**: Commits state transitions securely back to the SQLite relational database using server-side MCP tools, ensuring transactional data integrity.
 
----
+
 
 ## 🛠️ Tech Stack & Key Technologies
 
@@ -118,7 +117,7 @@ The core processing engine is built as a stateful, directed acyclic graph (DAG) 
 * **Database**: Embedded SQLite relational engine (`SecureLife_claims.db`)
 * **Environment Configuration**: `python-dotenv`
 
----
+
 
 ## 📊 State Configuration Schema
 
@@ -136,7 +135,7 @@ class AgentState(TypedDict):
 
 ```
 
----
+
 
 ## 🚀 Quick Start & Installation
 
@@ -190,7 +189,7 @@ EOF
 
 *(Note: `.env` is explicitly included in the system `.gitignore` file configuration to prevent private authorization exposures).*
 
----
+
 
 ## 🎮 Running the Application
 
