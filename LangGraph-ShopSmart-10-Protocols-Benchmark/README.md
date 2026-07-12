@@ -712,3 +712,6 @@ If you see syntax errors related to `str | None` or `dict[str, list]`, your Pyth
 <img width="1064" height="627" alt="Screenshot 2026-06-19 at 11 45 31 PM" src="https://github.com/user-attachments/assets/e2d3e12f-9c77-4fc5-b57c-ae904cff81b0" />
 
 
+## Author
+
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
