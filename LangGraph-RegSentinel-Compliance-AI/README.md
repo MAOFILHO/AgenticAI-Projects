@@ -194,4 +194,6 @@ python run_regsentinel.py --eval --cip
 
 
 
+## Author
 
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
