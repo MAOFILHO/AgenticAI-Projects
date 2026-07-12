@@ -260,4 +260,6 @@ injected rather than relying on a global.
 <img width="1070" height="711" alt="Screenshot 2026-06-05 at 10 12 41 AM" src="https://github.com/user-attachments/assets/fe273295-a1a5-4ef7-aa36-2e56efc9094e" />
 
 
+## Author
 
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
