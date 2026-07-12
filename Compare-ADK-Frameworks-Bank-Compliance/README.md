@@ -248,3 +248,7 @@ Linux / macOS / Windows supported. Python 3.11+.
 <img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
 <br><br>
 <img width="953" height="878" alt="Screenshot 2026-06-09 at 6 16 56 PM" src="https://github.com/user-attachments/assets/f194cc68-38aa-4750-902b-7c4e3bc50297" />
+
+## Author
+
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
