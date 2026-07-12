@@ -583,3 +583,8 @@ pyenv install 3.12.10        # pyenv
 <img width="901" height="77" alt="Screenshot 2026-06-19 at 11 48 46 PM" src="https://github.com/user-attachments/assets/23e1b659-1335-4af8-a608-95c11526cc9d" />
 
 If you see syntax errors related to `str | None` or `dict[str, list]`, your Python version is too old. Check with `python3.12 --version`.
+
+
+## Author
+
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
