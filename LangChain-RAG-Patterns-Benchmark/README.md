@@ -280,48 +280,80 @@ Both thresholds are configurable via `.env` (`REGRESSION_RELATIVE_DROP_THRESHOLD
   you're happy with a run, so future runs have something to compare against.
 
 
-### Screenshots
+## Screenshots
 
 <img width="1308" height="780" alt="Screenshot 2026-06-10 at 3 46 02 PM" src="https://github.com/user-attachments/assets/9d842707-97d1-454b-bf7a-f916163a13a2" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1369" height="672" alt="Screenshot 2026-06-10 at 4 04 49 PM" src="https://github.com/user-attachments/assets/d264b406-6f1c-4d44-8098-a8d9e06a43d7" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1360" height="891" alt="Screenshot 2026-06-10 at 4 05 46 PM" src="https://github.com/user-attachments/assets/72b7c2e5-3a54-45e5-a2f5-d574e13fc164" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1366" height="911" alt="Screenshot 2026-06-10 at 4 14 46 PM" src="https://github.com/user-attachments/assets/94f8ad95-0758-48e5-929f-75ba97e0941b" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1366" height="866" alt="Screenshot 2026-06-10 at 4 18 26 PM" src="https://github.com/user-attachments/assets/5e7d1bc4-7771-4b56-9ace-4774d50889d6" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1374" height="457" alt="Screenshot 2026-06-10 at 4 19 07 PM" src="https://github.com/user-attachments/assets/7589e5c7-2ec4-4eec-be6f-263de257e8c6" />
 
 ## Observability
 
 <img width="1684" height="574" alt="Screenshot 2026-06-10 at 3 35 29 PM" src="https://github.com/user-attachments/assets/b16e8c02-2ccd-44be-9783-6acd1d6fe570" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1680" height="887" alt="Screenshot 2026-06-10 at 3 36 29 PM" src="https://github.com/user-attachments/assets/91c82067-fd83-4f70-804e-1bc4839f3c6f" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1677" height="887" alt="Screenshot 2026-06-10 at 3 36 49 PM" src="https://github.com/user-attachments/assets/be08463d-1387-4adb-a300-ea85998cb716" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1119" height="891" alt="Screenshot 2026-06-10 at 3 37 02 PM" src="https://github.com/user-attachments/assets/39b93a36-8a75-4e3c-ac38-2dbbcb04f34f" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1118" height="889" alt="Screenshot 2026-06-10 at 3 37 31 PM" src="https://github.com/user-attachments/assets/6f1cdf1f-c0f1-4360-844e-41df95e787d4" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1117" height="891" alt="Screenshot 2026-06-10 at 3 37 47 PM" src="https://github.com/user-attachments/assets/5069282b-ed6a-4c0e-a413-cdbbcb4f412c" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1682" height="854" alt="Screenshot 2026-06-10 at 3 38 28 PM" src="https://github.com/user-attachments/assets/e29f1d82-f45e-4e34-89a9-6b92eed34d0b" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1006" height="845" alt="Screenshot 2026-06-10 at 3 38 48 PM" src="https://github.com/user-attachments/assets/695fdbca-1b37-4bd6-bcdf-bf4b3de1abd2" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1005" height="853" alt="Screenshot 2026-06-10 at 3 39 07 PM" src="https://github.com/user-attachments/assets/e2821acf-5160-48b4-b00c-6d09df27265c" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1005" height="897" alt="Screenshot 2026-06-10 at 3 39 34 PM" src="https://github.com/user-attachments/assets/200ceee6-8e58-426e-84a8-210f30195f39" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1011" height="891" alt="Screenshot 2026-06-10 at 3 59 25 PM" src="https://github.com/user-attachments/assets/c1550e5f-933c-4f44-9983-52d422510970" />
 
 ## GitHub Actions (CI/CD)
 
 <img width="1683" height="528" alt="Screenshot 2026-06-10 at 9 00 51 PM" src="https://github.com/user-attachments/assets/22b9d345-df88-4bc3-96a9-cbca5457b784" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1683" height="825" alt="Screenshot 2026-06-10 at 9 03 07 PM" src="https://github.com/user-attachments/assets/99831778-9ab1-4030-9b42-190727b87924" />
 
 ## Outputs / Results
@@ -330,16 +362,27 @@ Multi-sheet Excel report and JSON file
 
 <img width="500" height="287" alt="Screenshot 2026-06-10 at 10 46 01 PM" src="https://github.com/user-attachments/assets/4e4e9131-2154-45dd-bc4d-6c3702655cd5" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1024" height="271" alt="Screenshot 2026-06-10 at 10 46 12 PM" src="https://github.com/user-attachments/assets/defb57c6-bba6-4fd3-8aec-f1f775b1c74d" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="895" height="251" alt="Screenshot 2026-06-10 at 10 46 22 PM" src="https://github.com/user-attachments/assets/7a92d44b-eba7-47d1-a73c-1d1f99853a77" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="870" height="264" alt="Screenshot 2026-06-10 at 10 46 35 PM" src="https://github.com/user-attachments/assets/b3d4aa4e-1614-4bba-bbf3-8abe0b4321ef" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="636" height="253" alt="Screenshot 2026-06-10 at 10 46 47 PM" src="https://github.com/user-attachments/assets/c5811ce7-a7cf-413c-8bf1-599171c87300" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1061" height="312" alt="Screenshot 2026-06-10 at 10 47 01 PM" src="https://github.com/user-attachments/assets/c3f34e32-a707-43b7-9975-878c4a4dd534" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1300" height="770" alt="Screenshot 2026-06-10 at 10 47 46 PM" src="https://github.com/user-attachments/assets/341cf892-987c-4f83-9436-433a64f19a4f" />
-
 
