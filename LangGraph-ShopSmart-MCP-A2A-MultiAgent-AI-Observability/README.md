@@ -402,8 +402,11 @@ shopsmart-support/
 | **Category Distribution** | Breakdown of tickets by category | — |
 | **Priority Distribution** | Breakdown of tickets by priority level | — |
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 <img width="1071" height="596" alt="Screenshot 2026-06-19 at 7 07 22 PM" src="https://github.com/user-attachments/assets/6459d110-34c4-4d7f-ada3-8ff5640d87d6" />
-
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
 
 ### Observability Metrics (LangSmith + Langfuse)
 
