@@ -386,3 +386,6 @@ Multi-sheet Excel report and JSON file
 <br><br>
 <img width="1300" height="770" alt="Screenshot 2026-06-10 at 10 47 46 PM" src="https://github.com/user-attachments/assets/341cf892-987c-4f83-9436-433a64f19a4f" />
 
+## Author
+
+**Marcos Oliveira** — [LinkedIn](https://www.linkedin.com/in/mfilho1/) | [GitHub](https://github.com/MAOFILHO)
