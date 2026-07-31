@@ -4,6 +4,7 @@ These functions contain the business logic; each runner wraps them
 in its framework-specific decorator (@tool, @function_tool, etc.).
 """
 import json
+
 from shared.data_loader import get_stats, load_data
 
 

@@ -1,0 +1,40 @@
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+asyncio_mode = "auto"
+markers = [
+    "live: hits real LLM APIs — costs money, needs OPENAI_API_KEY. Excluded by default.",
+    "slow: takes more than a few seconds.",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = ["pydantic-ai"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = [
+    "E501",  # line length is handled by the formatter
+    "B008",  # function call in default arg — common and fine in agent definitions
+    # `df[col] == True` is NOT equivalent to `df[col]` when the column is object
+    # dtype, which is exactly the case for the is_suspicious flags in this dataset.
+    # Ruff's suggested rewrite would silently change which rows get filtered.
+    "E712",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+# load_dotenv() and the OPENAI_API_KEY check must run before any framework import,
+# so module-level imports below them are deliberate.
+"main.py" = ["E402"]
+
+[tool.coverage.run]
+source = ["shared", "comparison", "runners"]
+omit = ["*/__pycache__/*"]

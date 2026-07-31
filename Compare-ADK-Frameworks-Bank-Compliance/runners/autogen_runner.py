@@ -1,6 +1,5 @@
 """AutoGen runner — conversation-based group chat orchestration."""
 import asyncio
-import json
 import os
 
 from autogen_agentchat.agents import AssistantAgent

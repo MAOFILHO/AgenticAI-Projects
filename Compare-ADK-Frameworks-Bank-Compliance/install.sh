@@ -18,11 +18,31 @@ pip install crewai==1.14.6 --no-deps
 pip install crewai-core==1.14.6 --no-deps
 
 echo ""
+echo "=== Phase 2b: restore CrewAI's other runtime deps skipped by --no-deps ==="
+# --no-deps also skips these (unrelated to the opentelemetry conflict) — without
+# them `import crewai` fails on a missing module a few frames deep.
+# opentelemetry-exporter-otlp-proto-http is deliberately left out of this
+# unpinned batch: leaving it unpinned lets pip resolve it to whatever is
+# newest at install time (currently 1.44.x), which expects sdk symbols that
+# don't exist in the 1.41.0 sdk Phase 3 pins below and breaks `import crewai`
+# with an ImportError several frames deep. It's pinned alongside the rest of
+# the opentelemetry stack in Phase 3 instead.
+pip install \
+    json_repair \
+    portalocker \
+    rich \
+    appdirs \
+    chromadb \
+    json5 \
+    --quiet
+
+echo ""
 echo "=== Phase 3: lock opentelemetry to the version google-adk requires ==="
 pip install \
     "opentelemetry-api==1.41.0" \
     "opentelemetry-sdk==1.41.0" \
     "opentelemetry-semantic-conventions==0.62b0" \
+    "opentelemetry-exporter-otlp-proto-http==1.41.0" \
     --upgrade --quiet
 
 echo ""
@@ -33,6 +53,8 @@ import agents;                               print('  openai-agents  OK')
 from autogen_agentchat.agents import AssistantAgent; print('  autogen        OK')
 from google.adk.agents import LlmAgent;     print('  google-adk     OK')
 from langgraph.graph import StateGraph;      print('  langgraph      OK')
+from pydantic_ai import Agent;               print('  pydantic-ai    OK')
+from pydantic_graph import GraphBuilder;     print('  pydantic-graph OK')
 print()
 print('Note: pip will show dependency-conflict WARNINGS above — these are')
 print('expected and do not affect runtime. Both crewai and google-adk import OK.')

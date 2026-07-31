@@ -1,23 +1,21 @@
 """LangGraph runner — graph-based orchestration with fan-out workers and HITL."""
-import json
 import operator
 import os
-from typing import TypedDict, Annotated, Literal
+from typing import Annotated, TypedDict
 
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.graph import StateGraph, START, END
+from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send
-from pydantic import BaseModel, Field
 
 from shared.metrics import RunMetrics
 from shared.tools import (
-    get_transaction_stats,
-    get_sar_status,
-    get_kyc_stats,
     detect_aml_patterns,
+    get_kyc_stats,
     get_risk_summary,
+    get_sar_status,
+    get_transaction_stats,
 )
 
 FRAMEWORK = "LangGraph"

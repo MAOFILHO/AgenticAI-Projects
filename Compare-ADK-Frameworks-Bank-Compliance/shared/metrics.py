@@ -1,19 +1,18 @@
 """Metrics collection for ADK pipeline comparison."""
 import time
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 @dataclass
 class RunMetrics:
     framework: str
     start_time: float = field(default_factory=time.time)
-    end_time: Optional[float] = None
+    end_time: float | None = None
     llm_calls: int = 0
     tool_calls: int = 0
     report_word_count: int = 0
     status: str = "pending"
-    error: Optional[str] = None
+    error: str | None = None
     output_preview: str = ""
 
     def finish(self, output: str = ""):

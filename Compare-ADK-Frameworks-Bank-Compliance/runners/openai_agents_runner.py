@@ -3,13 +3,14 @@ import asyncio
 import os
 
 from agents import Agent, Runner, function_tool
+
 from shared.metrics import RunMetrics
 from shared.tools import (
-    get_transaction_stats,
-    get_sar_status,
-    get_kyc_stats,
     detect_aml_patterns,
+    get_kyc_stats,
     get_risk_summary,
+    get_sar_status,
+    get_transaction_stats,
 )
 
 FRAMEWORK = "OpenAI Agent SDK"

@@ -9,7 +9,9 @@ langchain-openai==1.2.2
 langgraph==1.2.4
 
 # OpenAI Agents SDK (Framework 2)
-openai-agents==0.17.4
+# 0.19.1: 0.17.4 constructs InputTokensDetails without cache_write_tokens, a
+# field the openai>=2.45.0 response schema now requires (crashes every run).
+openai-agents==0.19.1
 
 # CrewAI (Framework 3)
 crewai==1.14.6
@@ -22,6 +24,16 @@ autogen-ext[openai]==0.4.9.2
 google-adk==2.2.0
 litellm==1.88.1
 
+# Pydantic AI (Framework 6)
+# Slim package + only the openai extra: the full `pydantic-ai` meta-package pulls
+# logfire, which ships its own OpenTelemetry stack and would collide with the
+# crewai/google-adk opentelemetry conflict that install.sh already works around.
+pydantic-ai-slim[openai]==2.21.0
+pydantic-graph==2.21.0
+
 # Shared
-openai==2.41.0
+# 2.45.0 is the floor required by pydantic-ai-slim[openai] 2.21.0. It also satisfies
+# langchain-openai (>=2.26,<3), openai-agents (>=2.36,<3), and litellm (>=2.20,<3),
+# so this is the minimum bump that keeps all six frameworks resolvable together.
+openai==2.45.0
 httpx==0.28.1

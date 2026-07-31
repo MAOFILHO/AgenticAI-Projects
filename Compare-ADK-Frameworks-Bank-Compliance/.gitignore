@@ -9,3 +9,15 @@ venv/
 *.db
 chroma_db/
 .langgraph_cache/
+
+# Local reference clone of the upstream Pydantic AI library
+# (github.com/pydantic/pydantic-ai — 442MB, has its own nested .git).
+# Kept on disk for docs/API reference; the runner installs pydantic-ai from PyPI.
+pydantic-ai/
+
+# Testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.ruff_cache/

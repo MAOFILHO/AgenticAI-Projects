@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint + offline tests (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      # Deliberately NOT running install.sh here. The full six-SDK install needs the
+      # two-phase opentelemetry workaround and pulls ~1GB. The offline suite only
+      # needs pandas/pydantic/pytest plus pydantic-ai-slim; the other five runners
+      # are skipped via pytest.importorskip in the contract test.
+      - name: Install dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # `ruff check` only. `ruff format --check` is deliberately not enforced: this
+      # repo predates ruff and adopting its formatter would rewrite every existing
+      # file, burying the real diff. Formatting can be adopted as its own change.
+      - name: Lint
+        run: ruff check .
+
+      - name: Run offline test suite
+        # No OPENAI_API_KEY is set: the suite must pass with zero network access.
+        run: pytest -m "not live" --cov --cov-report=term-missing
+
+      - name: Verify the Pydantic AI graph renders
+        run: |
+          python -c "from runners.pydantic_ai_runner import render_graph; d = render_graph(); assert 'stateDiagram-v2' in d and '<<fork>>' in d; print(d)"

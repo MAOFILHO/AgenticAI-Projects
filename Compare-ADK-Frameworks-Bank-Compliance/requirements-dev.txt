@@ -1,0 +1,20 @@
+# Development / test dependencies.
+#
+# The offline suite (`pytest -m "not live"`) deliberately does NOT require the other
+# five framework SDKs — it needs only these. That keeps CI fast and avoids the
+# two-phase opentelemetry install dance in install.sh. The contract tests skip any
+# framework that isn't importable, and run fully in a local `bash install.sh` env.
+
+pytest==8.4.2
+pytest-asyncio==1.2.0
+pytest-cov==7.0.0
+ruff==0.14.2
+
+# Runtime deps the offline suite actually exercises.
+python-dotenv==1.2.2
+pandas==3.0.3
+pydantic==2.12.5
+
+# Framework 6 is the only runner testable without network, thanks to TestModel.
+pydantic-ai-slim[openai]==2.21.0
+pydantic-graph==2.21.0

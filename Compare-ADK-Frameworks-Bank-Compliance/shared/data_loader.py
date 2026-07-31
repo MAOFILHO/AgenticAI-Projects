@@ -1,8 +1,8 @@
 """Load and pre-compute MidwestBank compliance dataset statistics."""
 import json
-import os
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 

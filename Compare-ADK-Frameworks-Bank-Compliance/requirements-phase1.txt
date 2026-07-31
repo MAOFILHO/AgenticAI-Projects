@@ -4,7 +4,7 @@
 python-dotenv==1.2.2
 pandas==3.0.3
 pydantic==2.12.5
-openai==2.41.0
+openai==2.45.0  # floor required by pydantic-ai-slim[openai]; see requirements.txt
 httpx==0.28.1
 
 # LangGraph (Framework 1)
@@ -13,7 +13,9 @@ langchain-openai==1.2.2
 langgraph==1.2.4
 
 # OpenAI Agents SDK (Framework 2)
-openai-agents==0.17.4
+# 0.19.1: 0.17.4 constructs InputTokensDetails without cache_write_tokens, a
+# field the openai>=2.45.0 response schema now requires (crashes every run).
+openai-agents==0.19.1
 
 # AutoGen / AG2 (Framework 4)
 autogen-agentchat==0.4.9.2
@@ -22,3 +24,7 @@ autogen-ext[openai]==0.4.9.2
 # Google ADK (Framework 5)
 google-adk==2.2.0
 litellm==1.88.1
+
+# Pydantic AI (Framework 6) — requires pydantic>=2.12 (satisfied by the pin above)
+pydantic-ai-slim[openai]==2.21.0
+pydantic-graph==2.21.0

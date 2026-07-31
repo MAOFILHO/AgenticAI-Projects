@@ -1,5 +1,6 @@
 """Generate the final ADK comparison report and metrics table."""
 import os
+
 from shared.metrics import RunMetrics
 
 ADK_DESCRIPTIONS = {
@@ -37,6 +38,13 @@ ADK_DESCRIPTIONS = {
         "state": "Session state (key/value via output_key)",
         "strengths": "Native GCP integration, built-in quality review loop, LiteLLM flexibility",
         "best_for": "Google Cloud workloads, Gemini models, structured pipelines with retry",
+    },
+    "Pydantic AI": {
+        "orchestration": "Typed agents inside a pydantic-graph state machine (map/join/decision)",
+        "control": "High — explicit nodes/edges plus type-enforced agent contracts",
+        "state": "Typed dataclass graph state (ComplianceState) + DI via RunContext",
+        "strengths": "Pydantic-validated structured output, dependency injection, model-agnostic, Mermaid diagrams, TestModel for LLM-free tests",
+        "best_for": "Type-safe production pipelines, teams already using Pydantic/FastAPI",
     },
 }
 
@@ -86,12 +94,17 @@ def print_comparison(results: list[tuple[RunMetrics, str]]) -> None:
   Google ADK    → Pipeline primitives: ParallelAgent, SequentialAgent, LoopAgent.
                   Explicit structure meets GCP-native tooling and Gemini models.
 
+  Pydantic AI   → Types as the contract. Every stage boundary is a validated Pydantic
+                  model, not a string, so a malformed LLM response fails fast instead
+                  of flowing downstream. Graph declares map/join/decision explicitly.
+
   DECISION GUIDE:
     Deterministic routing + compliance?   → LangGraph
     OpenAI ecosystem + voice?             → OpenAI Agents SDK
     Content/creative team workflow?       → CrewAI
     Multi-agent debate + research?        → AutoGen
     Google Cloud + Gemini + pipelines?    → Google ADK
+    Type safety + structured output?      → Pydantic AI
 """)
     if os.getenv("LANGCHAIN_API_KEY"):
         project = os.getenv("LANGCHAIN_PROJECT", "compare-adks")

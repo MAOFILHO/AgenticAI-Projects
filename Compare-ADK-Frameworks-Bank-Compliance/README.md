@@ -1,7 +1,7 @@
 # MidwestBank AML Compliance Pipeline 
-### 5 ADK (Agent Development Kit) Framework Comparison
+### 6 ADK (Agent Development Kit) Framework Comparison
 
-Runs the same **Bank Secrecy Act (BSA) / Anti-Money Laundering (AML) compliance reporting pipeline** using five different agentic AI frameworks side by side, then displays a comparison of architecture, timing, and key differences.
+Runs the same **Bank Secrecy Act (BSA) / Anti-Money Laundering (AML) compliance reporting pipeline** using six different agentic AI frameworks side by side, then displays a comparison of architecture, timing, and key differences.
 
 ## Business Case
 
@@ -84,6 +84,54 @@ The impact metrics below are benchmark-based estimates informed by consulting-fi
 | 3 | **CrewAI** | Role-based sequential pipeline |
 | 4 | **AutoGen** | Group chat (RoundRobin) |
 | 5 | **Google ADK** | Parallel + Sequential + Loop agents |
+| 6 | **Pydantic AI** | Typed agents inside a pydantic-graph state machine |
+
+### Why Pydantic AI is different
+
+The other five runners pass **raw strings** between stages: a worker returns text, the
+next stage parses or re-prompts on it. Pydantic AI makes every stage boundary a
+**validated Pydantic model** — `SectionDraft`, `QualityReview`, `FinalReport`. A malformed
+LLM response fails validation and is retried automatically, instead of flowing downstream
+as plausible-looking garbage. For a compliance filing, that difference is the whole point.
+
+Two more things it does that no other runner here does:
+
+- **Dependency injection** — `ComplianceDeps` (carrying the live `RunMetrics`) is injected
+  into every agent and every tool via `RunContext`, so tools record their own usage instead
+  of mutating module globals.
+- **The retry decision is a typed field.** The review loop branches on
+  `QualityReview.approved: bool`, not on text parsed out of a model response.
+
+The pipeline shape is declared up front with `pydantic-graph`, using its native `.map()`
+fan-out and `join` fan-in rather than hand-rolled concurrency:
+
+```mermaid
+stateDiagram-v2
+  direction TB
+  plan_sections
+  state map <<fork>>
+  draft_section
+  state reduce_list_append <<join>>
+  review_sections
+  state decision <<choice>>
+  synthesize
+
+  [*] --> plan_sections
+  plan_sections --> map
+  map --> draft_section
+  draft_section --> reduce_list_append
+  reduce_list_append --> review_sections
+  review_sections --> decision
+  decision --> plan_sections
+  decision --> synthesize
+  synthesize --> [*]
+```
+
+That diagram is not hand-drawn — it is generated from the graph itself:
+
+```bash
+python -c "from runners.pydantic_ai_runner import render_graph; print(render_graph())"
+```
 
 ## Setup
 
@@ -116,7 +164,7 @@ cp .env.example .env
 ## Running
 
 ```bash
-# Run all 5 frameworks sequentially
+# Run all 6 frameworks sequentially
 python main.py
 
 # Run only one framework
@@ -125,10 +173,40 @@ python main.py --only openai_agents
 python main.py --only crewai
 python main.py --only autogen
 python main.py --only google_adk
+python main.py --only pydantic_ai
 
 # Skip a framework
 python main.py --skip google_adk
 ```
+
+## Testing
+
+```bash
+# Install dev dependencies
+pip install -r requirements-dev.txt
+
+# Full offline suite — no API key, no network calls
+pytest -m "not live"
+
+# With coverage
+pytest -m "not live" --cov=shared --cov=comparison --cov=runners
+
+# Live smoke test — hits the real OpenAI API, costs money, needs OPENAI_API_KEY
+pytest -m live
+```
+
+| Layer | What it covers |
+|-------|----------------|
+| `tests/unit/` | `shared/` business logic (tools, data loader, metrics), comparison report wiring, Pydantic AI's typed models |
+| `tests/integration/` | Every framework in `RUNNERS` exposes a valid `run(metrics)`; the Pydantic AI graph builds, renders, and caps its retry loop |
+| `tests/smoke/test_smoke_offline.py` | The **entire** Pydantic AI pipeline end to end with zero network, via `pydantic_ai.models.test.TestModel` |
+| `tests/smoke/test_smoke_live.py` | All 6 frameworks against the real API (opt-in, `-m live`) |
+
+> **Note on coverage shape.** Pydantic AI ships `TestModel`/`FunctionModel`, so the sixth
+> runner gets a genuine LLM-free end-to-end test. The other five frameworks have no
+> comparable built-in test model, and bespoke HTTP mocks for CrewAI/AutoGen/Google-ADK
+> internals would be fragile. So they are covered by offline contract tests plus the
+> opt-in live smoke test rather than deep mocked unit tests.
 
 ## Expected Output
 
@@ -154,6 +232,7 @@ OpenAI Agent SDK       success    22.1       4            380
 CrewAI                 success    25.6       3            445
 AutoGen                success    19.8       5            390
 Google ADK             success    21.3       7            410
+Pydantic AI            success    49.9       19           642
 
 ARCHITECTURAL COMPARISON
 ...
@@ -165,7 +244,7 @@ KEY DIFFERENCES SUMMARY
 
 ```
 compare-adks/
-├── main.py                         # Entry point — run all 5 frameworks
+├── main.py                         # Entry point — run all 6 frameworks
 ├── shared/
 │   ├── data_loader.py              # Load MidwestBank dataset
 │   ├── tools.py                    # Shared tool functions
@@ -175,9 +254,15 @@ compare-adks/
 │   ├── openai_agents_runner.py     # OpenAI Agents SDK implementation
 │   ├── crewai_runner.py            # CrewAI implementation
 │   ├── autogen_runner.py           # AutoGen implementation
-│   └── google_adk_runner.py        # Google ADK implementation
+│   ├── google_adk_runner.py        # Google ADK implementation
+│   └── pydantic_ai_runner.py       # Pydantic AI implementation
 ├── comparison/
 │   └── report.py                   # Comparison report generator
+├── tests/
+│   ├── conftest.py                 # Shared fixtures + network guard
+│   ├── unit/                       # shared/, comparison/, typed models
+│   ├── integration/                # Runner contract + graph structure
+│   └── smoke/                      # Offline (TestModel) + live end-to-end
 ├── data/                           # MidwestBank dataset (Lab 10)
 │   ├── customers.csv
 │   ├── transactions.csv
@@ -187,10 +272,17 @@ compare-adks/
 │   ├── fincen_template.md
 │   ├── occ_template.md
 │   └── state_template.md
+├── .github/workflows/ci.yml        # Lint + offline tests on 3.11 / 3.12
 ├── .env.example
 ├── requirements.txt
+├── requirements-dev.txt
 └── README.md
 ```
+
+> `pydantic-ai/` may also be present locally — that is a reference clone of the
+> upstream [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) library
+> (its source, docs, and tests). It is **gitignored** and not part of this project;
+> the runner installs `pydantic-ai-slim` from PyPI like any other dependency.
 
 ## Notes
 
@@ -198,6 +290,9 @@ compare-adks/
 - Google ADK uses LiteLLM to route to OpenAI — no `GOOGLE_API_KEY` required
 - LangGraph uses `MemorySaver` (in-memory) — no external storage needed
 - AutoGen pre-fetches data into the agent context to avoid tool-call overhead
+- Pydantic AI uses the `pydantic-ai-slim[openai]` package rather than the full
+  `pydantic-ai` meta-package, which would pull in `logfire` and its own OpenTelemetry
+  stack — colliding with the crewai/google-adk conflict `install.sh` already resolves
 - Each runner is independent — no shared state between framework runs
 
 ## Platform

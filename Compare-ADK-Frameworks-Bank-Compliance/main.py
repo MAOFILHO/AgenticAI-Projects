@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-MidwestBank AML Compliance Pipeline — 5-ADK Comparison
+MidwestBank AML Compliance Pipeline — 6-ADK Comparison
 =======================================================
-Runs the same BSA/AML compliance reporting pipeline using five different
+Runs the same BSA/AML compliance reporting pipeline using six different
 agentic AI frameworks and shows a side-by-side comparison at the end.
 
 Frameworks:
@@ -11,9 +11,10 @@ Frameworks:
   3. CrewAI          — role-based sequential (Researcher → Analyst → Writer)
   4. AutoGen         — group chat, RoundRobin conversation
   5. Google ADK      — Parallel + Sequential + Loop agent pipeline
+  6. Pydantic AI     — typed agents inside a pydantic-graph state machine
 
 Usage:
-  python main.py                    # run all 5
+  python main.py                    # run all 6
   python main.py --only langgraph   # run one framework
   python main.py --skip google_adk  # skip one framework
 """
@@ -44,9 +45,9 @@ if _langsmith_enabled:
 # on first run. We disable it here so main.py runs non-interactively.
 os.environ.setdefault("CREWAI_TRACING_ENABLED", "false")
 
-from shared.data_loader import get_stats, load_data
-from shared.metrics import RunMetrics
 from comparison.report import print_comparison
+from shared.data_loader import get_stats
+from shared.metrics import RunMetrics
 
 RUNNERS = [
     ("langgraph",      "LangGraph",       "runners.langgraph_runner"),
@@ -54,12 +55,13 @@ RUNNERS = [
     ("crewai",         "CrewAI",          "runners.crewai_runner"),
     ("autogen",        "AutoGen",         "runners.autogen_runner"),
     ("google_adk",     "Google ADK",      "runners.google_adk_runner"),
+    ("pydantic_ai",    "Pydantic AI",     "runners.pydantic_ai_runner"),
 ]
 
 
 def print_header():
     print("\n" + "=" * 70)
-    print("  MIDWESTBANK AML COMPLIANCE PIPELINE — 5-ADK COMPARISON")
+    print("  MIDWESTBANK AML COMPLIANCE PIPELINE — 6-ADK COMPARISON")
     print("=" * 70)
     print("  Business Case: MidwestBank BSA/AML Compliance Reporting")
     print("  Dataset:       customers.csv, transactions.csv, sar_filings.csv,")
@@ -75,7 +77,7 @@ def print_header():
 def print_dataset_summary():
     print("\n  Loading dataset...")
     stats = get_stats()
-    print(f"\n  Dataset Summary:")
+    print("\n  Dataset Summary:")
     print(f"    Customers         : {stats['total_customers']:,}")
     print(f"    Transactions      : {stats['total_transactions']:,}")
     print(f"    Suspicious txns   : {stats['suspicious_count']:,} ({stats['suspicious_pct']}%)")
@@ -110,7 +112,7 @@ def run_framework(key: str, name: str, module_path: str) -> tuple[RunMetrics, st
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Compare 5 ADK frameworks on the same compliance pipeline")
+    parser = argparse.ArgumentParser(description="Compare 6 ADK frameworks on the same compliance pipeline")
     parser.add_argument("--only", choices=[r[0] for r in RUNNERS], help="Run only one framework")
     parser.add_argument("--skip", choices=[r[0] for r in RUNNERS], help="Skip one framework")
     args = parser.parse_args()
