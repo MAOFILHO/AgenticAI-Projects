@@ -154,6 +154,10 @@ cp .env.example .env
 # Edit .env and add your OPENAI_API_KEY
 ```
 
+<img width="762" height="231" alt="Screenshot 2026-07-31 at 1 16 08 AM" src="https://github.com/user-attachments/assets/42dbeafb-ad54-49f0-ba71-f0f3ca50ceb1" />
+
+
+
 > **Why two phases?** `crewai 1.14.6` pins `opentelemetry-api~=1.34.0` but
 > `google-adk 2.2.0` requires `>=1.36`. These are mutually exclusive in a
 > single `pip install` pass. `install.sh` installs google-adk first (setting
@@ -194,6 +198,10 @@ pytest -m "not live" --cov=shared --cov=comparison --cov=runners
 # Live smoke test — hits the real OpenAI API, costs money, needs OPENAI_API_KEY
 pytest -m live
 ```
+
+<img width="1052" height="687" alt="Screenshot 2026-07-31 at 1 17 46 AM" src="https://github.com/user-attachments/assets/556affa8-5749-4d29-8d0d-543d50b576b3" />
+
+
 
 | Layer | What it covers |
 |-------|----------------|
@@ -311,13 +319,21 @@ Linux / macOS / Windows supported. Python 3.11+.
 <br><br>
 <img width="1071" height="604" alt="Screenshot 2026-06-09 at 6 20 43 PM" src="https://github.com/user-attachments/assets/5626e4aa-4df5-4f83-8dce-b724be93435a" />
 
+<img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
+<br><br>
+<img width="1051" height="586" alt="Screenshot 2026-07-31 at 1 27 17 AM" src="https://github.com/user-attachments/assets/29ec28ef-12fb-4116-bd70-33cfb1fd61a5" />
+
+
 ## ADK Framework Comparison Results
 
-<img width="1026" height="774" alt="Screenshot 2026-06-09 at 6 21 05 PM" src="https://github.com/user-attachments/assets/ec1afaa2-3357-4e36-8dc7-f3199769b2d4" />
+
+<img width="1056" height="703" alt="Screenshot 2026-07-31 at 1 27 38 AM" src="https://github.com/user-attachments/assets/575f3623-cc1d-465e-a9c0-3bb92699c9f3" />
 
 <img width="100%" height="1" alt="" src="https://github.com/user-attachments/assets/f2af28ee-a373-4488-89e5-2b84d5da9620" />
 <br><br>
-<img width="1060" height="446" alt="Screenshot 2026-06-09 at 6 21 53 PM" src="https://github.com/user-attachments/assets/e2355e9d-0503-492f-b996-b4f876369f96" />
+
+<img width="899" height="549" alt="Screenshot 2026-07-31 at 1 27 52 AM" src="https://github.com/user-attachments/assets/483bc637-2cf5-4baf-b307-02b6ac56c13f" />
+
 
 
 ## Observability
