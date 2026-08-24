@@ -56,6 +56,29 @@ loss) against the same claim record (`CLM-2025-0001`), the pipeline runs:
 The claim record is loaded from `data/multimodal/SecureLife_claims.db` (SQLite database). 
 Sample images live in `data/multimodal/`.
 
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Language** | Python 3.13 (3.11–3.13 supported) |
+| **LLM orchestration** | LangChain (`langchain`, `langchain-core`, `langchain-classic`, `langchain-community`) |
+| **Agentic workflow** | LangChain `create_agent` (ReAct agent, Pattern 5) + LangGraph `StateGraph` (3-node vision→policy→synthesize graph, Pattern 7) |
+| **Generator / judge LLM** | OpenAI `gpt-4.1-mini` |
+| **Vision LLM** | OpenAI `gpt-4o` (damage assessment, Pattern 7) |
+| **Embeddings** | OpenAI `text-embedding-3-small` |
+| **Vector stores** | FAISS (`faiss-cpu`) + ChromaDB (`chromadb`, `langchain-chroma`) |
+| **Hosted retrieval** | OpenAI Responses API + hosted Vector Store `file_search` tool (Pattern 6) |
+| **Document processing** | PyMuPDF (`pymupdf`) for PDF parsing, `langchain-text-splitters` for chunking, `jq` for JSONL loading |
+| **Structured data** | SQLite (`SecureLife_claims.db`, Pattern 7 claim records) |
+| **Evaluation** | Pure-Python retrieval metrics + LLM-as-judge generation metrics + RAGAS (`ragas`, `datasets`) |
+| **Reporting** | `openpyxl` (multi-sheet Excel report) |
+| **Observability** | LangSmith (`langsmith`) + Langfuse (`langfuse`) |
+| **Config** | `python-dotenv` |
+| **Testing** | `pytest` |
+| **CI/CD** | GitHub Actions (`smoke-tests.yml`, `continuous-evaluation.yml`) |
+
+
+
 ## Agent State
 
 <img width="1027" height="397" alt="Screenshot 2026-06-10 at 9 51 03 PM" src="https://github.com/user-attachments/assets/0cc1307d-7373-4576-930c-858ea364a1fc" />
