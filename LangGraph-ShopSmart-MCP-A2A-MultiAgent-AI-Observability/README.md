@@ -162,13 +162,13 @@ graph TD;
 - Specialists outperform generalists: Each sub-agent has focused tools and prompts
 - Humans stay in the loop: Critical decisions still go to human managers
 - RAG ensures consistency: All agents reference the same policy knowledge base
-
+- Single-pass routing: The supervisor classifies once and hands off — there is no return edge and no re-delegation. This is a deliberate tradeoff: it gives predictable per-ticket latency and cost, at the expense of the supervisor being able to re-route if a specialist comes up short.
 
 ### System Summary
 
 | Component | Details |
 |-----------|---------|
-| **Graph Nodes** | 8 (supervisor + 5 handlers + escalation + formatter) |
+| **Graph Nodes** | 8 (supervisor + 4 specialist handlers + 1 deterministic path + escalation + formatter) |
 | **Specialist Agents** | 4 (order, returns, billing, product) |
 | **Tools** | 10 (MCP-first: defined in mcp_server.py, bridged via mcp_client.py) |
 | **Primary LLM** | gpt-5-mini (supervisor + specialists) |
